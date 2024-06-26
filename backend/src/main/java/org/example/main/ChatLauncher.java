@@ -17,6 +17,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ChatLauncher {
 
+    public static final int SEND_STATE_PERIOD = 50;
+    public static final int LIVE_ZONE_SHRINK_PERIOD = 15_000;
+
     public static void main(String[] args) throws InterruptedException {
 
         Configuration config = new Configuration();
@@ -60,10 +63,15 @@ public class ChatLauncher {
                     }
                 });
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
+        executor.scheduleAtFixedRate(() -> gameState.arena.shrinkLifeArea(),
+                LIVE_ZONE_SHRINK_PERIOD,
+                LIVE_ZONE_SHRINK_PERIOD,
+                TimeUnit.MILLISECONDS);
+
         executor.scheduleAtFixedRate(() -> {
                     // every 50 ms send to all players event with new gamestate
                     server.getBroadcastOperations().sendEvent("chatevent", gameState);
-                }, 0, 50, TimeUnit.MILLISECONDS
+                }, 0, SEND_STATE_PERIOD, TimeUnit.MILLISECONDS
         );
 
         log.info("SERVER START");

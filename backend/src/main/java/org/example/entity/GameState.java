@@ -12,5 +12,6 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class GameState {
     public ArrayList<Player> players;
+    public Arena arena;
     public ArrayList<DamageSpell> spellsInProgress;
 }

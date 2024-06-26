@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.entity.Arena;
 import org.example.entity.Direction;
 import org.example.entity.GameState;
 import org.example.entity.Player;
@@ -7,35 +8,26 @@ import org.example.entity.spell.DamageSpell;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.zip.ZipEntry;
 
 public class Game {
+    public static final int DEFAULT_ARENA_SIZE = 10;
+    public Arena arena;
     public ArrayList<Player> players;
-
-    public byte[] map;
     public GameState gameState;
     public ArrayList<DamageSpell> spellsInProgress = new ArrayList<>();
 
     public Game() {
-        this.map = new byte[200 * 200];
         this.players = new ArrayList<>();
-        this.gameState = new GameState(players, this.spellsInProgress);
+        this.arena = new Arena(DEFAULT_ARENA_SIZE);
+        this.gameState = new GameState(players, arena, this.spellsInProgress);
     }
 
     public int xyToIndex(int x, int y) {
         return y * 200 + x;
     }
 
-    public boolean addPlayer(Player player) {
-        var x = player.getX();
-        var y = player.getY();
+    public void addPlayer(Player player) {
         this.players.add(player);
-        var i = xyToIndex(x, y);
-        if (map[i] == 1) {
-            return false;
-        }
-        this.map[i] = 1;
-        return true;
     }
 
     public GameState getState() {
