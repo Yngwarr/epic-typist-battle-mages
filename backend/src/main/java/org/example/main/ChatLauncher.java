@@ -1,9 +1,12 @@
 package org.example.main;
 
 import com.corundumstudio.socketio.Configuration;
+import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.listener.ConnectListener;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Game;
+import org.example.dto.PlayerDto;
 import org.example.dto.StartCastSpellDto;
 import org.example.dto.MoveDto;
 import org.example.entity.Direction;
@@ -11,6 +14,8 @@ import org.example.entity.GameState;
 import org.example.entity.Player;
 import org.example.entity.spell.SpellFabric;
 
+import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +25,7 @@ public class ChatLauncher {
     public static final int SEND_STATE_PERIOD = 50;
     public static final int LIVE_ZONE_SHRINK_PERIOD = 15_000;
     private static final int DEAD_ZONE_TICK_PERIOD = 1000;
+
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -34,6 +40,25 @@ public class ChatLauncher {
         GameState gameState = game.getState();
 
         final SocketIOServer server = new SocketIOServer(config);
+
+
+        server.addEventListener("newPlayer", PlayerDto.class,
+                (client, data, ackRequest) -> {
+                    if (data != null) {
+                        log.info("New player with name {}", data.getName());
+                        String id1 = UUID.randomUUID().toString();;
+                        
+                        var name = data.getName();
+                        var id = data.getId();
+                        // TODO: random spawn on corners
+                        var p = new Player(id, 100, name, 5, 5);
+                        log.info("Added player {}", p);
+                        game.players.add(p);
+                        ackRequest.sendAckData(data);
+                    }
+                });
+
+
         server.addEventListener("move", MoveDto.class,
                 (client, data, ackRequest) -> {
                     if (data != null) {

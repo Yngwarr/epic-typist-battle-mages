@@ -86,6 +86,11 @@
                     											playerToId: "hui-id"};
                         socket.emit('spellCastEnd', jsonObject);
                 }
+
+		function newPlayer() {
+                        var jsonObject = {name: "HUI"};
+                        socket.emit('newPlayer', jsonObject);
+                }
 	</script>
 </head>
 
@@ -103,6 +108,7 @@
            <button type="button" onClick="sendMessage()" class="btn" id="send">Send</button>
            <button type="button" onClick="dealDamageStart()" class="btn" id="deal">deal damage start</button>
            <button type="button" onClick="dealDamageEnd()" class="btn" id="deal-end">deal damage end</button>
+           <button type="button" onClick="newPlayer()" class="btn" id="new-player">new player</button>
            <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
         </form>
 
