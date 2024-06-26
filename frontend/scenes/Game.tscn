@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://csahdmph2aji4"]
+[gd_scene load_steps=19 format=3 uid="uid://csahdmph2aji4"]
 
 [ext_resource type="Script" path="res://src/Game.gd" id="1_wmfvw"]
 [ext_resource type="PackedScene" uid="uid://dameelfdwsxx4" path="res://scenes/HUD.tscn" id="2_mne7o"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bmetb0g61y3bv" path="res://icon.svg" id="8_lyls7"]
 [ext_resource type="Script" path="res://src/SocketClient.gd" id="9_vqlxt"]
 [ext_resource type="Texture2D" uid="uid://b5oi5ophboyyf" path="res://img/atlas.png" id="11_b5rqa"]
+[ext_resource type="PackedScene" uid="uid://cde0emix75me5" path="res://scenes/spell_ctrl.tscn" id="11_hitvn"]
 [ext_resource type="PackedScene" uid="uid://72ydxqw8s068" path="res://scenes/player_controller.tscn" id="12_oite8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v63bu"]
@@ -705,3 +706,5 @@ layer_1/name = "foreground"
 layer_1/tile_data = PackedInt32Array()
 
 [node name="PlayerController" parent="." instance=ExtResource("12_oite8")]
+
+[node name="SpellCtrl" parent="." instance=ExtResource("11_hitvn")]

@@ -1,28 +1,42 @@
-extends Node
+class_name SocketClient extends Node
 
-signal message_received(message: String)
-
-var socket = WebSocketPeer.new()
+var client: SocketIOClient
+var backendURL: String
 
 func _ready() -> void:
-	socket.connect_to_url("ws://localhost:9092")
+    # prepare URL
+    backendURL = "http://localhost:9092/socket.io"
 
-func _process(_delta: float) -> void:
-	socket.poll()
-	var state := socket.get_ready_state()
-	if state == WebSocketPeer.STATE_OPEN:
-		while socket.get_available_packet_count():
-			var packet := socket.get_packet()
-			print("Packet: ", packet)
-			message_received.emit(packet.get_string_from_utf8())
-	elif state == WebSocketPeer.STATE_CLOSING:
-		# Keep polling to achieve proper close.
-		pass
-	elif state == WebSocketPeer.STATE_CLOSED:
-		var code = socket.get_close_code()
-		var reason = socket.get_close_reason()
-		print("WebSocket closed with code: %d, reason %s. Clean: %s" % [code, reason, code != -1])
-		set_process(false) # Stop processing.
+    # initialize client
+    client = SocketIOClient.new(backendURL)
 
-func send(message: String) -> void:
-	socket.send_text(message)
+    # this signal is emitted when the socket is ready to connect
+    client.on_engine_connected.connect(on_socket_ready)
+
+    # this signal is emitted when socketio server is connected
+    client.on_connect.connect(on_socket_connect)
+
+    # this signal is emitted when socketio server sends a message
+    client.on_event.connect(on_socket_event)
+
+    # add client to tree to start websocket
+    add_child(client)
+
+func _exit_tree() -> void:
+    # optional: disconnect from socketio server
+    client.socketio_disconnect()
+
+func on_socket_ready(_sid: String) -> void:
+    # connect to socketio server when engine.io connection is ready
+    client.socketio_connect()
+
+func on_socket_connect(_payload: Variant, _name_space: Variant, error: bool) -> void:
+    if error:
+        push_error("Failed to connect to backend!")
+    else:
+        print("Socket connected")
+
+func on_socket_event(event_name: String, payload: Variant, _name_space: Variant) -> void:
+    print("Received ", event_name, " ", payload)
+    # respond hello world
+    # client.socketio_send("hello", "world")

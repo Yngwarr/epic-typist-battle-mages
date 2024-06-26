@@ -95,6 +95,3 @@ With use of these 3rd party assets:
 [/ul]
 
 Special thanks to all my homies!"
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 2
