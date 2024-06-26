@@ -1,10 +1,15 @@
 package org.example.main;
 
-import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.Configuration;
-import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.listener.DataListener;
+import org.example.Game;
+import org.example.dto.MoveDto;
+import org.example.entity.Direction;
+import org.example.entity.GameState;
+import org.example.entity.Player;
+
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ChatLauncher {
 
@@ -14,20 +19,33 @@ public class ChatLauncher {
         config.setHostname("localhost");
         config.setPort(9092);
 
+        Game game = new Game();
+        Player somePlayer = new Player("hui-id", 100, "Slava", 1, 1);
+        game.addPlayer(somePlayer);
+        GameState gameState = game.getState();
+
         final SocketIOServer server = new SocketIOServer(config);
-        server.addEventListener("chatevent", ChatObject.class, new DataListener<ChatObject>() {
-            @Override
-            public void onData(SocketIOClient client, ChatObject data, AckRequest ackRequest) {
-                // broadcast messages to all clients
-                server.getBroadcastOperations().sendEvent("chatevent", data);
+        server.addEventListener("chatevent", MoveDto.class,
+                (client, data, ackRequest) -> {
+            // broadcast messages to all clients
+            var playerId = data.getPlayerId();
+            var maybePlayer = game.getPlayerById(playerId);
+            if (maybePlayer != null){
+                game.movePlayer(maybePlayer, Direction.valueOf(data.getDirection().toUpperCase()));
             }
+
         });
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
+        executor.schedule(() -> {
+            // every 50 ms send to all players event with new gamestate
+            server.getBroadcastOperations().sendEvent("chatevent", gameState);
+
+
+        }, 50, TimeUnit.MILLISECONDS);
 
         server.start();
 
-        Thread.sleep(Integer.MAX_VALUE);
-
-        server.stop();
+        // server.stop();
     }
 
 }
