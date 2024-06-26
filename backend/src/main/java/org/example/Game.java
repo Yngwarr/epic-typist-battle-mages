@@ -1,5 +1,7 @@
 package org.example;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.example.entity.Arena;
 import org.example.entity.Direction;
 import org.example.entity.GameState;
@@ -9,8 +11,12 @@ import org.example.entity.spell.DamageSpell;
 import java.util.ArrayList;
 import java.util.Objects;
 
+@AllArgsConstructor
+@Builder
 public class Game {
-    public static final int DEFAULT_ARENA_SIZE = 10;
+    private static final int DEFAULT_ARENA_SIZE = 10;
+    private static final int DEAD_ZONE_TICK_DAMAGE = 5;
+
     public Arena arena;
     public ArrayList<Player> players;
     public GameState gameState;
@@ -58,5 +64,26 @@ public class Game {
                 player.setX(x + 1);
                 break;
         }
+    }
+
+    boolean isInsideDeadZone(Player player) {
+        return isInsideDeadZoneX(player.getX()) ||
+                isInsideDeadZoneY(player.getY());
+    }
+
+    private boolean isInsideDeadZoneX(int x) {
+        return x < arena.centerX - arena.lifeRadius ||
+                x > arena.centerX + arena.lifeRadius;
+    }
+
+    private boolean isInsideDeadZoneY(int y) {
+        return y < arena.centerY - arena.lifeRadius ||
+                y > arena.centerY + arena.lifeRadius;
+    }
+
+    public void deadZoneTick() {
+        players.stream()
+                .filter(this::isInsideDeadZone)
+                .forEach(p -> p.minusHp(DEAD_ZONE_TICK_DAMAGE));
     }
 }

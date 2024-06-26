@@ -1,11 +1,15 @@
 package org.example.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.utils.MathUtils;
 
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Arena {
 
     private static int remoteness(int centerX, int centerY, int arenaSize) {
