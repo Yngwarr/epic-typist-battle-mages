@@ -1,18 +1,16 @@
 package org.example.main;
 
 import com.corundumstudio.socketio.*;
-import com.corundumstudio.socketio.listener.ConnectListener;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Game;
 import org.example.dto.PlayerDto;
-import org.example.dto.StartCastSpellDto;
+import org.example.dto.CastSpellDto;
 import org.example.dto.MoveDto;
 import org.example.entity.Direction;
 import org.example.entity.GameState;
 import org.example.entity.Player;
 import org.example.entity.spell.SpellFabric;
 
-import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -80,7 +78,7 @@ public class ChatLauncher {
                         }
                     }
                 });
-        server.addEventListener("spellCastStart", StartCastSpellDto.class,
+        server.addEventListener("spellCastStart", CastSpellDto.class,
                 (client, data, ackRequest) -> {
                     if (data == null) {
                         return;
@@ -99,7 +97,7 @@ public class ChatLauncher {
                         log.info("cast is not successful (playerToId is null). spell {}", data);
                     }
                 });
-        server.addEventListener("spellCastEnd", StartCastSpellDto.class,
+        server.addEventListener("spellCastEnd", CastSpellDto.class,
                 (client, data, ackRequest) -> {
                     if (data == null) {
                         log.info("cast end: no data");
@@ -149,7 +147,7 @@ public class ChatLauncher {
 
     }
 
-    private static void logDeadCaster(StartCastSpellDto data) {
+    private static void logDeadCaster(CastSpellDto data) {
         log.info("cast is not successful (caster is dead). spell {}", data);
     }
 
