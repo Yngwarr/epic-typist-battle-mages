@@ -27,21 +27,20 @@ public class ChatLauncher {
         final SocketIOServer server = new SocketIOServer(config);
         server.addEventListener("chatevent", MoveDto.class,
                 (client, data, ackRequest) -> {
-            // broadcast messages to all clients
-            var playerId = data.getPlayerId();
-            var maybePlayer = game.getPlayerById(playerId);
-            if (maybePlayer != null){
-                game.movePlayer(maybePlayer, Direction.valueOf(data.getDirection().toUpperCase()));
-            }
+                    // broadcast messages to all clients
+                    var playerId = data.getPlayerId();
+                    var maybePlayer = game.getPlayerById(playerId);
+                    if (maybePlayer != null) {
+                        game.movePlayer(maybePlayer, Direction.valueOf(data.getDirection().toUpperCase()));
+                    }
 
-        });
+                });
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
-        executor.schedule(() -> {
-            // every 50 ms send to all players event with new gamestate
-            server.getBroadcastOperations().sendEvent("chatevent", gameState);
-
-
-        }, 50, TimeUnit.MILLISECONDS);
+        executor.scheduleAtFixedRate(() -> {
+                    // every 50 ms send to all players event with new gamestate
+                    server.getBroadcastOperations().sendEvent("chatevent", gameState);
+                }, 0, 50, TimeUnit.MILLISECONDS
+        );
 
         server.start();
 
