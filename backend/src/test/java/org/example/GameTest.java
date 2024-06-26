@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 public class GameTest {
 
     private Player dummyPlayer(int x, int y) {
-        return new Player("dummy", 100, "test", x, y);
+        return new Player("dummy", 100, "test", x, y, true);
     }
 
     @Test
