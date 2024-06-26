@@ -38,7 +38,7 @@
 		});
 
 		socket.on('chatevent', function(data) {
-			output('<span class="username-msg">' + data.userName + ':</span> ' + data.message);
+			output('<span class="username-msg">' + data.players + ':</span> ');
 		});
 
 		socket.on('disconnect', function() {
@@ -53,8 +53,9 @@
                         var message = $('#msg').val();
                         $('#msg').val('');
 
-                        var jsonObject = {userName: userName,
-                                          message: message};
+                        var jsonObject = {playerId: "Hui",
+                                          command: "move",
+                    											direction: "up"};
                         socket.emit('chatevent', jsonObject);
 		}
 
