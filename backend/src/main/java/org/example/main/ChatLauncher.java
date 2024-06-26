@@ -1,4 +1,4 @@
-package org.example;
+package org.example.main;
 
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.Configuration;

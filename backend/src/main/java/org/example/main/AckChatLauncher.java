@@ -1,4 +1,4 @@
-package org.example;
+package org.example.main;
 
 import com.corundumstudio.socketio.*;
 import com.corundumstudio.socketio.listener.DataListener;
