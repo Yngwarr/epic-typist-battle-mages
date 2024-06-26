@@ -9,14 +9,14 @@ var to_drop_next := false
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("game_pause"):
 
-		if get_tree().paused:
+		if pause_screen.visible:
 			unpause()
 		else:
 			pause()
 
 func pause() -> void:
 	to_drop_next = false
-	get_tree().paused = true
+	# get_tree().paused = true
 	pause_screen.pause()
 
 func unpause() -> void:
@@ -24,7 +24,7 @@ func unpause() -> void:
 		to_drop_next = false
 		return
 
-	get_tree().paused = false
+	# get_tree().paused = false
 	pause_screen.unpause()
 
 func drop_next() -> void:
