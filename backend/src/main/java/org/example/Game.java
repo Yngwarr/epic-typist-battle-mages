@@ -2,10 +2,8 @@ package org.example;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import org.example.entity.Arena;
-import org.example.entity.Direction;
-import org.example.entity.GameState;
-import org.example.entity.Player;
+import org.example.entity.*;
+import org.example.utils.MathUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,10 +25,6 @@ public class Game {
         this.players = new ArrayList<>();
         this.arena = new Arena(DEFAULT_ARENA_SIZE);
         this.gameState = new GameState(players, arena, this.spellsInProgress);
-    }
-
-    public int xyToIndex(int x, int y) {
-        return y * 200 + x;
     }
 
     public void addPlayer(Player player) {
@@ -86,5 +80,20 @@ public class Game {
         players.stream()
                 .filter(this::isInsideDeadZone)
                 .forEach(p -> p.minusHp(DEAD_ZONE_TICK_DAMAGE));
+    }
+
+    public Coordinates randomCoordinatesOnCorner(int arenaSquareSize){
+        return new Coordinates(MathUtils.randomInt(arenaSquareSize), MathUtils.randomInt(arenaSquareSize));
+    }
+    public Coordinates randomCoordinatesOnCorner(){
+        return randomCoordinatesOnCorner(DEFAULT_ARENA_SIZE);
+    }
+
+    public Coordinates goodCoordinates(){
+        Coordinates coords = this.randomCoordinatesOnCorner();
+        if (this.players.stream().anyMatch(p -> (p.getX() == coords.getX()) && (p.getY() == coords.getY()))) {
+            return goodCoordinates();
+        }
+        else return coords;
     }
 }

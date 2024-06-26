@@ -50,8 +50,10 @@ public class ChatLauncher {
                         
                         var name = data.getName();
 
-                        // TODO: random spawn on corners
-                        var p = new Player(id, 100, name, 5, 5);
+                        var coords = game.goodCoordinates();
+                        data.setX(coords.getX());
+                        data.setY(coords.getY());
+                        var p = new Player(id, 100, name, coords.getX(), coords.getY());
                         log.info("Added player {}", p);
                         game.players.add(p);
                         ackRequest.sendAckData(data);
@@ -129,7 +131,14 @@ public class ChatLauncher {
         log.info("SERVER START");
         server.start();
 
-        // server.stop();
+        Runtime.getRuntime().addShutdownHook(new Thread()
+        {
+            public void run()
+            {
+                System.out.println("Shutdown Hook is running !");
+                server.stop();
+            }
+        });
     }
 
 }

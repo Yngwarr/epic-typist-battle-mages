@@ -34,4 +34,5 @@ public class Arena {
     public void shrinkLifeArea() {
         lifeRadius--;
     }
+
 }

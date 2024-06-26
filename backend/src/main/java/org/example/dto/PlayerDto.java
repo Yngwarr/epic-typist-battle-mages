@@ -10,4 +10,6 @@ import lombok.ToString;
 public class PlayerDto {
     String id;
     String name;
+    int x;
+    int y;
 }
