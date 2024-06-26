@@ -43,46 +43,53 @@ public class ChatLauncher {
 
 
         server.addEventListener("newPlayer", PlayerDto.class,
-        (client, data, ackRequest) -> {
-                if (data != null) {
-                    log.info("New player with name {}", data.getName());
-                    String id = UUID.randomUUID().toString();;
-                    var name = data.getName();
-                    var coords = game.goodCoordinates();
-                    var p = new Player(id, 100, name, coords.getX(), coords.getY(), true);
-                    log.info("Added player {}", p);
-                    game.players.add(p);
+                (client, data, ackRequest) -> {
+                    if (data != null) {
+                        log.info("New player with name {}", data.getName());
+                        String id = UUID.randomUUID().toString();
+                        var name = data.getName();
+                        var coords = game.goodCoordinates();
+                        var p = new Player(id, 100, name, coords.getX(), coords.getY(), true);
+                        log.info("Added player {}", p);
+                        game.players.add(p);
 
-                    ackRequest.sendAckData(p);
+                        ackRequest.sendAckData(p);
 
-                    client.sendEvent("newPlayer", new AckCallback<>(String.class) {
-                        @Override
-                        public void onSuccess(String result) {
-                            System.out.println("ack from client: " + client.getSessionId() + " data: " + result);
-                        }
-                    }, p);
+                        client.sendEvent("newPlayer", new AckCallback<>(String.class) {
+                            @Override
+                            public void onSuccess(String result) {
+                                System.out.println("ack from client: " + client.getSessionId() + " data: " + result);
+                            }
+                        }, p);
 
-                }
-            });
+                    }
+                });
 
 
         server.addEventListener("move", MoveDto.class,
-        (client, data, ackRequest) -> {
-                if (data != null) {
-                    var playerId = data.getPlayerId();
-                    log.info("receive move {} player {}", data.getDirection(), playerId);
-                    var maybePlayer = game.getPlayerById(playerId);
-                    if (maybePlayer != null) {
-                        game.movePlayer(maybePlayer, Direction.valueOf(data.getDirection().toUpperCase()));
-                        log.info("moved player {}", playerId);
-                    } else {
-                        log.info("move: no such player {}", playerId);
+                (client, data, ackRequest) -> {
+                    if (data != null) {
+                        var playerId = data.getPlayerId();
+                        log.info("receive move {} player {}", data.getDirection(), playerId);
+                        var maybePlayer = game.getPlayerById(playerId);
+                        if (maybePlayer != null && maybePlayer.isAlive()) {
+                            game.movePlayer(maybePlayer, Direction.valueOf(data.getDirection().toUpperCase()));
+                            log.info("moved player {}", playerId);
+                        } else {
+                            log.info("move: no such player {}", playerId);
+                        }
                     }
-                }
-            });
+                });
         server.addEventListener("spellCastStart", StartCastSpellDto.class,
-        (client, data, ackRequest) -> {
-                if (data != null) {
+                (client, data, ackRequest) -> {
+                    if (data == null) {
+                        return;
+                    }
+                    var from = game.getPlayerById(data.playerFromId);
+                    if (!from.isAlive()) {
+                        logDeadCaster(data);
+                        return;
+                    }
                     log.info("got spellCast start : {}", data);
                     var to = data.playerToId;
                     var maybePlayer = game.getPlayerById(to);
@@ -91,11 +98,19 @@ public class ChatLauncher {
                     } else {
                         log.info("cast is not successful (playerToId is null). spell {}", data);
                     }
-                }
-            });
+                });
         server.addEventListener("spellCastEnd", StartCastSpellDto.class,
-        (client, data, ackRequest) -> {
-                if (data != null) {
+                (client, data, ackRequest) -> {
+                    if (data == null) {
+                        log.info("cast end: no data");
+                        return;
+                    }
+                    var from = game.getPlayerById(data.playerFromId);
+                    if (!from.isAlive()) {
+                        logDeadCaster(data);
+                        return;
+                    }
+
                     log.info("got spellCasted: {}", data);
                     var spellname = data.spellName;
                     var to = data.playerToId;
@@ -103,30 +118,26 @@ public class ChatLauncher {
                     boolean ok = 1 == game.spellsInProgress.stream().filter(s -> s.equals(data.getSpellCastId())).count();
                     var spell = SpellFabric.getSpell(spellname);
                     if (maybePlayer != null && spell != null && ok) {
-                        var from = game.getPlayerById(data.playerFromId);
                         game.spellsInProgress.remove(data.getSpellCastId());
                         spell.dealDamage(from, maybePlayer);
                         log.info("deal damage to {}", maybePlayer);
                     } else {
                         log.info("cast is not successful, player {}, spell {}, spell found in spellsInProgress {}",
-                            maybePlayer, spell, ok);
+                                maybePlayer, spell, ok);
                     }
-                } else {
-                    log.info("cast end: no data");
-                }
-            });
+                });
 
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
 
         executor.scheduleAtFixedRate(game.arena::shrinkLifeArea,
-            LIVE_ZONE_SHRINK_PERIOD,
-            LIVE_ZONE_SHRINK_PERIOD,
-            TimeUnit.MILLISECONDS);
+                LIVE_ZONE_SHRINK_PERIOD,
+                LIVE_ZONE_SHRINK_PERIOD,
+                TimeUnit.MILLISECONDS);
 
         executor.scheduleAtFixedRate(game::deadZoneTick,
-            DEAD_ZONE_TICK_PERIOD,
-            DEAD_ZONE_TICK_PERIOD,
-            TimeUnit.MILLISECONDS);
+                DEAD_ZONE_TICK_PERIOD,
+                DEAD_ZONE_TICK_PERIOD,
+                TimeUnit.MILLISECONDS);
 
         executor.scheduleAtFixedRate(() -> {
             // every 50 ms send to all players event with new gamestate
@@ -136,6 +147,10 @@ public class ChatLauncher {
         log.info("SERVER START");
         server.start();
 
+    }
+
+    private static void logDeadCaster(StartCastSpellDto data) {
+        log.info("cast is not successful (caster is dead). spell {}", data);
     }
 
 }

@@ -17,16 +17,20 @@ public class Player {
     private int y;
     private boolean alive;
 
-    public Player minusHp(int hp){
-        this.hp -= hp;
-        if (hp <= 0) {
-            this.alive = false;
+    public Player minusHp(int hp) {
+        if (alive) {
+            this.hp -= hp;
+            if (hp <= 0) {
+                this.alive = false;
+            }
         }
         return this;
     }
 
-    public Player plusHp(int hp){
-        this.hp += hp;
+    public Player plusHp(int hp) {
+        if (alive) {
+            this.hp += hp;
+        }
         return this;
     }
 
