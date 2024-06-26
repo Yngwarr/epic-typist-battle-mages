@@ -4,39 +4,39 @@ var client: SocketIOClient
 var backendURL: String
 
 func _ready() -> void:
-    # prepare URL
-    backendURL = "http://localhost:9092/socket.io"
+	# prepare URL
+	backendURL = "http://localhost:9092/socket.io"
 
-    # initialize client
-    client = SocketIOClient.new(backendURL)
+	# initialize client
+	client = SocketIOClient.new(backendURL)
 
-    # this signal is emitted when the socket is ready to connect
-    client.on_engine_connected.connect(on_socket_ready)
+	# this signal is emitted when the socket is ready to connect
+	client.on_engine_connected.connect(on_socket_ready)
 
-    # this signal is emitted when socketio server is connected
-    client.on_connect.connect(on_socket_connect)
+	# this signal is emitted when socketio server is connected
+	client.on_connect.connect(on_socket_connect)
 
-    # this signal is emitted when socketio server sends a message
-    client.on_event.connect(on_socket_event)
+	# this signal is emitted when socketio server sends a message
+	client.on_event.connect(on_socket_event)
 
-    # add client to tree to start websocket
-    add_child(client)
+	# add client to tree to start websocket
+	add_child(client)
 
 func _exit_tree() -> void:
-    # optional: disconnect from socketio server
-    client.socketio_disconnect()
+	# optional: disconnect from socketio server
+	client.socketio_disconnect()
 
 func on_socket_ready(_sid: String) -> void:
-    # connect to socketio server when engine.io connection is ready
-    client.socketio_connect()
+	# connect to socketio server when engine.io connection is ready
+	client.socketio_connect()
 
 func on_socket_connect(_payload: Variant, _name_space: Variant, error: bool) -> void:
-    if error:
-        push_error("Failed to connect to backend!")
-    else:
-        print("Socket connected")
+	if error:
+		push_error("Failed to connect to backend!")
+	else:
+		print("Socket connected")
 
 func on_socket_event(event_name: String, payload: Variant, _name_space: Variant) -> void:
-    print("Received ", event_name, " ", payload)
-    # respond hello world
-    # client.socketio_send("hello", "world")
+	print("Received ", event_name, " ", payload)
+	# respond hello world
+	# client.socketio_send("hello", "world")

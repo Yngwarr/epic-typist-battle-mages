@@ -10,8 +10,8 @@ const SOUND_VOLUME: StringName = "SoundVolume"
 
 ## Loads a global config file and sets values described there.
 static func load_config() -> void:
-	var config = ConfigFile.new()
-	var err = config.load(CONFIG_FILE)
+	var config := ConfigFile.new()
+	var err : Error = config.load(CONFIG_FILE)
 
 	if err != OK:
 		if err == ERR_FILE_NOT_FOUND:
@@ -20,7 +20,7 @@ static func load_config() -> void:
 
 	# sound levels
 	for bus in SoundCtl.adjustable_sound_buses():
-		var value = config.get_value(SOUND_VOLUME,\
+		var value : Variant = config.get_value(SOUND_VOLUME,\
 			AudioServer.get_bus_name(bus),\
 			AudioServer.get_bus_volume_db(bus))
 
