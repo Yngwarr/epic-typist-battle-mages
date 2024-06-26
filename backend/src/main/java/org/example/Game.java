@@ -3,7 +3,7 @@ package org.example;
 import org.example.entity.Direction;
 import org.example.entity.GameState;
 import org.example.entity.Player;
-import org.example.entity.spell.Spell;
+import org.example.entity.spell.DamageSpell;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -14,7 +14,7 @@ public class Game {
 
     public byte[] map;
     public GameState gameState;
-    public ArrayList<Spell> spellsInProgress = new ArrayList<>();
+    public ArrayList<DamageSpell> spellsInProgress = new ArrayList<>();
 
     public Game() {
         this.map = new byte[200 * 200];
