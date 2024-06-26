@@ -3,6 +3,7 @@ package org.example.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.entity.spell.DamageSpell;
 
 import java.util.ArrayList;
 
@@ -11,4 +12,5 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class GameState {
     public ArrayList<Player> players;
+    public ArrayList<DamageSpell> spellsInProgress;
 }

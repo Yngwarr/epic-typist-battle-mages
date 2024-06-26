@@ -2,9 +2,12 @@ package org.example.entity.spell;
 
 import org.example.entity.Player;
 
+// fireball
 public class BasicDamageSpell implements DamageSpell {
-    @Override
-    public void dealDamage(Player player) {
 
+    public int damage = 10;
+    @Override
+    public void dealDamage(Player from, Player to) {
+        to.minusHp(damage);
     }
 }

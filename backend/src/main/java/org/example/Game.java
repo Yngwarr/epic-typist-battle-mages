@@ -3,6 +3,7 @@ package org.example;
 import org.example.entity.Direction;
 import org.example.entity.GameState;
 import org.example.entity.Player;
+import org.example.entity.spell.Spell;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -13,11 +14,12 @@ public class Game {
 
     public byte[] map;
     public GameState gameState;
+    public ArrayList<Spell> spellsInProgress = new ArrayList<>();
 
     public Game() {
         this.map = new byte[200 * 200];
         this.players = new ArrayList<>();
-        this.gameState = new GameState(players);
+        this.gameState = new GameState(players, this.spellsInProgress);
     }
 
     public int xyToIndex(int x, int y) {

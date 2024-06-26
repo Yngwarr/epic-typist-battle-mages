@@ -70,6 +70,13 @@
                 $('#send').click();
             }
         });
+
+		function sendMessage() {
+                        var jsonObject = {playerFromId: "someone else",
+                                          spellName: "FIREBALL",
+                    											playerToId: "hui-id"};
+                        socket.emit('chatevent', jsonObject);
+		}
 	</script>
 </head>
 
@@ -85,6 +92,7 @@
         <form class="well form-inline" onsubmit="return false;">
            <input id="msg" class="input-xlarge" type="text" placeholder="Type something..."/>
            <button type="button" onClick="sendMessage()" class="btn" id="send">Send</button>
+           <button type="button" onClick="dealDamage()" class="btn" id="deal">deal damage</button>
            <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
         </form>
 
