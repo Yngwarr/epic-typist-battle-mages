@@ -33,7 +33,7 @@ public class ChatLauncher {
         GameState gameState = game.getState();
 
         final SocketIOServer server = new SocketIOServer(config);
-        server.addEventListener("chatevent", MoveDto.class,
+        server.addEventListener("move", MoveDto.class,
                 (client, data, ackRequest) -> {
                     var playerId = data.getPlayerId();
                     log.info("receive move {} player {}", data.getDirection(), playerId);
@@ -70,9 +70,8 @@ public class ChatLauncher {
 
         executor.scheduleAtFixedRate(() -> {
                     // every 50 ms send to all players event with new gamestate
-                    server.getBroadcastOperations().sendEvent("chatevent", gameState);
-                }, 0, SEND_STATE_PERIOD, TimeUnit.MILLISECONDS
-        );
+                    server.getBroadcastOperations().sendEvent("gameState", gameState);
+                }, 0, SEND_STATE_PERIOD, TimeUnit.MILLISECONDS);
 
         log.info("SERVER START");
         server.start();
