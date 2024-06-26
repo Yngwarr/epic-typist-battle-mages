@@ -12,10 +12,12 @@ public class Game {
     public ArrayList<Player> players;
 
     public byte[] map;
+    public GameState gameState;
 
     public Game() {
         this.map = new byte[200 * 200];
         this.players = new ArrayList<>();
+        this.gameState = new GameState(players);
     }
 
     public int xyToIndex(int x, int y) {
@@ -35,7 +37,7 @@ public class Game {
     }
 
     public GameState getState() {
-        return new GameState(this.players);
+        return this.gameState;
     }
 
     public Player getPlayerById(String id) {

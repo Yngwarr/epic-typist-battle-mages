@@ -33,7 +33,6 @@ public class ChatLauncher {
                     if (maybePlayer != null) {
                         game.movePlayer(maybePlayer, Direction.valueOf(data.getDirection().toUpperCase()));
                     }
-
                 });
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
         executor.scheduleAtFixedRate(() -> {
