@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://csahdmph2aji4"]
+[gd_scene load_steps=14 format=3 uid="uid://csahdmph2aji4"]
 
 [ext_resource type="Script" path="res://src/Game.gd" id="1_wmfvw"]
+[ext_resource type="PackedScene" uid="uid://dameelfdwsxx4" path="res://scenes/HUD.tscn" id="2_mne7o"]
 [ext_resource type="Script" path="res://src/UI/PauseMenu.gd" id="2_xdcds"]
 [ext_resource type="PackedScene" uid="uid://dp02anwflcyv8" path="res://scenes/OptionsWindow.tscn" id="3_j5m3f"]
 [ext_resource type="Shader" path="res://shaders/blur.gdshader" id="3_tg1ur"]
@@ -27,7 +28,7 @@ script = ExtResource("1_wmfvw")
 pause_ctl = NodePath("Pause")
 pause_menu = NodePath("PauseMenu")
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HUD" parent="." instance=ExtResource("2_mne7o")]
 
 [node name="PauseMenu" type="CanvasLayer" parent="." node_paths=PackedStringArray("resume_button", "options_menu")]
 visible = false
