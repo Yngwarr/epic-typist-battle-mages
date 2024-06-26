@@ -6,10 +6,11 @@ import org.example.entity.Arena;
 import org.example.entity.Direction;
 import org.example.entity.GameState;
 import org.example.entity.Player;
-import org.example.entity.spell.DamageSpell;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @AllArgsConstructor
 @Builder
@@ -20,7 +21,7 @@ public class Game {
     public Arena arena;
     public ArrayList<Player> players;
     public GameState gameState;
-    public ArrayList<DamageSpell> spellsInProgress = new ArrayList<>();
+    public Set<String> spellsInProgress = new HashSet<>();
 
     public Game() {
         this.players = new ArrayList<>();

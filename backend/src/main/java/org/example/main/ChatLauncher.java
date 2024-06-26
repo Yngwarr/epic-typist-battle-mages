@@ -4,7 +4,7 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Game;
-import org.example.dto.CastSpellDto;
+import org.example.dto.StartCastSpellDto;
 import org.example.dto.MoveDto;
 import org.example.entity.Direction;
 import org.example.entity.GameState;
@@ -36,33 +36,54 @@ public class ChatLauncher {
         final SocketIOServer server = new SocketIOServer(config);
         server.addEventListener("move", MoveDto.class,
                 (client, data, ackRequest) -> {
-                    var playerId = data.getPlayerId();
-                    log.info("receive move {} player {}", data.getDirection(), playerId);
-                    var maybePlayer = game.getPlayerById(playerId);
-                    if (maybePlayer != null) {
-                        game.movePlayer(maybePlayer, Direction.valueOf(data.getDirection().toUpperCase()));
-                        log.info("moved player {}", playerId);
-                    } else {
-                        log.info("move: no such player {}", playerId);
-
+                    if (data != null) {
+                        var playerId = data.getPlayerId();
+                        log.info("receive move {} player {}", data.getDirection(), playerId);
+                        var maybePlayer = game.getPlayerById(playerId);
+                        if (maybePlayer != null) {
+                            game.movePlayer(maybePlayer, Direction.valueOf(data.getDirection().toUpperCase()));
+                            log.info("moved player {}", playerId);
+                        } else {
+                            log.info("move: no such player {}", playerId);
+                        }
                     }
                 });
-        server.addEventListener("spellCasted", CastSpellDto.class,
+        server.addEventListener("spellCastStart", StartCastSpellDto.class,
                 (client, data, ackRequest) -> {
-                    // broadcast messages to all clients
-                    log.info("got spellCasted: {}", data);
-                    var spellname = data.spellName;
-                    var to = data.playerToId;
-                    var maybePlayer = game.getPlayerById(to);
-                    var spell = SpellFabric.getSpell(spellname);
-                    if (maybePlayer != null && spell != null) {
-                        var from = game.getPlayerById(data.playerFromId);
-                        spell.dealDamage(from, maybePlayer);
-                        log.info("deal damage to {}", maybePlayer);
-                    } else {
-                        log.info("cast is not successful, player {}, spell {}", maybePlayer, spell);
+                    if (data != null) {
+                        log.info("got spellCast start : {}", data);
+                        var to = data.playerToId;
+                        var maybePlayer = game.getPlayerById(to);
+                        if (maybePlayer != null) {
+                            game.spellsInProgress.add(data.spellCastId);
+                        } else {
+                            log.info("cast is not successful (playerToId is null). spell {}", data);
+                        }
                     }
                 });
+        server.addEventListener("spellCastEnd", StartCastSpellDto.class,
+                (client, data, ackRequest) -> {
+                    if (data != null) {
+                        log.info("got spellCasted: {}", data);
+                        var spellname = data.spellName;
+                        var to = data.playerToId;
+                        var maybePlayer = game.getPlayerById(to);
+                        boolean ok = 1 == game.spellsInProgress.stream().filter(s -> s.equals(data.getSpellCastId())).count();
+                        var spell = SpellFabric.getSpell(spellname);
+                        if (maybePlayer != null && spell != null && ok) {
+                            var from = game.getPlayerById(data.playerFromId);
+                            game.spellsInProgress.remove(data.getSpellCastId());
+                            spell.dealDamage(from, maybePlayer);
+                            log.info("deal damage to {}", maybePlayer);
+                        } else {
+                            log.info("cast is not successful, player {}, spell {}, spell found in spellsInProgress {}",
+                                    maybePlayer, spell, ok);
+                        }
+                    } else {
+                        log.info("cast end: no data");
+                    }
+                });
+
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
 
         executor.scheduleAtFixedRate(game.arena::shrinkLifeArea,

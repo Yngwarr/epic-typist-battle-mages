@@ -37,7 +37,7 @@
 			output('<span class="connect-msg">Client has connected to the server!</span>');
 		});
 
-		socket.on('chatevent', function(data) {
+		socket.on('gameState', function(data) {
 			output('<span class="username-msg">' + JSON.stringify(data) + ':</span> ');
 		});
 
@@ -71,12 +71,21 @@
             }
         });
 
-		function dealDamage() {
-                        var jsonObject = {playerFromId: "someone else",
+		function dealDamageStart() {
+                        var jsonObject = {spellCastId: "uuid",
+                    											playerFromId: "someone else",
                                           spellName: "FIREBALL",
                     											playerToId: "hui-id"};
-                        socket.emit('spellCasted', jsonObject);
+                        socket.emit('spellCastStart', jsonObject);
 		}
+
+		function dealDamageEnd() {
+                        var jsonObject = {spellCastId: "uuid",
+                    										  playerFromId: "someone else",
+                                          spellName: "FIREBALL",
+                    											playerToId: "hui-id"};
+                        socket.emit('spellCastEnd', jsonObject);
+                }
 	</script>
 </head>
 
@@ -92,7 +101,8 @@
         <form class="well form-inline" onsubmit="return false;">
            <input id="msg" class="input-xlarge" type="text" placeholder="Type something..."/>
            <button type="button" onClick="sendMessage()" class="btn" id="send">Send</button>
-           <button type="button" onClick="dealDamage()" class="btn" id="deal">deal damage</button>
+           <button type="button" onClick="dealDamageStart()" class="btn" id="deal">deal damage start</button>
+           <button type="button" onClick="dealDamageEnd()" class="btn" id="deal-end">deal damage end</button>
            <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
         </form>
 
