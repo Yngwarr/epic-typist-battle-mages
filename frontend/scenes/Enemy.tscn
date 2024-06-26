@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bctn1dl7abt10"]
+
+[ext_resource type="PackedScene" uid="uid://ba7xf5cul8gto" path="res://scenes/Mage.tscn" id="1_legd0"]
+[ext_resource type="Script" path="res://src/Enemy.gd" id="1_ooppb"]
+
+[node name="Enemy" type="Node2D"]
+script = ExtResource("1_ooppb")
+
+[node name="Mage" parent="." instance=ExtResource("1_legd0")]
+modulate = Color(0.796003, 0.055691, 0.157802, 1)

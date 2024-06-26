@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ba7xf5cul8gto"]
+
+[ext_resource type="Script" path="res://src/mage.gd" id="1_bh728"]
+[ext_resource type="Texture2D" uid="uid://bmetb0g61y3bv" path="res://icon.svg" id="2_03eiv"]
+
+[node name="Mage" type="Node2D"]
+script = ExtResource("1_bh728")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_03eiv")
