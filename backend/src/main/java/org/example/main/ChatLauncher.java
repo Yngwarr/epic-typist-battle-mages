@@ -22,24 +22,31 @@ public class ChatLauncher {
         Configuration config = new Configuration();
         config.setHostname("localhost");
         config.setPort(9092);
+        log.info("Set localhost:9092");
         Game game = new Game();
         Player somePlayer = new Player("hui-id", 100, "Slava", 1, 1);
         game.addPlayer(somePlayer);
+        log.info("add player {}", somePlayer);
         GameState gameState = game.getState();
 
         final SocketIOServer server = new SocketIOServer(config);
         server.addEventListener("chatevent", MoveDto.class,
                 (client, data, ackRequest) -> {
-                    // broadcast messages to all clients
                     var playerId = data.getPlayerId();
+                    log.info("receive move {} player {}", data.getDirection(), playerId);
                     var maybePlayer = game.getPlayerById(playerId);
                     if (maybePlayer != null) {
                         game.movePlayer(maybePlayer, Direction.valueOf(data.getDirection().toUpperCase()));
+                        log.info("moved player {}", playerId);
+                    } else {
+                        log.info("move: no such player {}", playerId);
+
                     }
                 });
         server.addEventListener("spellCasted", CastSpellDto.class,
                 (client, data, ackRequest) -> {
                     // broadcast messages to all clients
+                    log.info("got spellCasted: {}", data);
                     var spellname = data.spellName;
                     var to = data.playerToId;
                     var maybePlayer = game.getPlayerById(to);
@@ -47,6 +54,9 @@ public class ChatLauncher {
                     if (maybePlayer != null && spell != null) {
                         var from = game.getPlayerById(data.playerFromId);
                         spell.dealDamage(from, maybePlayer);
+                        log.info("deal damage to {}", maybePlayer);
+                    } else {
+                        log.info("cast is not successful, player {}, spell {}", maybePlayer, spell);
                     }
                 });
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
@@ -56,6 +66,7 @@ public class ChatLauncher {
                 }, 0, 50, TimeUnit.MILLISECONDS
         );
 
+        log.info("SERVER START");
         server.start();
 
         // server.stop();
