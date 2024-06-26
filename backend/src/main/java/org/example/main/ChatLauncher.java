@@ -49,20 +49,18 @@ public class ChatLauncher {
                     String id = UUID.randomUUID().toString();;
                     var name = data.getName();
                     var coords = game.goodCoordinates();
-                    data.setX(coords.getX());
-                    data.setY(coords.getY());
                     var p = new Player(id, 100, name, coords.getX(), coords.getY(), true);
                     log.info("Added player {}", p);
                     game.players.add(p);
-                    data.setId(id);
-                    ackRequest.sendAckData(data);
+
+                    ackRequest.sendAckData(p);
 
                     client.sendEvent("newPlayer", new AckCallback<>(String.class) {
                         @Override
                         public void onSuccess(String result) {
                             System.out.println("ack from client: " + client.getSessionId() + " data: " + result);
                         }
-                    }, data);
+                    }, p);
 
                 }
             });
