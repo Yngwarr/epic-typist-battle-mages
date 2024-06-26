@@ -12,4 +12,5 @@ public class PlayerDto {
     String name;
     int x;
     int y;
+    boolean alive;
 }
