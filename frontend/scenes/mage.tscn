@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba7xf5cul8gto"]
+
+[ext_resource type="Texture2D" uid="uid://bmetb0g61y3bv" path="res://icon.svg" id="1_r1rcn"]
+
+[node name="Mage" type="Sprite2D"]
+texture = ExtResource("1_r1rcn")
