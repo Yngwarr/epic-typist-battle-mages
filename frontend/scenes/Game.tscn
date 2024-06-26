@@ -343,7 +343,6 @@ pause_ctl = NodePath("Pause")
 pause_menu = NodePath("PauseMenu")
 
 [node name="HUD" parent="." instance=ExtResource("2_mne7o")]
-visible = false
 
 [node name="PauseMenu" type="CanvasLayer" parent="." node_paths=PackedStringArray("resume_button", "options_menu")]
 visible = false

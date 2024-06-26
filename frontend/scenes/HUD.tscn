@@ -1,16 +1,18 @@
-[gd_scene format=3 uid="uid://dameelfdwsxx4"]
+[gd_scene load_steps=3 format=3 uid="uid://dameelfdwsxx4"]
+
+[ext_resource type="Texture2D" uid="uid://bmetb0g61y3bv" path="res://icon.svg" id="1_tdk2n"]
+[ext_resource type="Script" path="res://src/SpellPanel.gd" id="2_4jnvy"]
 
 [node name="HUD" type="CanvasLayer"]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 100
 theme_override_constants/margin_top = 100
-theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 100
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
@@ -18,9 +20,66 @@ layout_mode = 2
 
 [node name="TextEdit" type="TextEdit" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_font_sizes/font_size = 18
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Send"
+
+[node name="GridContainer" type="GridContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -48.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel/HBoxContainer"]
+custom_minimum_size = Vector2(42, 36)
+layout_mode = 2
+texture = ExtResource("1_tdk2n")
+expand_mode = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -345.5
+offset_right = 345.5
+offset_bottom = 43.0
+grow_horizontal = 2
+script = ExtResource("2_4jnvy")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="SpellText" type="RichTextLabel" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "asdf"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
