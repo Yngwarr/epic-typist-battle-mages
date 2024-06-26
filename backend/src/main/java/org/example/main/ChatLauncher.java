@@ -46,10 +46,10 @@ public class ChatLauncher {
                 (client, data, ackRequest) -> {
                     if (data != null) {
                         log.info("New player with name {}", data.getName());
-                        String id1 = UUID.randomUUID().toString();;
+                        String id = UUID.randomUUID().toString();;
                         
                         var name = data.getName();
-                        var id = data.getId();
+
                         // TODO: random spawn on corners
                         var p = new Player(id, 100, name, 5, 5);
                         log.info("Added player {}", p);
