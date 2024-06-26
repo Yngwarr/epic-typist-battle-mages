@@ -71,11 +71,11 @@
             }
         });
 
-		function sendMessage() {
+		function dealDamage() {
                         var jsonObject = {playerFromId: "someone else",
                                           spellName: "FIREBALL",
                     											playerToId: "hui-id"};
-                        socket.emit('chatevent', jsonObject);
+                        socket.emit('spellCasted', jsonObject);
 		}
 	</script>
 </head>
