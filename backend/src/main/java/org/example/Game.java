@@ -14,12 +14,12 @@ public class Game {
     public byte[] map;
 
     public Game() {
-        this.map = new byte[200*200];
+        this.map = new byte[200 * 200];
         this.players = new ArrayList<>();
     }
 
     public int xyToIndex(int x, int y) {
-        return y*200+x;
+        return y * 200 + x;
     }
 
     public boolean addPlayer(Player player) {
@@ -27,38 +27,39 @@ public class Game {
         var y = player.getY();
         this.players.add(player);
         var i = xyToIndex(x, y);
-        if (map[i] == 1){
+        if (map[i] == 1) {
             return false;
         }
         this.map[i] = 1;
         return true;
     }
 
-    public GameState getState(){
+    public GameState getState() {
         return new GameState(this.players);
     }
 
-    public Player getPlayerById(String id){
+    public Player getPlayerById(String id) {
         var maybePlayer = this.players.stream().filter(p -> Objects.equals(p.getId(), id)).findFirst();
         return maybePlayer.orElse(null);
     }
 
-    public void movePlayer(Player player, Direction direction){
+    public void movePlayer(Player player, Direction direction) {
         var x = player.getX();
         var y = player.getY();
         // TODO: overflow
-        switch (direction){
+        switch (direction) {
             case Direction.UP:
-                player.setX(y-1);
+                player.setY(y - 1);
                 break;
             case Direction.DOWN:
-                player.setX(y+1);
+                player.setY(y + 1);
                 break;
+
             case Direction.LEFT:
-                player.setY(y-1);
+                player.setX(x - 1);
                 break;
             case Direction.RIGHT:
-                player.setY(y+1);
+                player.setX(x + 1);
                 break;
         }
     }
