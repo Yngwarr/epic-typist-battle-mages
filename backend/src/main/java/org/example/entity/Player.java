@@ -15,6 +15,7 @@ public class Player {
     private String name;
     private int x;
     private int y;
+    private boolean alive;
 
     public Player minusHp(int hp){
         this.hp -= hp;

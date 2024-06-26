@@ -34,7 +34,7 @@ public class ChatLauncher {
         config.setPort(9092);
         log.info("Set localhost:9092");
         Game game = new Game();
-        Player somePlayer = new Player("hui-id", 100, "Slava", 1, 1);
+        Player somePlayer = new Player("hui-id", 100, "Slava", 1, 1, true);
         game.addPlayer(somePlayer);
         log.info("add player {}", somePlayer);
         GameState gameState = game.getState();
@@ -47,15 +47,14 @@ public class ChatLauncher {
                 if (data != null) {
                     log.info("New player with name {}", data.getName());
                     String id = UUID.randomUUID().toString();;
-
                     var name = data.getName();
-
                     var coords = game.goodCoordinates();
                     data.setX(coords.getX());
                     data.setY(coords.getY());
-                    var p = new Player(id, 100, name, coords.getX(), coords.getY());
+                    var p = new Player(id, 100, name, coords.getX(), coords.getY(), true);
                     log.info("Added player {}", p);
                     game.players.add(p);
+                    data.setId(id);
                     ackRequest.sendAckData(data);
 
                     client.sendEvent("newPlayer", new AckCallback<>(String.class) {
