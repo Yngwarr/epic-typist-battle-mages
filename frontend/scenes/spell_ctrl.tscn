@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cde0emix75me5"]
-
-[ext_resource type="Script" path="res://src/SpellCtrl.gd" id="1_t5jk1"]
-
-[node name="SpellCtrl" type="Node"]
-script = ExtResource("1_t5jk1")
