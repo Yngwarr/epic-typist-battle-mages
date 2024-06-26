@@ -10,5 +10,3 @@ extends Node2D
 func _ready() -> void:
 	pause_menu.modal_open.connect(pause_ctl.drop_next)
 	pause_menu.resume_pressed.connect(pause_ctl.unpause)
-
-	$AnimationPlayer.play("loop")
