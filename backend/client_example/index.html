@@ -38,7 +38,7 @@
 		});
 
 		socket.on('chatevent', function(data) {
-			output('<span class="username-msg">' + data.players + ':</span> ');
+			output('<span class="username-msg">' + JSON.stringify(data) + ':</span> ');
 		});
 
 		socket.on('disconnect', function() {
