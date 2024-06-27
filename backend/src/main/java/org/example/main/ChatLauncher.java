@@ -52,15 +52,20 @@ public class ChatLauncher {
         server.addEventListener("close", CloseDto.class, new CloseEvent(game));
 
 
-        server.addDisconnectListener((SocketIOClient client) -> {
-            log.warn("player {} disconnected", client.getSessionId());
+        server.addDisconnectListener(client -> {
+            log.info("Attempt to disconnect");
+            val disconnectedPlayerId = (String) client.get("player_id");
+            if (disconnectedPlayerId == null) {
+                return;
+            }
+            log.warn("player {} disconnected", disconnectedPlayerId);
             val disconnectedPlayer = game.players
                     .stream()
-                    .filter(p -> p.getLastSessionId().equals(client.getSessionId()))
+                    .filter(p -> p.getId().equals(disconnectedPlayerId))
                     .findFirst();
             if (disconnectedPlayer.isPresent()) {
                 game.updateDeathTimes(disconnectedPlayer.get());
-                game.removePlayer(client.getSessionId());
+                game.removePlayer(disconnectedPlayerId);
             }
         });
 
@@ -139,8 +144,6 @@ public class ChatLauncher {
                     m.put("status", GameStatus.OVER);
                     m.put("winner", w);
 
-                    game.setStatus(GameStatus.PREPARATION);
-                    game.getGameState().setStatus(GameStatus.PREPARATION);
                     dataToSend = m;
                 }
             }

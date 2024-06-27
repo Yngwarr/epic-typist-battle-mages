@@ -36,6 +36,9 @@ public class NewPlayerEvent implements DataListener<PlayerDto> {
         var name = data.getName();
         log.info("New player with name {}", name);
         Player newPlayer = game.addPlayer(name, client.getSessionId());
+
+        client.set("player_id", newPlayer.getId());
+
         log.info("Added player {}", newPlayer);
         ackRequest.sendAckData(newPlayer);
         client.sendEvent("newPlayer", new AckCallback<>(String.class) {

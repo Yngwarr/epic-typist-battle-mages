@@ -20,9 +20,6 @@ public class Player {
     private int x;
     private int y;
     private boolean alive = true;
-    
-    @JsonIgnore
-    private UUID lastSessionId;
 
     private ArrayList<Debuff> debuffs = new ArrayList<>();
     private ArrayList<Buff> buffs = new ArrayList<>();
@@ -34,15 +31,11 @@ public class Player {
         this.onDeathListeners.add(onDeathListener);
     }
 
-    public Player(String name,
-                  Coordinates coordinates,
-                  UUID sessionId
-                  ) {
+    public Player(String name, Coordinates coordinates) {
         this.name = name;
         this.id = UUID.randomUUID().toString();
         this.x = coordinates.getX();
         this.y = coordinates.getY();
-        this.lastSessionId = sessionId;
     }
 
     private void die() {

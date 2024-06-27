@@ -123,7 +123,6 @@ public class Game {
     public Player addPlayer(String name, UUID sessionId) {
         var p = Player.builder()
                 .id(UUID.randomUUID().toString())
-                .lastSessionId(sessionId)
                 .name(name)
                 .onDeathListeners(new ArrayList<>())
                 .build();
@@ -132,8 +131,8 @@ public class Game {
         return p;
     }
 
-    public void removePlayer(UUID sessionId) {
-        players.removeIf(p -> p.getLastSessionId().equals(sessionId));
+    public void removePlayer(String playerId) {
+        players.removeIf(p -> p.getId().equals(playerId));
     }
 
     public long countPlayersAlive() {
