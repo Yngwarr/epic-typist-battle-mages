@@ -9,11 +9,13 @@ import org.example.Game;
 import org.example.dto.CastSpellDto;
 import org.example.dto.MoveDto;
 import org.example.dto.PlayerDto;
+import org.example.dto.StartGameDto;
 import org.example.entity.GameState;
 import org.example.events.in_progress.MoveEvent;
 import org.example.events.in_progress.SpellCastEndEvent;
 import org.example.events.in_progress.SpellCastStartEvent;
 import org.example.events.preparation.NewPlayerEvent;
+import org.example.events.preparation.StartGameEvent;
 
 import java.time.ZonedDateTime;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -37,6 +39,8 @@ public class ChatLauncher {
 
         server.addEventListener("newPlayer", PlayerDto.class,
                 new NewPlayerEvent(game));
+        server.addEventListener("startGame", StartGameDto.class,
+                new StartGameEvent(game));
         server.addEventListener("move", MoveDto.class,
                 new MoveEvent(game));
         server.addEventListener("spellCastStart", CastSpellDto.class,
