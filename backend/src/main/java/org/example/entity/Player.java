@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 @ToString
 @Builder
 public class Player {
-    private final int INIT_HP = 100;
+    private static final int INIT_HP = 100;
     private String id;
     private int hp = INIT_HP;
     private String name;
@@ -66,6 +66,8 @@ public class Player {
         this.hp = INIT_HP;
         setX(coordinates.getX());
         setY(coordinates.getY());
+        this.setAlive(true);
+        this.setDebuffs(new ArrayList<>());
     }
 
 }

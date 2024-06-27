@@ -77,9 +77,17 @@ public class ChatLauncher {
             if (game.status.equals(GameStatus.IN_PROGRESS)) {
                 for (var p : game.gameState.players) {
                     p.getDebuffs()
-                            .removeIf(d -> ZonedDateTime.now().isAfter(ZonedDateTime.parse(d.getEndTimestamp())));
+                            .removeIf(d -> {
+                                if (d.getEndTimestamp() != null) {
+                                    try {
+                                        return ZonedDateTime.now().isAfter(ZonedDateTime.parse(d.getEndTimestamp()));
+                                    } catch (Exception e) {
+                                        return false;
+                                    }
+                                }
+                                return false;
+                            });
                 }
-
             }
 
             if (game.status.equals(GameStatus.IN_PROGRESS) &&
@@ -95,7 +103,7 @@ public class ChatLauncher {
                 case OVER -> dataToSend = game.deathTimes;
             }
 
-            server.getBroadcastOperations().sendEvent("gameState", dataToSend);
+            server.getBroadcastOperations().sendEvent("gameState", game.gameState);
         }, 0, SEND_STATE_PERIOD, TimeUnit.MILLISECONDS);
 
         log.info("SERVER START");

@@ -39,9 +39,11 @@ public class Game {
     }
 
     public void start() {
+        this.players.forEach(p ->
+                p.setNewPropsForNewGame(goodCoordinates()));
+        this.gameState.setPlayers(this.players);
         this.status = GameStatus.IN_PROGRESS;
         this.gameState.setStatus(status);
-        this.players.forEach(p -> p.setNewPropsForNewGame(goodCoordinates()));
     }
 
     public void end() {
