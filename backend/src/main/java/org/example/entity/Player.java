@@ -34,7 +34,7 @@ public class Player {
     public Player minusHp(int hp) {
         if (alive) {
             this.hp -= hp;
-            if (hp <= 0) {
+            if (this.hp <= 0) {
                 this.alive = false;
             }
         }
