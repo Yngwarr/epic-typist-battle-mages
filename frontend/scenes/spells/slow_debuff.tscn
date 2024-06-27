@@ -6,10 +6,6 @@
 
 [node name="SlowDebuff" instance=ExtResource("1_vk10n")]
 script = ExtResource("2_57ylp")
-number = 0
 
 [node name="Icon" parent="Sprite2D" index="0"]
 texture = ExtResource("3_yk8ht")
-
-[node name="Label" parent="Sprite2D" index="1"]
-text = "0"

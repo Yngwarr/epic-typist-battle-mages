@@ -137,7 +137,12 @@ func pick_enemy(str: String) -> void:
 		target_enemy = labeled_enemies[str]
 		labeled_enemies.clear()
 		SocketClient.cast_start_spell(chosen_spell.spell_id, target_enemy.id)
-		enter_casting_state("hello world")
+		var words := Words.get_words(2)m
+		var text : String = words.slice(1).reduce(join, words[0])
+		enter_casting_state(text)
+
+func join(accum: String, word: String) -> String:
+	return accum + " " + word
 
 func enter_casting_state(text: String) -> void:
 	state = State.Casting
@@ -155,7 +160,7 @@ enum Direction {
 var succeded_arrow : Direction = Direction.NULL
 
 func move(text: String) -> void:
-	var symbolv_count := 1
+	var symbol_count := 1
 	if check_debuff("STICKINESS"):
 		symbol_count += 1
 	entered_movement_text += text
@@ -223,7 +228,6 @@ func generate_movement_labels() -> void:
 	down_key = SymbolGeneration.generate_symbol(symbol_count)
 	left_key = SymbolGeneration.generate_symbol(symbol_count)
 	right_key = SymbolGeneration.generate_symbol(symbol_count)
-	#set_players_arrows.emit(up_key, down_key, left_key, right_key)
 	player_controller.set_arrows_label(up_key, down_key, left_key, right_key)
 
 func _input(event: InputEvent) -> void:

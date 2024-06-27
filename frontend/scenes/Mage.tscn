@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://ba7xf5cul8gto"]
 
-[ext_resource type="Script" path="res://src/mage.gd" id="1_bh728"]
+[ext_resource type="Script" path="res://src/Mage.gd" id="1_e7281"]
 [ext_resource type="Texture2D" uid="uid://dwr1dtna5i5uc" path="res://img/wizards/3.png" id="2_gisqx"]
 [ext_resource type="Texture2D" uid="uid://b5ny2bolsmkgu" path="res://img/wizards/1.png" id="2_jvoho"]
 [ext_resource type="Texture2D" uid="uid://bduqa8fjoiccm" path="res://img/wizards/2.png" id="3_8nywq"]
@@ -51,7 +51,7 @@ _data = {
 }
 
 [node name="Mage" type="Node2D"]
-script = ExtResource("1_bh728")
+script = ExtResource("1_e7281")
 skins = Array[Texture2D]([ExtResource("2_jvoho"), ExtResource("3_8nywq"), ExtResource("2_gisqx"), ExtResource("5_wot1c"), ExtResource("6_nkfwl"), ExtResource("7_hel1t"), ExtResource("8_k4py0"), ExtResource("9_y0ded"), ExtResource("10_k5axu"), ExtResource("11_clfmt")])
 
 [node name="View" type="Sprite2D" parent="."]
