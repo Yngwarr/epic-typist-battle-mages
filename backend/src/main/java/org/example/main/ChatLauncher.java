@@ -3,66 +3,54 @@ package org.example.main;
 import com.corundumstudio.socketio.*;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Game;
-import org.example.dto.PlayerDto;
 import org.example.dto.CastSpellDto;
 import org.example.dto.MoveDto;
+import org.example.dto.PlayerDto;
 import org.example.entity.Direction;
 import org.example.entity.GameState;
 import org.example.entity.Player;
 import org.example.entity.spell.SpellFabric;
 
-import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class ChatLauncher {
 
+    public static final int PORT = 9092;
+
     public static final int SEND_STATE_PERIOD = 50;
     public static final int LIVE_ZONE_SHRINK_PERIOD = 15_000;
     private static final int DEAD_ZONE_TICK_PERIOD = 1000;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
-        Configuration config = new Configuration();
-        SocketConfig socketConfig = config.getSocketConfig();
-        socketConfig.setReuseAddress(true);
+        final SocketIOServer server = createServer();
 
-        config.setHostname("localhost");
-        config.setPort(9092);
-        log.info("Set localhost:9092");
         Game game = new Game();
-        Player somePlayer = new Player("hui-id", 100, "Slava", 1, 1, true);
-        game.addPlayer(somePlayer);
-        log.info("add player {}", somePlayer);
         GameState gameState = game.getState();
-
-        final SocketIOServer server = new SocketIOServer(config);
 
 
         server.addEventListener("newPlayer", PlayerDto.class,
                 (client, data, ackRequest) -> {
-                    if (data != null) {
-                        log.info("New player with name {}", data.getName());
-                        String id = UUID.randomUUID().toString();
-                        var name = data.getName();
-                        var coords = game.goodCoordinates();
-                        var p = new Player(id, 100, name, coords.getX(), coords.getY(), true);
-                        log.info("Added player {}", p);
-                        game.players.add(p);
-
-                        ackRequest.sendAckData(p);
-
-                        client.sendEvent("newPlayer", new AckCallback<>(String.class) {
-                            @Override
-                            public void onSuccess(String result) {
-                                System.out.println("ack from client: " + client.getSessionId() + " data: " + result);
-                            }
-                        }, p);
-
+                    if (data == null) {
+                        return;
                     }
-                });
+                    var name = data.getName();
+                    log.info("New player with name {}", name);
+                    Player newPlayer = game.addPlayer(name, client.getSessionId());
+                    log.info("Added player {}", newPlayer);
 
+                    ackRequest.sendAckData(newPlayer);
+
+                    client.sendEvent("newPlayer", new AckCallback<>(String.class) {
+                        @Override
+                        public void onSuccess(String result) {
+                            System.out.println("ack from client: " + client.getSessionId() + " data: " + result);
+                        }
+                    }, newPlayer);
+
+                });
 
         server.addEventListener("move", MoveDto.class,
                 (client, data, ackRequest) -> {
@@ -84,7 +72,7 @@ public class ChatLauncher {
                         return;
                     }
                     var from = game.getPlayerById(data.playerFromId);
-                    if (from !=null && !from.isAlive()) {
+                    if (from != null && !from.isAlive()) {
                         logDeadCaster(data);
                         return;
                     }
@@ -114,7 +102,7 @@ public class ChatLauncher {
                     var to = data.playerToId;
                     var maybePlayer = game.getPlayerById(to);
                     boolean ok = 1 == game.spellsInProgress.stream()
-                            .filter(s ->  s.getSpellCastId().equals(data.getSpellCastId())).count();
+                            .filter(s -> s.getSpellCastId().equals(data.getSpellCastId())).count();
                     var spell = SpellFabric.getSpell(spellname);
                     if (maybePlayer != null && spell != null && ok) {
                         game.spellsInProgress.removeIf(s -> s.spellCastId.equals(data.getSpellCastId()));
@@ -125,6 +113,10 @@ public class ChatLauncher {
                                 maybePlayer, spell, ok, game.spellsInProgress);
                     }
                 });
+        server.addDisconnectListener((SocketIOClient client) -> {
+            log.warn("player {} disconnected", client.getSessionId());
+            game.removePlayer(client.getSessionId());
+        });
 
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
 
@@ -146,6 +138,16 @@ public class ChatLauncher {
         log.info("SERVER START");
         server.start();
 
+    }
+
+    private static SocketIOServer createServer() {
+        Configuration config = new Configuration();
+        SocketConfig socketConfig = config.getSocketConfig();
+        socketConfig.setReuseAddress(true);
+        config.setHostname("localhost");
+        config.setPort(PORT);
+        log.info("Set localhost: {}", PORT);
+        return new SocketIOServer(config);
     }
 
     private static void logDeadCaster(CastSpellDto data) {

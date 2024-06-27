@@ -1,9 +1,8 @@
 package org.example.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -11,11 +10,23 @@ import lombok.ToString;
 @ToString
 public class Player {
     private String id;
-    private int hp;
+    private int hp = 100;
     private String name;
     private int x;
     private int y;
-    private boolean alive;
+    private boolean alive = true;
+    private UUID lastSessionId;
+
+    public Player(String name,
+                  Coordinates coordinates,
+                  UUID sessionId
+                  ) {
+        this.name = name;
+        this.id = UUID.randomUUID().toString();
+        this.x = coordinates.getX();
+        this.y = coordinates.getY();
+        this.lastSessionId = sessionId;
+    }
 
     public Player minusHp(int hp) {
         if (alive) {

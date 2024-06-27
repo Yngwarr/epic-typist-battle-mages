@@ -6,10 +6,7 @@ import org.example.dto.CastSpellDto;
 import org.example.entity.*;
 import org.example.utils.MathUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @AllArgsConstructor
 @Builder
@@ -96,5 +93,15 @@ public class Game {
             return goodCoordinates();
         }
         else return coords;
+    }
+
+    public Player addPlayer(String name, UUID sessionId) {
+        var p = new Player(name, goodCoordinates(), sessionId);
+        players.add(p);
+        return p;
+    }
+
+    public void removePlayer(UUID sessionId) {
+        players.removeIf(p -> p.getLastSessionId().equals(sessionId));
     }
 }
