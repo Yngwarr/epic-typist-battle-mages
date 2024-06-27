@@ -7,6 +7,7 @@ import com.corundumstudio.socketio.listener.DataListener;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Game;
+import org.example.GameStatus;
 import org.example.dto.PlayerDto;
 import org.example.entity.Player;
 
@@ -18,7 +19,7 @@ public class NewPlayerEvent implements DataListener<PlayerDto> {
 
     @Override
     public void onData(SocketIOClient client, PlayerDto data, AckRequest ackRequest) throws Exception {
-        if (!game.status.equals(Game.Status.PREPARATION)) {
+        if (!game.status.equals(GameStatus.PREPARATION)) {
             return;
         }
 

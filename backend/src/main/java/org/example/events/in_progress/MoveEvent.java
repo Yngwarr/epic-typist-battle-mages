@@ -6,6 +6,7 @@ import com.corundumstudio.socketio.listener.DataListener;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Game;
+import org.example.GameStatus;
 import org.example.dto.MoveDto;
 import org.example.entity.Direction;
 
@@ -17,7 +18,7 @@ public class MoveEvent implements DataListener<MoveDto> {
 
     @Override
     public void onData(SocketIOClient socketIOClient, MoveDto data, AckRequest ackRequest) {
-        if (!game.status.equals(Game.Status.IN_PROGRESS)) {
+        if (!game.status.equals(GameStatus.IN_PROGRESS)) {
             return;
         }
         if (data == null) {

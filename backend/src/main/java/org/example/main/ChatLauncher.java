@@ -6,6 +6,7 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Game;
+import org.example.GameStatus;
 import org.example.dto.CastSpellDto;
 import org.example.dto.MoveDto;
 import org.example.dto.PlayerDto;
@@ -35,7 +36,7 @@ public class ChatLauncher {
         final SocketIOServer server = createServer();
 
         Game game = new Game();
-        GameState gameState = game.getStatus();
+        GameState gameState = game.getGameState();
 
         server.addEventListener("newPlayer", PlayerDto.class,
                 new NewPlayerEvent(game));
@@ -56,7 +57,7 @@ public class ChatLauncher {
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
 
         executor.scheduleAtFixedRate(() -> {
-                    if (game.status.equals(Game.Status.IN_PROGRESS)) {
+                    if (game.status.equals(GameStatus.IN_PROGRESS)) {
                         game.arena.shrinkLifeArea();
                     }
                 },
@@ -65,7 +66,7 @@ public class ChatLauncher {
                 TimeUnit.MILLISECONDS);
 
         executor.scheduleAtFixedRate(() -> {
-                    if (game.status.equals(Game.Status.IN_PROGRESS)) {
+                    if (game.status.equals(GameStatus.IN_PROGRESS)) {
                         game.deadZoneTick();
                     }
                 },
@@ -74,7 +75,7 @@ public class ChatLauncher {
                 TimeUnit.MILLISECONDS);
 
         executor.scheduleAtFixedRate(() -> {
-            if (game.status.equals(Game.Status.IN_PROGRESS)) {
+            if (game.status.equals(GameStatus.IN_PROGRESS)) {
                 for (var p : game.gameState.players) {
                     p.getDebuffs()
                             .removeIf(d -> ZonedDateTime.now().isAfter(ZonedDateTime.parse(d.getEndTimestamp())));
@@ -84,6 +85,8 @@ public class ChatLauncher {
 
             // every 50 ms send to all players event with new gamestate
             // check every debuff: if it is done - remove it
+
+
 
             server.getBroadcastOperations().sendEvent("gameState", gameState);
         }, 0, SEND_STATE_PERIOD, TimeUnit.MILLISECONDS);

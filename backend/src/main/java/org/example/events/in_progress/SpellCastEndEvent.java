@@ -6,6 +6,7 @@ import com.corundumstudio.socketio.listener.DataListener;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Game;
+import org.example.GameStatus;
 import org.example.dto.CastSpellDto;
 import org.example.entity.spell.SpellFabric;
 
@@ -17,7 +18,7 @@ public class SpellCastEndEvent implements DataListener<CastSpellDto> {
 
     @Override
     public void onData(SocketIOClient socketIOClient, CastSpellDto data, AckRequest ackRequest) {
-        if (!game.status.equals(Game.Status.IN_PROGRESS)) {
+        if (!game.status.equals(GameStatus.IN_PROGRESS)) {
             return;
         }
 

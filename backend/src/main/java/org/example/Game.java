@@ -2,19 +2,20 @@ package org.example;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.example.dto.CastSpellDto;
 import org.example.entity.*;
 import org.example.utils.MathUtils;
 
+import java.time.Instant;
 import java.util.*;
 
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 public class Game {
-
-    public enum Status {
-        PREPARATION, IN_PROGRESS, OVER
-    }
 
     private static final int DEFAULT_ARENA_SIZE = 10;
     private static final int DEAD_ZONE_TICK_DAMAGE = 5;
@@ -23,24 +24,28 @@ public class Game {
     public ArrayList<Player> players;
     public GameState gameState;
     public Set<CastSpellDto> spellsInProgress = new HashSet<>();
-    public Status status = Status.PREPARATION;
+    public GameStatus status = GameStatus.PREPARATION;
+    public SortedMap<String, Instant> deathTimes = new TreeMap<>();
 
     public Game() {
         this.players = new ArrayList<>();
         this.arena = new Arena(DEFAULT_ARENA_SIZE);
-        this.gameState = new GameState(players, arena, this.spellsInProgress);
+        this.gameState = GameState.builder()
+                .players(players)
+                .arena(arena)
+                .spellsInProgress(spellsInProgress)
+                .status(status)
+                .build();;
     }
 
     public void start() {
-        this.status = Status.IN_PROGRESS;
+        this.status = GameStatus.IN_PROGRESS;
+        this.gameState.setStatus(status);
     }
 
     public void end() {
-        this.status = Status.OVER;
-    }
-
-    public GameState getStatus() {
-        return this.gameState;
+        this.status = GameStatus.OVER;
+        this.gameState.setStatus(status);
     }
 
     public Player getPlayerById(String id) {

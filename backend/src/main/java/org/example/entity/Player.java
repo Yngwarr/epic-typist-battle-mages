@@ -1,10 +1,12 @@
 package org.example.entity;
 
-import lombok.*;
-
-import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Getter
 @Setter
