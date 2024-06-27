@@ -81,11 +81,15 @@ offset_top = 4.0
 offset_right = 361.0
 offset_bottom = 321.0
 bbcode_enabled = true
-text = "[center][b]Epic Mages Typing Battle[/b][/center]
+text = "[center][b]Epic Typist Battle Mages[/b][/center]
 
 Brought to you by:
 [ul]
-[b]Yngvarr[/b] - code and game design.
+[b]Alexei Gorovoi[/b] - client code.
+[b]Igor Kislitsyn[/b] - client code.
+[b]Svyatoslav Krivosheev[/b] - backend code.
+[b]Andrey Osipenko[/b] - backend code.
+[b]Nikita Sintsev[/b] - music and sound design.
 [/ul]
 
 With use of these 3rd party assets:
