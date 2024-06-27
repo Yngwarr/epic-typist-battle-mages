@@ -55,17 +55,29 @@ public class ChatLauncher {
 
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
 
-        executor.scheduleAtFixedRate(game.arena::shrinkLifeArea,
+        executor.scheduleAtFixedRate(() -> {
+                    if (game.status.equals(Game.Status.IN_PROGRESS)) {
+                        game.arena.shrinkLifeArea();
+                    }
+                },
                 LIVE_ZONE_SHRINK_PERIOD,
                 LIVE_ZONE_SHRINK_PERIOD,
                 TimeUnit.MILLISECONDS);
 
-        executor.scheduleAtFixedRate(game::deadZoneTick,
+        executor.scheduleAtFixedRate(() -> {
+                    if (game.status.equals(Game.Status.IN_PROGRESS)) {
+                        game.deadZoneTick();
+                    }
+                },
                 DEAD_ZONE_TICK_PERIOD,
                 DEAD_ZONE_TICK_PERIOD,
                 TimeUnit.MILLISECONDS);
 
         executor.scheduleAtFixedRate(() -> {
+            if (!game.status.equals(Game.Status.IN_PROGRESS)) {
+                return;
+            }
+
             // every 50 ms send to all players event with new gamestate
             // check every debuff: if it is done - remove it
             for (var p : game.gameState.players) {

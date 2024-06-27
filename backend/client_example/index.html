@@ -113,6 +113,10 @@
             var jsonObject = {name: "HUI"};
             socket.emit('newPlayer', jsonObject);
         }
+
+        function startGame() {
+            socket.emit('startGame', {})
+        }
 	    </script>
 </head>
 
@@ -127,6 +131,7 @@
 
         <form class="well form-inline" onsubmit="return false;">
            <input id="msg" class="input-xlarge" type="text" placeholder="Type something..."/>
+           <button type="button" onClick="startGame()" class="btn" id="start-game">Start game</button>
            <button type="button" onClick="sendMessage()" class="btn" id="send">Send</button>
            <button type="button" onClick="dealDamageStart()" class="btn" id="deal">FIREBALL damage cast start</button>
            <button type="button" onClick="dealDamageEnd()" class="btn" id="deal-end">FIREBALL damage cast end</button>
