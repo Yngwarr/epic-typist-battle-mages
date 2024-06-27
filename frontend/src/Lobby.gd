@@ -21,6 +21,9 @@ func update_list(state: Variant) -> void:
 		get_tree().change_scene_to_file(next_scene_name)
 		return
 
+	if state["status"] == Global.StateGameOver:
+		return
+
 	player_count.text = str(len(state["players"]))
 
 	for p: Dictionary in state["players"]:

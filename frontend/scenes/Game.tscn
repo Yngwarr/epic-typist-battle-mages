@@ -337,11 +337,12 @@ sources/4 = SubResource("TileSetAtlasSource_a613r")
 [sub_resource type="TileSet" id="TileSet_3hkvr"]
 tile_size = Vector2i(128, 128)
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("pause_ctl", "pause_menu", "self_player", "player_container", "arena_border")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("pause_ctl", "pause_menu", "game_over_screen", "self_player", "player_container", "arena_border")]
 position = Vector2(0, 1)
 script = ExtResource("1_wmfvw")
 pause_ctl = NodePath("Pause")
 pause_menu = NodePath("PauseMenu")
+game_over_screen = NodePath("GameOverScreen")
 self_player = NodePath("Grid/PlayerController")
 enemy_scene = ExtResource("15_mqsxh")
 player_container = NodePath("Grid")
@@ -502,6 +503,8 @@ script = ExtResource("12_7c53x")
 [node name="PlayerController" parent="Grid" instance=ExtResource("12_oite8")]
 position = Vector2(192, 192)
 
+[node name="ArenaBorder" parent="." instance=ExtResource("14_a56j7")]
+
 [connection signal="hide_player_arrows" from="HUD" to="." method="_on_hud_hide_player_arrows"]
 [connection signal="move_player_down" from="HUD" to="." method="_on_hud_move_player_down"]
 [connection signal="move_player_left" from="HUD" to="." method="_on_hud_move_player_left"]
@@ -509,5 +512,3 @@ position = Vector2(192, 192)
 [connection signal="move_player_up" from="HUD" to="." method="_on_hud_move_player_up"]
 [connection signal="set_players_arrows" from="HUD" to="." method="_on_hud_set_players_arrows"]
 [connection signal="show_player_arrows" from="HUD" to="." method="_on_hud_show_player_arrows"]
-
-[node name="ArenaBorder" parent="." instance=ExtResource("14_a56j7")]

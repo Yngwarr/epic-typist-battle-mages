@@ -30,10 +30,11 @@ func _ready() -> void:
 func update_state(state: Variant) -> void:
 	var game_status: String = state["status"]
 
-	assert(game_status == Global.StatePreparation, "game can't go from InProgress straight to Preparation")
+	# assert(game_status == Global.StatePreparation, "game can't go from InProgress straight to Preparation")
 
 	if game_status == Global.StateGameOver:
 		game_over()
+		return
 
 	for p: Dictionary in state["players"]:
 		var id: String = p["id"]
