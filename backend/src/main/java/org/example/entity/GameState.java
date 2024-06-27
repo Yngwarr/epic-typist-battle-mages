@@ -13,5 +13,5 @@ import java.util.Set;
 public class GameState {
     public ArrayList<Player> players;
     public Arena arena;
-    public Set<String> spellsInProgress;
+    public Set<StartCastSpellDto> spellsInProgress;
 }

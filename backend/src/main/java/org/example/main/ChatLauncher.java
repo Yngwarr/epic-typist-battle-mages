@@ -92,7 +92,7 @@ public class ChatLauncher {
                     var to = data.playerToId;
                     var maybePlayer = game.getPlayerById(to);
                     if (maybePlayer != null) {
-                        game.spellsInProgress.add(data.spellCastId);
+                        game.spellsInProgress.add(data);
                     } else {
                         log.info("cast is not successful (playerToId is null). spell {}", data);
                     }
