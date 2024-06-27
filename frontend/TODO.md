@@ -1,7 +1,8 @@
 # TODO
 
 - [x] Lobby UI.
-- [ ] Show HP.
+- [x] Show HP.
 - [x] Show the area on frontend.
-- [ ] Add sprites.
+- [ ] Game over win and stuff.
+- [ ] Add animations.
 - [ ] Add sound effects.

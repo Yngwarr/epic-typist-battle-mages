@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Global="*res://src/Global.gd"
 SocketClient="*res://src/SocketClient.gd"
+MusicPlayer="*res://scenes/MusicPlayer.tscn"
 
 [debug]
 
