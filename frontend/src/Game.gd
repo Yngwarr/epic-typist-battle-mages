@@ -9,10 +9,13 @@ extends Node2D
 
 @export var pause_ctl: Pause
 @export var pause_menu: PauseMenu
+@export var game_over_screen: CanvasLayer
 
 @export var self_player: PlayerController
 @export var enemy_scene: PackedScene
 @export var player_container: TileMap
+
+@export var arena_border: ArenaBorder
 
 var players: Dictionary = {}
 
@@ -25,6 +28,13 @@ func _ready() -> void:
 
 # TODO do something with the disconnected players, check Lobby for reference
 func update_state(state: Variant) -> void:
+	var game_status: String = state["status"]
+
+	assert(game_status == Global.StatePreparation, "game can't go from InProgress straight to Preparation")
+
+	if game_status == Global.StateGameOver:
+		game_over()
+
 	for p: Dictionary in state["players"]:
 		var id: String = p["id"]
 		var x: int = p["x"]
@@ -52,6 +62,9 @@ func update_state(state: Variant) -> void:
 		player.position.x = local_pos.x
 		player.position.y = local_pos.y
 
+	var arena: Dictionary = state["arena"]
+	arena_border.resize(Vector2i(arena["centerX"], arena["centerY"]), arena["lifeRadius"], arena["originalSize"])
+
 func _on_visible_player_screen_enter(enemy: Enemy) -> void:
 	hud.add_visible_enemy(enemy)
 
@@ -78,3 +91,6 @@ func _on_hud_hide_player_arrows() -> void:
 
 func _on_hud_show_player_arrows() -> void:
 	self_player.show_arrows()
+
+func game_over() -> void:
+	game_over_screen.visible = true

@@ -4,6 +4,7 @@ extends Node2D
 @export var label_container: BoxContainer
 @export var player_count: Label
 @export_file("*.tscn") var next_scene_name: String
+@export var status_label: Label
 
 var labels: Dictionary = {}
 
@@ -13,6 +14,8 @@ func _ready() -> void:
 
 func update_list(state: Variant) -> void:
 	var current_ids := labels.keys()
+
+	status_label.text = status_text(state["status"])
 
 	if state["status"] == Global.StateInProgress:
 		get_tree().change_scene_to_file(next_scene_name)
@@ -42,3 +45,9 @@ func update_list(state: Variant) -> void:
 	for id: String in current_ids:
 		labels[id].queue_free()
 		labels.erase(id)
+
+func status_text(state: String) -> String:
+	match state:
+		Global.StateGameOver: return "Please, wait for the game to end."
+		Global.StatePreparation: return "Waiting for players."
+		_: return "Game in progress."

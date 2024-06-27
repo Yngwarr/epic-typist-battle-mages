@@ -3,11 +3,12 @@
 [ext_resource type="Script" path="res://src/Lobby.gd" id="1_xhogi"]
 [ext_resource type="Script" path="res://src/StartGameButton.gd" id="2_3jcmt"]
 
-[node name="Lobby" type="Node2D" node_paths=PackedStringArray("label_container", "player_count")]
+[node name="Lobby" type="Node2D" node_paths=PackedStringArray("label_container", "player_count", "status_label")]
 script = ExtResource("1_xhogi")
 label_container = NodePath("CanvasLayer/MarginContainer/VBoxContainer/ScrollContainer/NamesContainer")
 player_count = NodePath("CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer/PlayerCount")
 next_scene_name = "res://scenes/Game.tscn"
+status_label = NodePath("CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer/StatusLabel")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -35,6 +36,11 @@ text = "0"
 [node name="Label" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "players are here."
+
+[node name="StatusLabel" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Please, wait for the game to end."
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 layout_mode = 2

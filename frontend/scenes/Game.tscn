@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://csahdmph2aji4"]
+[gd_scene load_steps=21 format=3 uid="uid://csahdmph2aji4"]
 
 [ext_resource type="Script" path="res://src/Game.gd" id="1_wmfvw"]
 [ext_resource type="PackedScene" uid="uid://dameelfdwsxx4" path="res://scenes/HUD.tscn" id="2_mne7o"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://b5oi5ophboyyf" path="res://img/atlas.png" id="11_b5rqa"]
 [ext_resource type="Script" path="res://src/Grid.gd" id="12_7c53x"]
 [ext_resource type="PackedScene" uid="uid://72ydxqw8s068" path="res://scenes/player_controller.tscn" id="12_oite8"]
+[ext_resource type="PackedScene" uid="uid://cbydks0fxf58s" path="res://scenes/ArenaBorder.tscn" id="14_a56j7"]
 [ext_resource type="PackedScene" uid="uid://bctn1dl7abt10" path="res://scenes/Enemy.tscn" id="15_mqsxh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v63bu"]
@@ -336,7 +337,7 @@ sources/4 = SubResource("TileSetAtlasSource_a613r")
 [sub_resource type="TileSet" id="TileSet_3hkvr"]
 tile_size = Vector2i(128, 128)
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("pause_ctl", "pause_menu", "self_player", "player_container")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("pause_ctl", "pause_menu", "self_player", "player_container", "arena_border")]
 position = Vector2(0, 1)
 script = ExtResource("1_wmfvw")
 pause_ctl = NodePath("Pause")
@@ -344,6 +345,7 @@ pause_menu = NodePath("PauseMenu")
 self_player = NodePath("Grid/PlayerController")
 enemy_scene = ExtResource("15_mqsxh")
 player_container = NodePath("Grid")
+arena_border = NodePath("ArenaBorder")
 
 [node name="HUD" parent="." instance=ExtResource("2_mne7o")]
 
@@ -507,3 +509,5 @@ position = Vector2(192, 192)
 [connection signal="move_player_up" from="HUD" to="." method="_on_hud_move_player_up"]
 [connection signal="set_players_arrows" from="HUD" to="." method="_on_hud_set_players_arrows"]
 [connection signal="show_player_arrows" from="HUD" to="." method="_on_hud_show_player_arrows"]
+
+[node name="ArenaBorder" parent="." instance=ExtResource("14_a56j7")]
