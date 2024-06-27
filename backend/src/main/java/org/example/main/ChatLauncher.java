@@ -5,13 +5,14 @@ import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.example.Game;
 import org.example.GameStatus;
 import org.example.dto.CastSpellDto;
 import org.example.dto.MoveDto;
 import org.example.dto.PlayerDto;
 import org.example.dto.StartGameDto;
-import org.example.entity.GameState;
+import org.example.entity.Player;
 import org.example.events.in_progress.MoveEvent;
 import org.example.events.in_progress.SpellCastEndEvent;
 import org.example.events.in_progress.SpellCastStartEvent;
@@ -51,6 +52,12 @@ public class ChatLauncher {
 
         server.addDisconnectListener((SocketIOClient client) -> {
             log.warn("player {} disconnected", client.getSessionId());
+            Player disconnectedPlayer = game.players
+                    .stream()
+                    .filter(p -> p.getLastSessionId().equals(client.getSessionId()))
+                    .findFirst()
+                    .orElseThrow();
+            game.updateDeathTimes(disconnectedPlayer);
             game.removePlayer(client.getSessionId());
         });
 
@@ -115,8 +122,14 @@ public class ChatLauncher {
                 case PREPARATION, IN_PROGRESS -> dataToSend = game.gameState;
                 case OVER -> {
                     var m = new HashMap<>();
+                    val winner = game.players
+                            .stream()
+                            .filter(Player::isAlive)
+                            .findFirst()
+                            .orElseThrow(() -> new RuntimeException("No winner"));
                     m.put("players", game.deathTimes);
-                    m.put("status", "OVER");
+                    m.put("status", GameStatus.OVER);
+                    m.put("winner", winner);
                     dataToSend = m;
                 }
             }
