@@ -1,5 +1,6 @@
 package org.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -19,10 +20,14 @@ public class Player {
     private int x;
     private int y;
     private boolean alive = true;
+    
+    @JsonIgnore
     private UUID lastSessionId;
+
     private ArrayList<Debuff> debuffs = new ArrayList<>();
     private ArrayList<Buff> buffs = new ArrayList<>();
 
+    @JsonIgnore
     private ArrayList<Consumer<Player>> onDeathListeners = new ArrayList<>();
 
     public void subscribeToDeath(Consumer<Player> onDeathListener) {

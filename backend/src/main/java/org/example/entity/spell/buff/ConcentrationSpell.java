@@ -17,6 +17,8 @@ public class ConcentrationSpell extends BuffSpell {
     }
 
     public ConcentrationSpell() {
-        this.buff = new Buff("CONCENTRATION", ZonedDateTime.now().toString(), ZonedDateTime.now().plusSeconds(DURATION_SECONDS).toString());
+        this.buff = new Buff("CONCENTRATION",
+                ZonedDateTime.now(),
+                ZonedDateTime.now().plusSeconds(DURATION_SECONDS));
     }
 }
