@@ -80,16 +80,14 @@
 
 
 		function magicMissileStart() {
-            var jsonObject = {spellCastId: "uuid",
-                              playerFromId: caster["id"],
+            var jsonObject = {playerFromId: caster["id"],
                               spellName: "MAGIC_MISSILE",
                               playerToId: victim["id"]};
             socket.emit('spellCastStart', jsonObject);
 		}
 
 		function magicMissleEnd() {
-            var jsonObject = {spellCastId: "uuid",
-                              playerFromId: caster["id"],
+            var jsonObject = {playerFromId: caster["id"],
                               spellName: "MAGIC_MISSILE",
                               playerToId: victim["id"]};
             socket.emit('spellCastEnd', jsonObject);
@@ -101,7 +99,7 @@
     // они дамажат раз в n секунд
 
 		function fireballStart() {
-            var jsonObject = {spellCastId: "uuid",
+            var jsonObject = {
                               playerFromId: caster["id"],
                               spellName: "FIREBALL",
                               playerToId: victim["id"]};
@@ -110,7 +108,7 @@
 		}
 
 		function fireballEnd() {
-            var jsonObject = {spellCastId: "uuid",
+            var jsonObject = {
                               playerFromId: caster["id"],
                               spellName: "FIREBALL",
                               playerToId: victim["id"]};
@@ -120,7 +118,7 @@
 
 
 		function confusionStart() {
-            var jsonObject = {spellCastId: "uuid",
+            var jsonObject = {
                               playerFromId: caster["id"],
                               spellName: "CONFUSION",
                               playerToId: victim["id"]};
@@ -128,7 +126,7 @@
 		}
 
 		function confusionEnd() {
-            var jsonObject = {spellCastId: "uuid",
+            var jsonObject = {
                               playerFromId: caster["id"],
                               spellName: "CONFUSION",
                               playerToId: victim["id"]};
@@ -136,7 +134,7 @@
         }
 
 		function stickinessStart() {
-            var jsonObject = {spellCastId: "uuid",
+            var jsonObject = {
                               playerFromId: caster["id"],
                               spellName: "STICKINESS",
                               playerToId: victim["id"]};
@@ -153,7 +151,7 @@
 
 
 		function dyslexiaStart() {
-            var jsonObject = {spellCastId: "uuid",
+            var jsonObject = {
                               playerFromId: caster["id"],
                               spellName: "DYSLEXIA",
                               playerToId: victim["id"]};
@@ -161,7 +159,7 @@
 		}
 
 		function dyslexiaEnd() {
-            var jsonObject = {spellCastId: "uuid",
+            var jsonObject = {
                               playerFromId: caster["id"],
                               spellName: "DYSLEXIA",
                               playerToId: victim["id"]};
@@ -169,7 +167,7 @@
         }
 
 		function concentrationStart() {
-            var jsonObject = {spellCastId: "uuid",
+            var jsonObject = {
                               playerFromId: caster["id"],
                               spellName: "CONCENTRATION",
                               };
@@ -177,7 +175,7 @@
 		}
 
 		function concentrationEnd() {
-            var jsonObject = {spellCastId: "uuid",
+            var jsonObject = {
                               playerFromId: caster["id"],
                               spellName: "CONCENTRATION",
                               playerToId: caster["id"]};

@@ -39,17 +39,18 @@ public class SpellCastEndEvent implements DataListener<CastSpellDto> {
         if (maybePlayer == null) {
             maybePlayer = from;
         }
-        boolean ok = 1 == game.spellsInProgress.stream()
-                .filter(s -> s.getSpellCastId().equals(data.getSpellCastId())).count();
         var spell = SpellFabric.getSpell(spellname);
-        if (ok) {
-            game.spellsInProgress.removeIf(s -> s.spellCastId.equals(data.getSpellCastId()));
-            spell.processSpell(game.getPlayers(), from, maybePlayer);
-            log.info("deal damage to {}", maybePlayer);
-        } else {
-            log.info("cast is not successful, player {}, spell {}, spell found in spellsInProgress {}, spells in progress {}",
-                    maybePlayer, spell, ok, game.spellsInProgress);
-        }
+
+        game.spellsInProgress.removeIf(s ->
+                    ( (s.getSpellName() != null) && (data.getSpellName() != null)
+                            && s.getSpellName().equals(data.getSpellName()))
+                            && ( (s.getPlayerToId() != null) && (data.getPlayerToId() != null)
+                            && s.getPlayerToId().equals(data.getPlayerToId()))
+                            && ( (s.getPlayerFromId() != null) && (data.getPlayerFromId() != null)
+                            && s.getPlayerFromId().equals(data.getPlayerFromId()))
+        );
+        spell.processSpell(game.getPlayers(), from, maybePlayer);
+        log.info("deal damage to {}", maybePlayer);
     }
 
     private static void logDeadCaster(CastSpellDto data) {
