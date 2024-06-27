@@ -53,12 +53,10 @@
         }
 
 		function sendMessage() {
-            var message = $('#msg').val();
-            $('#msg').val('');
 
-            var jsonObject = {playerId: "hui-id",
-                command: "move",
-            direction: "up"};
+            var jsonObject = {playerId: somePlayer["id"],
+                              direction: "up"};
+
             socket.emit('move', jsonObject);
 		}
 
@@ -130,9 +128,9 @@
 	</div>
 
         <form class="well form-inline" onsubmit="return false;">
-           <input id="msg" class="input-xlarge" type="text" placeholder="Type something..."/>
+           <!-- <input id="msg" class="input-xlarge" type="text" placeholder="Type something..."/> -->
            <button type="button" onClick="startGame()" class="btn" id="start-game">Start game</button>
-           <button type="button" onClick="sendMessage()" class="btn" id="send">Send</button>
+           <button type="button" onClick="sendMessage()" class="btn" id="send">Move</button>
            <button type="button" onClick="dealDamageStart()" class="btn" id="deal">FIREBALL damage cast start</button>
            <button type="button" onClick="dealDamageEnd()" class="btn" id="deal-end">FIREBALL damage cast end</button>
            <button type="button" onClick="slowDebuffStart()" class="btn" id="slow">SLOW debuff cast start</button>
