@@ -41,6 +41,7 @@ public class Game {
     public void start() {
         this.status = GameStatus.IN_PROGRESS;
         this.gameState.setStatus(status);
+        this.players.forEach(p -> p.setNewPropsForNewGame(goodCoordinates()));
     }
 
     public void end() {
@@ -116,7 +117,10 @@ public class Game {
     }
 
     public Player addPlayer(String name, UUID sessionId) {
-        var p = new Player(name, goodCoordinates(), sessionId);
+        var p = Player.builder()
+                .id(UUID.randomUUID().toString())
+                .lastSessionId(sessionId)
+                .name(name).build();
         p.subscribeToDeath(this::updateDeathTimes);
         players.add(p);
         return p;

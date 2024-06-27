@@ -1,9 +1,6 @@
 package org.example.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -13,9 +10,11 @@ import java.util.function.Consumer;
 @Setter
 @AllArgsConstructor
 @ToString
+@Builder
 public class Player {
+    private final int INIT_HP = 100;
     private String id;
-    private int hp = 100;
+    private int hp = INIT_HP;
     private String name;
     private int x;
     private int y;
@@ -60,6 +59,13 @@ public class Player {
             this.hp += hp;
         }
         return this;
+    }
+
+
+    public void setNewPropsForNewGame(Coordinates coordinates){
+        this.hp = INIT_HP;
+        setX(coordinates.getX());
+        setY(coordinates.getY());
     }
 
 }
