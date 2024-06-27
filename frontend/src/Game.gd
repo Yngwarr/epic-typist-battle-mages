@@ -41,6 +41,7 @@ func update_state(state: Variant) -> void:
 		var id: String = p["id"]
 		var x: int = p["x"]
 		var y: int = p["y"]
+		var hp: int = p["hp"]
 		var local_pos := player_container.map_to_local(Vector2i(x, y))
 
 		if id == Global.self_id:
@@ -48,6 +49,7 @@ func update_state(state: Variant) -> void:
 			self_player.position.y = local_pos.y
 			hud.debuffs = p["debuffs"]
 			hud.update_state()
+			hud.set_hp(hp)
 			continue
 
 		if not players.has(id):

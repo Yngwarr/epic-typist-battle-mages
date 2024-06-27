@@ -6,6 +6,7 @@ extends Pawn
 @onready var mage : Mage = $Mage
 
 var id : String
+var alive := true
 
 signal on_screen_enter(enemy: Enemy)
 signal on_screen_exited(enemy: Enemy)

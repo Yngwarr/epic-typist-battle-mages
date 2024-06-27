@@ -3,6 +3,8 @@ extends Pawn
 
 var lost := false
 var grid_size: float
+var alive := true
+var hp := 100
 
 @onready var mage: Mage = $Mage
 @onready var up_arrow := $UpArrow

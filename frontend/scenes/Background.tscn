@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://ki0p0pkcowun"]
+
+[ext_resource type="Texture2D" uid="uid://d3yxtj3lvhyyk" path="res://img/background/1.png" id="1_p71gc"]
+[ext_resource type="Texture2D" uid="uid://dny41fv3aeu26" path="res://img/background/2.png" id="2_buvxw"]
+[ext_resource type="Texture2D" uid="uid://dvqicg1hh76g" path="res://img/background/3.png" id="3_etxer"]
+[ext_resource type="Texture2D" uid="uid://c0ixwvbxoa5g0" path="res://img/background/4.png" id="4_7nnse"]
+
+[node name="Background" type="CanvasLayer"]
+
+[node name="Sky" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_p71gc")
+
+[node name="Cloud" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_buvxw")
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_etxer")
+
+[node name="TextureRect4" type="TextureRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_7nnse")

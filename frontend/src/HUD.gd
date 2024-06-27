@@ -14,6 +14,7 @@ signal hide_player_arrows()
 @onready var spell_list_panel := $SpellListPanel
 @onready var casting_panel := $CastingPanel
 @onready var spell_text := $CastingPanel/MarginContainer/SpellText
+@onready var healthbar := $Healthbar
 
 var visible_enemies := {}
 
@@ -128,7 +129,7 @@ func enter_targeting_state(spell: Spell) -> void:
 	SymbolGeneration.available_characters = range(65, 90)
 	labeled_enemies.clear()
 	label_visible_enemies()
-	
+
 func pick_enemy(str: String) -> void:
 	if labeled_enemies.has(str):
 		for enemy_key : String in labeled_enemies:
@@ -176,7 +177,7 @@ func move(text: String) -> void:
 		return
 	elif succeded_arrow == Direction.UP:
 		player_controller.clear_up_arrow_state()
-		
+
 	if down_key.begins_with(entered_movement_text):
 		if down_key == entered_movement_text:
 			move_player_down.emit()
@@ -189,7 +190,7 @@ func move(text: String) -> void:
 		return
 	elif succeded_arrow == Direction.DOWN:
 		player_controller.clear_down_arrow_state()
-		
+
 	if left_key.begins_with(entered_movement_text):
 		if left_key == entered_movement_text:
 			move_player_left.emit()
@@ -202,7 +203,7 @@ func move(text: String) -> void:
 		return
 	elif succeded_arrow == Direction.LEFT:
 		player_controller.clear_left_arrow_state()
-		
+
 	if right_key.begins_with(entered_movement_text):
 		if right_key == entered_movement_text:
 			move_player_right.emit()
@@ -215,7 +216,7 @@ func move(text: String) -> void:
 		return
 	elif succeded_arrow == Direction.RIGHT:
 		player_controller.clear_right_arrow_state()
-	
+
 	entered_movement_text = ""
 
 func generate_movement_labels() -> void:
@@ -252,7 +253,9 @@ func _input(event: InputEvent) -> void:
 					spell_text.register_character(String.chr(event.unicode))
 			State.Targeting:
 				pick_enemy(String.chr(event.unicode).to_lower())
-				
+
+func set_hp(value: int) -> void:
+	healthbar.value = value
 
 func _on_spell_text__on_spell_casted() -> void:
 	if state == State.Casting:
