@@ -2,8 +2,11 @@ package org.example;
 
 
 import org.example.entity.Arena;
+import org.example.entity.Coordinates;
 import org.example.entity.Player;
 import org.junit.Test;
+
+import java.util.UUID;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -11,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 public class GameTest {
 
     private Player dummyPlayer(int x, int y) {
-        return new Player("dummy", 100, "test", x, y, true);
+        return new Player("dummy", new Coordinates(x, y), UUID.randomUUID());
     }
 
     @Test
