@@ -44,6 +44,7 @@ public class Game {
         this.gameState.setPlayers(this.players);
         this.status = GameStatus.IN_PROGRESS;
         this.arena = new Arena(DEFAULT_ARENA_SIZE);
+        this.gameState.setArena(this.arena);
         this.gameState.setStatus(status);
     }
 
