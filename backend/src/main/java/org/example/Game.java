@@ -120,7 +120,9 @@ public class Game {
         var p = Player.builder()
                 .id(UUID.randomUUID().toString())
                 .lastSessionId(sessionId)
-                .name(name).build();
+                .name(name)
+                .onDeathListeners(new ArrayList<>())
+                .build();
         p.subscribeToDeath(this::updateDeathTimes);
         players.add(p);
         return p;
