@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://csahdmph2aji4"]
+[gd_scene load_steps=24 format=3 uid="uid://csahdmph2aji4"]
 
 [ext_resource type="Script" path="res://src/Game.gd" id="1_wmfvw"]
 [ext_resource type="PackedScene" uid="uid://dameelfdwsxx4" path="res://scenes/HUD.tscn" id="2_mne7o"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://72ydxqw8s068" path="res://scenes/player_controller.tscn" id="12_oite8"]
 [ext_resource type="PackedScene" uid="uid://bctn1dl7abt10" path="res://scenes/Enemy.tscn" id="15_mqsxh"]
 [ext_resource type="Script" path="res://src/ArenaBorder.gd" id="15_nanph"]
+[ext_resource type="PackedScene" path="res://resources/Map.tscn" id="16_pe1sc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v63bu"]
 shader = ExtResource("3_tg1ur")
@@ -487,7 +488,11 @@ process_mode = 3
 script = ExtResource("8_cpxey")
 pause_screen = NodePath("../PauseMenu")
 
+[node name="map" parent="." instance=ExtResource("16_pe1sc")]
+scale = Vector2(9.2, 9.2)
+
 [node name="Ground" type="TileMap" parent="."]
+visible = false
 tile_set = SubResource("TileSet_t21ec")
 format = 2
 layer_0/name = "background"
