@@ -137,7 +137,7 @@ func pick_enemy(str: String) -> void:
 		target_enemy = labeled_enemies[str]
 		labeled_enemies.clear()
 		SocketClient.cast_start_spell(chosen_spell.spell_id, target_enemy.id)
-		var words := Words.get_words(2)m
+		var words := Words.get_words(2)
 		var text : String = words.slice(1).reduce(join, words[0])
 		enter_casting_state(text)
 
