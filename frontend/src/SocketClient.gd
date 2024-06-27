@@ -24,6 +24,9 @@ func socket_connect() -> void:
 	add_child(client)
 
 func _exit_tree() -> void:
+	socket_disconnect()
+
+func socket_disconnect() -> void:
 	if connected:
 		client.socketio_disconnect()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://csahdmph2aji4"]
+[gd_scene load_steps=23 format=3 uid="uid://csahdmph2aji4"]
 
 [ext_resource type="Script" path="res://src/Game.gd" id="1_wmfvw"]
 [ext_resource type="PackedScene" uid="uid://dameelfdwsxx4" path="res://scenes/HUD.tscn" id="2_mne7o"]
@@ -11,9 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://bmetb0g61y3bv" path="res://icon.svg" id="8_lyls7"]
 [ext_resource type="Texture2D" uid="uid://b5oi5ophboyyf" path="res://img/atlas.png" id="11_b5rqa"]
 [ext_resource type="Script" path="res://src/Grid.gd" id="12_7c53x"]
+[ext_resource type="Texture2D" uid="uid://pfnf8lne1b8d" path="res://img/pixel.png" id="12_mlofk"]
 [ext_resource type="PackedScene" uid="uid://72ydxqw8s068" path="res://scenes/player_controller.tscn" id="12_oite8"]
-[ext_resource type="PackedScene" uid="uid://cbydks0fxf58s" path="res://scenes/ArenaBorder.tscn" id="14_a56j7"]
 [ext_resource type="PackedScene" uid="uid://bctn1dl7abt10" path="res://scenes/Enemy.tscn" id="15_mqsxh"]
+[ext_resource type="Script" path="res://src/ArenaBorder.gd" id="15_nanph"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v63bu"]
 shader = ExtResource("3_tg1ur")
@@ -334,8 +335,14 @@ texture_region_size = Vector2i(128, 128)
 tile_size = Vector2i(128, 128)
 sources/4 = SubResource("TileSetAtlasSource_a613r")
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w1tqg"]
+texture = ExtResource("12_mlofk")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_3hkvr"]
 tile_size = Vector2i(128, 128)
+sources/0 = SubResource("TileSetAtlasSource_w1tqg")
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("pause_ctl", "pause_menu", "game_over_screen", "self_player", "player_container", "arena_border")]
 position = Vector2(0, 1)
@@ -469,12 +476,6 @@ theme_override_constants/margin_bottom = 150
 [node name="Menu" type="VBoxContainer" parent="GameOverScreen/Container/MenuMargin"]
 layout_mode = 2
 
-[node name="TryAgain" type="Button" parent="GameOverScreen/Container/MenuMargin/Menu"]
-layout_mode = 2
-text = "Try Again"
-script = ExtResource("6_2c0ui")
-next_scene_name = "res://scenes/Game.tscn"
-
 [node name="QuitToMenu" type="Button" parent="GameOverScreen/Container/MenuMargin/Menu"]
 layout_mode = 2
 text = "Quit to menu"
@@ -503,7 +504,11 @@ script = ExtResource("12_7c53x")
 [node name="PlayerController" parent="Grid" instance=ExtResource("12_oite8")]
 position = Vector2(192, 192)
 
-[node name="ArenaBorder" parent="." instance=ExtResource("14_a56j7")]
+[node name="ArenaBorder" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_3hkvr")
+format = 2
+layer_0/modulate = Color(0.301961, 0.603922, 1, 0.501961)
+script = ExtResource("15_nanph")
 
 [connection signal="hide_player_arrows" from="HUD" to="." method="_on_hud_hide_player_arrows"]
 [connection signal="move_player_down" from="HUD" to="." method="_on_hud_move_player_down"]

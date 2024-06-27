@@ -7,5 +7,6 @@ extends Node2D
 @export var first_to_focus: Control
 
 func _ready() -> void:
+	SocketClient.socket_disconnect()
 	ConfigCtl.load_config()
 	first_to_focus.grab_focus()
