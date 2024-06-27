@@ -67,6 +67,12 @@ public class ChatLauncher {
                 game.updateDeathTimes(disconnectedPlayer.get());
                 game.removePlayer(disconnectedPlayerId);
             }
+            if (game.players.isEmpty()) {
+                game.gameState.setStatus(GameStatus.PREPARATION);
+                game.setStatus(GameStatus.PREPARATION);
+            }
+
+
         });
 
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
