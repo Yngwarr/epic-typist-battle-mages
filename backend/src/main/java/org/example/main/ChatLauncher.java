@@ -92,7 +92,7 @@ public class ChatLauncher {
 
             if (game.status.equals(GameStatus.IN_PROGRESS) &&
                     game.countPlayersAlive() <= 1) {
-                game.status = GameStatus.OVER;
+                game.end();
                 log.info("GAME OVER");
                 log.info(game.deathTimes.toString());
             }
@@ -103,7 +103,7 @@ public class ChatLauncher {
                 case OVER -> dataToSend = game.deathTimes;
             }
 
-            server.getBroadcastOperations().sendEvent("gameState", game.gameState);
+            server.getBroadcastOperations().sendEvent("gameState", dataToSend);
         }, 0, SEND_STATE_PERIOD, TimeUnit.MILLISECONDS);
 
         log.info("SERVER START");

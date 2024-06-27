@@ -40,8 +40,12 @@
         let somePlayer = null;
 
         socket.on('gameState', function(data) {
+          if (data["players"]) {
             somePlayer = data["players"][0]
-            output('<span class="username-msg">' + JSON.stringify(data) + ':</span> ');
+            output('<span class="username-msg">' + JSON.stringify(data) + '</span> ');
+          } else{
+            output('<span class="username-msg">' + JSON.stringify(data) + '</span> ');
+          }
 		});
 
 		socket.on('disconnect', function() {
