@@ -77,8 +77,8 @@ theme_override_constants/margin_bottom = 20
 
 [node name="SpellText" type="RichTextLabel" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
+theme_override_colors/default_color = Color(0.581033, 0.581033, 0.581033, 1)
 bbcode_enabled = true
-text = "asdf"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0

@@ -28,24 +28,25 @@ func wrap_with_correct(str: String) -> String:
 	return "[color=green][u]" + str + "[/u][/color]"
 
 func wrap_with_incorrect(str: String) -> String:
-	return "[color=red]" + str + "[/color]"
+	return "[color=red][u]" + str + "[/u][/color]"
 
 func compare_words() -> void:
 	var invalid_index := find_first_invalid_character(spell_text, entered_text)
 	spell_text_label.text = ""
 	spell_text_label.clear()
+	var entered_text_length := entered_text.length()
 	var styled_string := ""
 	if invalid_index == -1:
 		styled_string = wrap_with_correct(entered_text)
-		styled_string += spell_text.substr(entered_text.length())
+		styled_string += spell_text.substr(entered_text_length)
 		styled_string = wrap_with_center(styled_string)
 		spell_text_label.append_text(styled_string)
-		if spell_text.length() == entered_text.length():
+		if spell_text.length() == entered_text_length:
 			_on_spell_casted.emit()
 	else:
 		styled_string = wrap_with_correct(entered_text.substr(0, invalid_index))
-		styled_string += wrap_with_incorrect(entered_text.substr(invalid_index))
-		styled_string += spell_text.substr(entered_text.length())
+		styled_string += wrap_with_incorrect(spell_text.substr(invalid_index, entered_text_length - invalid_index))
+		styled_string += spell_text.substr(entered_text_length)
 		styled_string = wrap_with_center(styled_string)
 		spell_text_label.append_text(styled_string)
 

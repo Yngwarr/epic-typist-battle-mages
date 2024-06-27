@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://wucmmxvsco7k"]
+
+[ext_resource type="Texture2D" uid="uid://bmetb0g61y3bv" path="res://icon.svg" id="1_cdsoq"]
+[ext_resource type="Script" path="res://src/MovementArrow.gd" id="1_t71xr"]
+
+[node name="MovementArrow" type="Node2D"]
+script = ExtResource("1_t71xr")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -2.14577e-06)
+scale = Vector2(0.171875, 0.421875)
+texture = ExtResource("1_cdsoq")
+
+[node name="CharacterLabel" type="Label" parent="."]
+offset_left = -6.0
+offset_top = -12.0
+offset_right = 6.0
+offset_bottom = 11.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "A"
