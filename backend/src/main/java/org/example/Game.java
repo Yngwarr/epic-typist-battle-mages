@@ -11,6 +11,11 @@ import java.util.*;
 @AllArgsConstructor
 @Builder
 public class Game {
+
+    public enum Status {
+        PREPARATION, IN_PROGRESS, OVER
+    }
+
     private static final int DEFAULT_ARENA_SIZE = 10;
     private static final int DEAD_ZONE_TICK_DAMAGE = 5;
 
@@ -18,7 +23,7 @@ public class Game {
     public ArrayList<Player> players;
     public GameState gameState;
     public Set<CastSpellDto> spellsInProgress = new HashSet<>();
-    public Status state = Status.PREPARATION;
+    public Status status = Status.PREPARATION;
 
     public Game() {
         this.players = new ArrayList<>();
@@ -27,14 +32,14 @@ public class Game {
     }
 
     public void start() {
-        this.state = Status.IN_PROGRESS;
+        this.status = Status.IN_PROGRESS;
     }
 
     public void end() {
-        this.state = Status.OVER;
+        this.status = Status.OVER;
     }
 
-    public GameState getState() {
+    public GameState getStatus() {
         return this.gameState;
     }
 

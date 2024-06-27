@@ -18,6 +18,10 @@ public class NewPlayerEvent implements DataListener<PlayerDto> {
 
     @Override
     public void onData(SocketIOClient client, PlayerDto data, AckRequest ackRequest) throws Exception {
+        if (!game.status.equals(Game.Status.PREPARATION)) {
+            return;
+        }
+
         if (data == null) {
             return;
         }

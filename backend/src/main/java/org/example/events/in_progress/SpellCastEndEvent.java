@@ -16,7 +16,11 @@ public class SpellCastEndEvent implements DataListener<CastSpellDto> {
     private final Game game;
 
     @Override
-    public void onData(SocketIOClient socketIOClient, CastSpellDto data, AckRequest ackRequest) throws Exception {
+    public void onData(SocketIOClient socketIOClient, CastSpellDto data, AckRequest ackRequest) {
+        if (!game.status.equals(Game.Status.IN_PROGRESS)) {
+            return;
+        }
+
         if (data == null) {
             log.info("cast end: no data");
             return;

@@ -33,7 +33,7 @@ public class ChatLauncher {
         final SocketIOServer server = createServer();
 
         Game game = new Game();
-        GameState gameState = game.getState();
+        GameState gameState = game.getStatus();
 
         server.addEventListener("newPlayer", PlayerDto.class,
                 new NewPlayerEvent(game));
