@@ -19,6 +19,7 @@ import org.example.events.preparation.NewPlayerEvent;
 import org.example.events.preparation.StartGameEvent;
 
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -87,6 +88,18 @@ public class ChatLauncher {
                                 }
                                 return false;
                             });
+
+                    p.getBuffs()
+                            .removeIf(d -> {
+                                if (d.getEndTimestamp() != null) {
+                                    try {
+                                        return ZonedDateTime.now().isAfter(ZonedDateTime.parse(d.getEndTimestamp()));
+                                    } catch (Exception e) {
+                                        return false;
+                                    }
+                                }
+                                return false;
+                            });
                 }
             }
 
@@ -100,7 +113,12 @@ public class ChatLauncher {
             Object dataToSend = null;
             switch (game.status) {
                 case PREPARATION, IN_PROGRESS -> dataToSend = game.gameState;
-                case OVER -> dataToSend = game.deathTimes;
+                case OVER -> {
+                    var m = new HashMap<>();
+                    m.put("players", game.deathTimes);
+                    m.put("status", "OVER");
+                    dataToSend = m;
+                }
             }
 
             server.getBroadcastOperations().sendEvent("gameState", dataToSend);

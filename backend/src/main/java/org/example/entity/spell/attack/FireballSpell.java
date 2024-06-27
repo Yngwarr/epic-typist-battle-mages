@@ -1,13 +1,12 @@
-package org.example.entity.spell;
+package org.example.entity.spell.attack;
 
 import lombok.ToString;
 import org.example.entity.Player;
 
-// fireball
 @ToString
-public class BasicDamageSpell implements DamageSpell {
+public class FireballSpell implements DamageSpell {
 
-    public int damage = 10;
+    public int damage = 20;
     @Override
     public void dealDamage(Player from, Player to) {
         to.minusHp(damage);

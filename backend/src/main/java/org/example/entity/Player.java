@@ -20,6 +20,8 @@ public class Player {
     private int y;
     private boolean alive = true;
     private UUID lastSessionId;
+    private ArrayList<Debuff> debuffs = new ArrayList<>();
+    private ArrayList<Buff> buffs = new ArrayList<>();
 
     private ArrayList<Consumer<Player>> onDeathListeners = new ArrayList<>();
 
@@ -37,7 +39,6 @@ public class Player {
         this.y = coordinates.getY();
         this.lastSessionId = sessionId;
     }
-    private ArrayList<Debuff> debuffs = new ArrayList<>();
 
     private void die() {
         this.alive = false;
@@ -68,6 +69,7 @@ public class Player {
         setY(coordinates.getY());
         this.setAlive(true);
         this.setDebuffs(new ArrayList<>());
+        this.setBuffs(new ArrayList<>());
     }
 
 }

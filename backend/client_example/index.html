@@ -76,7 +76,7 @@
             }
         });
 
-		function dealDamageStart() {
+		function fireballStart() {
             var jsonObject = {spellCastId: "uuid",
                               playerFromId: "someone else",
                               spellName: "FIREBALL",
@@ -85,7 +85,7 @@
             socket.emit('spellCastStart', jsonObject);
 		}
 
-		function dealDamageEnd() {
+		function fireballEnd() {
             var jsonObject = {spellCastId: "uuid",
                               playerFromId: "someone else",
                               spellName: "FIREBALL",
@@ -95,18 +95,51 @@
         }
 
 
-		function slowDebuffStart() {
+		function confusionStart() {
             var jsonObject = {spellCastId: "uuid",
                               playerFromId: "someone else",
-                              spellName: "DEBUFF_SLOW",
+                              spellName: "CONFUSION",
                               playerToId: somePlayer["id"]};
             socket.emit('spellCastStart', jsonObject);
 		}
 
-		function slowDebuffEnd() {
+		function confusionEnd() {
             var jsonObject = {spellCastId: "uuid",
                               playerFromId: "someone else",
-                              spellName: "DEBUFF_SLOW",
+                              spellName: "CONFUSION",
+                              playerToId: somePlayer["id"]};
+            socket.emit('spellCastEnd', jsonObject);
+        }
+
+		function stickinessStart() {
+            var jsonObject = {spellCastId: "uuid",
+                              playerFromId: "someone else",
+                              spellName: "STICKINESS",
+                              playerToId: somePlayer["id"]};
+            socket.emit('spellCastStart', jsonObject);
+		}
+
+		function stickinessEnd() {
+            var jsonObject = {spellCastId: "uuid",
+                              playerFromId: "someone else",
+                              spellName: "STICKINESS",
+                              playerToId: somePlayer["id"]};
+            socket.emit('spellCastEnd', jsonObject);
+        }
+
+
+		function dyslexiaStart() {
+            var jsonObject = {spellCastId: "uuid",
+                              playerFromId: "someone else",
+                              spellName: "DYSLEXIA",
+                              playerToId: somePlayer["id"]};
+            socket.emit('spellCastStart', jsonObject);
+		}
+
+		function dyslexiaEnd() {
+            var jsonObject = {spellCastId: "uuid",
+                              playerFromId: "someone else",
+                              spellName: "DYSLEXIA",
                               playerToId: somePlayer["id"]};
             socket.emit('spellCastEnd', jsonObject);
         }
@@ -132,15 +165,31 @@
 	</div>
 
         <form class="well form-inline" onsubmit="return false;">
-           <!-- <input id="msg" class="input-xlarge" type="text" placeholder="Type something..."/> -->
+           <button type="button" onClick="newPlayer()" class="btn" id="new-player">new player</button>
            <button type="button" onClick="startGame()" class="btn" id="start-game">Start game</button>
            <button type="button" onClick="sendMessage()" class="btn" id="send">Move</button>
-           <button type="button" onClick="dealDamageStart()" class="btn" id="deal">FIREBALL damage cast start</button>
-           <button type="button" onClick="dealDamageEnd()" class="btn" id="deal-end">FIREBALL damage cast end</button>
-           <button type="button" onClick="slowDebuffStart()" class="btn" id="slow">SLOW debuff cast start</button>
-           <button type="button" onClick="slowDebuffEnd()" class="btn" id="slow">SLOW debuff cast end</button>
-           <button type="button" onClick="newPlayer()" class="btn" id="new-player">new player</button>
-           <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
+           <!-- spells -->
+
+           <h1>Magic missle</h1>
+           <button type="button" onClick="magicMissleStart()" class="btn">MagicMissle start</button>
+           <button type="button" onClick="magicMissleEnd()" class="btn">MagicMissle end</button>
+
+           <h1>Stickiness</h1>
+           <button type="button" onClick="stickinessStart()" class="btn">Stickiness start</button>
+           <button type="button" onClick="stickinessEnd()" class="btn">Stickiness end</button>
+
+           <h1>Confusion</h1>
+           <button type="button" onClick="confusionStart()" class="btn">Confusion start</button>
+           <button type="button" onClick="confusionEnd()" class="btn">Confusion end</button>
+
+           <h1>Fireball</h1>
+           <button type="button" onClick="fireballStart()" class="btn">Fireball start</button>
+           <button type="button" onClick="fireballEnd()" class="btn">Fireball end</button>
+
+           <h1>Dyslexia</h1>
+           <button type="button" onClick="dyslexiaStart()" class="btn">Dyslexia start</button>
+           <button type="button" onClick="dyslexiaEnd()" class="btn">Dyslexia end</button>
+
         </form>
 
 
