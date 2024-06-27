@@ -64,5 +64,14 @@ func move(direction: Vector2i) -> void:
 		"direction": Global.direction_name(direction)
 	})
 
+
+ #var jsonObject = {spellCastId: "uuid",
+	#playerFromId: "someone else",                            
+	#  spellName: "DEBUFF_SLOW",
+					#playerToId: somePlayer["id"]};
+
+func cast_start_spell() -> void:
+	pass
+
 func start_game() -> void:
 	client.socketio_send("startGame", {})

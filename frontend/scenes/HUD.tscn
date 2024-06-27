@@ -13,7 +13,7 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -48.0
+offset_top = -64.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("1_pie6y")
@@ -26,8 +26,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SlowDebuff" parent="SpellListPanel/HBoxContainer" instance=ExtResource("2_twp7k")]
-position = Vector2(24, 24)
+[node name="Stickiness" parent="SpellListPanel/HBoxContainer" instance=ExtResource("2_twp7k")]
+position = Vector2(32, 32)
 
 [node name="CastingPanel" type="PanelContainer" parent="."]
 anchors_preset = 5
