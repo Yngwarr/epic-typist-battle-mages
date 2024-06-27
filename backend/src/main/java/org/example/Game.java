@@ -17,7 +17,7 @@ import java.util.*;
 @Setter
 public class Game {
 
-    private static final int DEFAULT_ARENA_SIZE = 10;
+    private static final int DEFAULT_ARENA_SIZE = 30;
     private static final int DEAD_ZONE_TICK_DAMAGE = 5;
 
     public Arena arena;

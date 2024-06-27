@@ -12,6 +12,8 @@ import org.example.utils.MathUtils;
 @Builder
 public class Arena {
 
+    private static final int MIN_SIZE = 5;
+
     private static int remoteness(int centerX, int centerY, int arenaSize) {
         int remotenessX = Math.max(arenaSize - centerX - 1, centerX);
         int remotenessY = Math.max(arenaSize - centerY - 1, centerY);
@@ -32,7 +34,9 @@ public class Arena {
     public int originalSize;
 
     public void shrinkLifeArea() {
-        lifeRadius--;
+        if (lifeRadius > MIN_SIZE) {
+            lifeRadius--;
+        }
     }
 
 }
