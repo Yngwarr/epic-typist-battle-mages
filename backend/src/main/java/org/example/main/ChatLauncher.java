@@ -8,11 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.example.Game;
 import org.example.GameStatus;
-import org.example.dto.CastSpellDto;
-import org.example.dto.MoveDto;
-import org.example.dto.PlayerDto;
-import org.example.dto.StartGameDto;
+import org.example.dto.*;
 import org.example.entity.Player;
+import org.example.events.in_progress.CloseEvent;
 import org.example.events.in_progress.MoveEvent;
 import org.example.events.in_progress.SpellCastEndEvent;
 import org.example.events.in_progress.SpellCastStartEvent;
@@ -50,6 +48,9 @@ public class ChatLauncher {
                 new SpellCastStartEvent(game));
         server.addEventListener("spellCastEnd", CastSpellDto.class,
                 new SpellCastEndEvent(game));
+
+        server.addEventListener("close", CloseDto.class, new CloseEvent(game));
+
 
         server.addDisconnectListener((SocketIOClient client) -> {
             log.warn("player {} disconnected", client.getSessionId());
