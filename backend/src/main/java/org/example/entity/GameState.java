@@ -3,6 +3,7 @@ package org.example.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.dto.CastSpellDto;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -13,5 +14,5 @@ import java.util.Set;
 public class GameState {
     public ArrayList<Player> players;
     public Arena arena;
-    public Set<StartCastSpellDto> spellsInProgress;
+    public Set<CastSpellDto> spellsInProgress;
 }

@@ -73,17 +73,17 @@
 
 		function dealDamageStart() {
             var jsonObject = {spellCastId: "uuid",
-                playerFromId: "someone else",
-                spellName: "FIREBALL",
-            playerToId: "hui-id"};
+                              playerFromId: "someone else",
+                              spellName: "FIREBALL",
+                              playerToId: "hui-id"};
             socket.emit('spellCastStart', jsonObject);
 		}
 
 		function dealDamageEnd() {
             var jsonObject = {spellCastId: "uuid",
-                playerFromId: "someone else",
-                spellName: "FIREBALL",
-            playerToId: "hui-id"};
+                              playerFromId: "someone else",
+                              spellName: "FIREBALL",
+                              playerToId: "hui-id"};
             socket.emit('spellCastEnd', jsonObject);
         }
 

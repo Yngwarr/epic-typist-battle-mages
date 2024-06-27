@@ -84,7 +84,7 @@ public class ChatLauncher {
                         return;
                     }
                     var from = game.getPlayerById(data.playerFromId);
-                    if (!from.isAlive()) {
+                    if (from !=null && !from.isAlive()) {
                         logDeadCaster(data);
                         return;
                     }
@@ -104,7 +104,7 @@ public class ChatLauncher {
                         return;
                     }
                     var from = game.getPlayerById(data.playerFromId);
-                    if (!from.isAlive()) {
+                    if (from != null && !from.isAlive()) {
                         logDeadCaster(data);
                         return;
                     }
@@ -113,15 +113,16 @@ public class ChatLauncher {
                     var spellname = data.spellName;
                     var to = data.playerToId;
                     var maybePlayer = game.getPlayerById(to);
-                    boolean ok = 1 == game.spellsInProgress.stream().filter(s -> s.equals(data.getSpellCastId())).count();
+                    boolean ok = 1 == game.spellsInProgress.stream()
+                            .filter(s ->  s.getSpellCastId().equals(data.getSpellCastId())).count();
                     var spell = SpellFabric.getSpell(spellname);
                     if (maybePlayer != null && spell != null && ok) {
-                        game.spellsInProgress.remove(data.getSpellCastId());
+                        game.spellsInProgress.removeIf(s -> s.spellCastId.equals(data.getSpellCastId()));
                         spell.dealDamage(from, maybePlayer);
                         log.info("deal damage to {}", maybePlayer);
                     } else {
-                        log.info("cast is not successful, player {}, spell {}, spell found in spellsInProgress {}",
-                                maybePlayer, spell, ok);
+                        log.info("cast is not successful, player {}, spell {}, spell found in spellsInProgress {}, spells in progress {}",
+                                maybePlayer, spell, ok, game.spellsInProgress);
                     }
                 });
 

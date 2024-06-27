@@ -1,8 +1,10 @@
 package org.example.entity.spell;
 
+import lombok.ToString;
 import org.example.entity.Player;
 
 // fireball
+@ToString
 public class BasicDamageSpell implements DamageSpell {
 
     public int damage = 10;

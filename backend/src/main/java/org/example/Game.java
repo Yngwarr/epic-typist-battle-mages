@@ -2,7 +2,7 @@ package org.example;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import org.example.dto.StartCastSpellDto;
+import org.example.dto.CastSpellDto;
 import org.example.entity.*;
 import org.example.utils.MathUtils;
 
@@ -20,7 +20,7 @@ public class Game {
     public Arena arena;
     public ArrayList<Player> players;
     public GameState gameState;
-    public Set<StartCastSpellDto> spellsInProgress = new HashSet<>();
+    public Set<CastSpellDto> spellsInProgress = new HashSet<>();
 
     public Game() {
         this.players = new ArrayList<>();
