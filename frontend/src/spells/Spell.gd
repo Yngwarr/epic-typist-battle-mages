@@ -11,4 +11,4 @@ var description : SpellDescription
 #@onready var icon_sprite : Sprite2D = $Icon
 #
 func _ready() -> void:
-	$Sprite2D/Label.text = str(number)
+	$Label.text = str(number)

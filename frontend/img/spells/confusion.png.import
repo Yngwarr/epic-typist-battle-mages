@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://di320ar18rfsh"
-path="res://.godot/imported/slowdown.png-25d8b23662c335a46e43a26a2ea54482.ctex"
+uid="uid://dmkgcx252d5o3"
+path="res://.godot/imported/confusion.png-0c3de3f67fe265dc471b1f9a2fe87229.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/spells/slowdown.png"
-dest_files=["res://.godot/imported/slowdown.png-25d8b23662c335a46e43a26a2ea54482.ctex"]
+source_file="res://img/spells/confusion.png"
+dest_files=["res://.godot/imported/confusion.png-0c3de3f67fe265dc471b1f9a2fe87229.ctex"]
 
 [params]
 

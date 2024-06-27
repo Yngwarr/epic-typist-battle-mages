@@ -22,6 +22,11 @@ func set_spell_text(text: String) -> void:
 	self.append_text(wrap_with_center(text))
 	entered_text = ""
 
+func append_spell_text(text: String) -> void:
+	spell_text += " " + text
+	clear()
+	compare_words()
+
 func find_first_invalid_character(base: String, other: String) -> int:
 	for i in min(base.length(), other.length()) as int:
 		if base[i] != other[i]:

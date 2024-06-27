@@ -54,6 +54,10 @@ func apply_debuff(name: String) -> void:
 	match name:
 		"STICKINESS":
 			generate_movement_labels()
+		"CONFUSION":
+			if state == State.Casting:
+				var word := Words.get_words(1)
+				spell_text.append_spell_text(word[0])
 
 func clear_debuff(name: String) -> void:
 	applied_debuffs.erase(name)
@@ -130,6 +134,17 @@ func enter_targeting_state(spell: Spell) -> void:
 	labeled_enemies.clear()
 	label_visible_enemies()
 
+func spell_difficulty_word_count(difficulty: String) -> int:
+	match difficulty:
+		"LOW": 
+			return 3
+		"MIDDLE":
+			return 4
+		"HIGH":
+			return 5
+		_:
+			return 3
+
 func pick_enemy(str: String) -> void:
 	if labeled_enemies.has(str):
 		for enemy_key : String in labeled_enemies:
@@ -138,7 +153,10 @@ func pick_enemy(str: String) -> void:
 		target_enemy = labeled_enemies[str]
 		labeled_enemies.clear()
 		SocketClient.cast_start_spell(chosen_spell.spell_id, target_enemy.id)
-		var words := Words.get_words(2)
+		var spell_word_count := spell_difficulty_word_count(chosen_spell.difficulty)
+		if check_debuff("CONFUSION"):
+			spell_word_count += 1 
+		var words := Words.get_words(spell_word_count)
 		var text : String = words.slice(1).reduce(join, words[0])
 		enter_casting_state(text)
 

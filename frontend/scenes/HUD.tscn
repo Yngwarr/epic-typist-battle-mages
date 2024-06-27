@@ -3,7 +3,9 @@
 [ext_resource type="Script" path="res://src/SpellListPanel.gd" id="1_pie6y"]
 [ext_resource type="Script" path="res://src/HUD.gd" id="1_wgdhm"]
 [ext_resource type="Script" path="res://src/SpellPanel.gd" id="2_4jnvy"]
-[ext_resource type="PackedScene" uid="uid://bqx1fxmk5xqqk" path="res://scenes/spells/slow_debuff.tscn" id="2_twp7k"]
+[ext_resource type="PackedScene" uid="uid://bqx1fxmk5xqqk" path="res://scenes/spells/Stickiness.tscn" id="2_twp7k"]
+[ext_resource type="PackedScene" uid="uid://bndd6tyfnub7g" path="res://scenes/spells/MagicMissile.tscn" id="3_ya5lh"]
+[ext_resource type="PackedScene" uid="uid://c4rwuclman72m" path="res://scenes/spells/Confusion.tscn" id="5_0lkeu"]
 [ext_resource type="PackedScene" uid="uid://bgdv2pjyq5p4d" path="res://scenes/SpellText.tscn" id="5_b4x0t"]
 [ext_resource type="Texture2D" uid="uid://0scyrsbyc63l" path="res://img/bar/shadow_mid.png" id="5_ddbk6"]
 [ext_resource type="Texture2D" uid="uid://bru4j10rkbbj2" path="res://img/bar/mid.png" id="6_lp81b"]
@@ -29,9 +31,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Stickiness" parent="SpellListPanel/HBoxContainer" instance=ExtResource("2_twp7k")]
+[node name="MagicMissile" parent="SpellListPanel/HBoxContainer" instance=ExtResource("3_ya5lh")]
 position = Vector2(32, 32)
 number = 1
+
+[node name="Stickiness" parent="SpellListPanel/HBoxContainer" instance=ExtResource("2_twp7k")]
+position = Vector2(96, 32)
+number = 2
+
+[node name="Confusion" parent="SpellListPanel/HBoxContainer" instance=ExtResource("5_0lkeu")]
+position = Vector2(160, 32)
+number = 3
 
 [node name="CastingPanel" type="PanelContainer" parent="."]
 anchors_preset = 5
