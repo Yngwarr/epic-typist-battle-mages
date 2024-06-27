@@ -1,15 +1,17 @@
 [gd_scene load_steps=3 format=3 uid="uid://wucmmxvsco7k"]
 
-[ext_resource type="Texture2D" uid="uid://bmetb0g61y3bv" path="res://icon.svg" id="1_cdsoq"]
 [ext_resource type="Script" path="res://src/MovementArrow.gd" id="1_t71xr"]
+[ext_resource type="Texture2D" uid="uid://cia03ks2h8ei8" path="res://img/arrow.png" id="2_1a3ui"]
 
 [node name="MovementArrow" type="Node2D"]
 script = ExtResource("1_t71xr")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(9.53674e-07, -2.14577e-06)
-scale = Vector2(0.25, 0.421875)
-texture = ExtResource("1_cdsoq")
+modulate = Color(0, 0, 0.545098, 0.333333)
+position = Vector2(0, -17)
+rotation = -1.5708
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_1a3ui")
 
 [node name="CharacterLabel" type="Label" parent="."]
 anchors_preset = 8

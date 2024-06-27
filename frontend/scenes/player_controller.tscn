@@ -11,6 +11,8 @@ script = ExtResource("1_ih8qt")
 zoom = Vector2(0.5, 0.5)
 limit_left = 0
 limit_top = 0
+limit_right = 3903
+limit_bottom = 3903
 position_smoothing_enabled = true
 
 [node name="Mage" parent="." instance=ExtResource("1_5yxcu")]
