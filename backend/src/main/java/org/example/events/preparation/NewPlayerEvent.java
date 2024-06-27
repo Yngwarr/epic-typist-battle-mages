@@ -11,6 +11,8 @@ import org.example.GameStatus;
 import org.example.dto.PlayerDto;
 import org.example.entity.Player;
 
+import java.util.ArrayList;
+
 @Slf4j
 @AllArgsConstructor
 public class NewPlayerEvent implements DataListener<PlayerDto> {
@@ -19,8 +21,13 @@ public class NewPlayerEvent implements DataListener<PlayerDto> {
 
     @Override
     public void onData(SocketIOClient client, PlayerDto data, AckRequest ackRequest) throws Exception {
-        if (!game.status.equals(GameStatus.PREPARATION)) {
+        if (game.status.equals(GameStatus.IN_PROGRESS)) {
             return;
+        }
+
+        if (game.status.equals(GameStatus.OVER)) {
+            game.setStatus(GameStatus.PREPARATION);
+            game.getGameState().setStatus(GameStatus.PREPARATION);
         }
 
         if (data == null) {

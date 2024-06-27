@@ -20,6 +20,7 @@ import org.example.events.preparation.NewPlayerEvent;
 import org.example.events.preparation.StartGameEvent;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -52,13 +53,14 @@ public class ChatLauncher {
 
         server.addDisconnectListener((SocketIOClient client) -> {
             log.warn("player {} disconnected", client.getSessionId());
-            Player disconnectedPlayer = game.players
+            val disconnectedPlayer = game.players
                     .stream()
                     .filter(p -> p.getLastSessionId().equals(client.getSessionId()))
-                    .findFirst()
-                    .orElseThrow();
-            game.updateDeathTimes(disconnectedPlayer);
-            game.removePlayer(client.getSessionId());
+                    .findFirst();
+            if (disconnectedPlayer.isPresent()) {
+                game.updateDeathTimes(disconnectedPlayer.get());
+                game.removePlayer(client.getSessionId());
+            }
         });
 
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);
@@ -128,9 +130,13 @@ public class ChatLauncher {
                             .filter(Player::isAlive)
                             .findFirst()
                             .orElseThrow(() -> new RuntimeException("No winner"));
+                    val w = new HashMap<>();
+                    w.put("id", winner.getId());
+                    w.put("name", winner.getName());
+
                     m.put("players", game.deathTimes);
                     m.put("status", GameStatus.OVER);
-                    m.put("winner", winner);
+                    m.put("winner", w);
                     dataToSend = m;
                 }
             }
