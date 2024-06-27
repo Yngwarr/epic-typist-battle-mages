@@ -74,16 +74,16 @@ public class ChatLauncher {
                 TimeUnit.MILLISECONDS);
 
         executor.scheduleAtFixedRate(() -> {
-            if (!game.status.equals(Game.Status.IN_PROGRESS)) {
-                return;
+            if (game.status.equals(Game.Status.IN_PROGRESS)) {
+                for (var p : game.gameState.players) {
+                    p.getDebuffs()
+                            .removeIf(d -> ZonedDateTime.now().isAfter(ZonedDateTime.parse(d.getEndTimestamp())));
+                }
+
             }
 
             // every 50 ms send to all players event with new gamestate
             // check every debuff: if it is done - remove it
-            for (var p : game.gameState.players) {
-                p.getDebuffs()
-                        .removeIf(d -> ZonedDateTime.now().isAfter(ZonedDateTime.parse(d.getEndTimestamp())));
-            }
 
             server.getBroadcastOperations().sendEvent("gameState", gameState);
         }, 0, SEND_STATE_PERIOD, TimeUnit.MILLISECONDS);
