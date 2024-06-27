@@ -4,6 +4,7 @@ import org.example.entity.Buff;
 import org.example.entity.Player;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 public class ConcentrationSpell implements BuffSpell{
 
@@ -20,7 +21,7 @@ public class ConcentrationSpell implements BuffSpell{
     }
 
     @Override
-    public void processSpell(Player from, Player to) {
+    public void processSpell(List<Player> all, Player from, Player to) {
         buffPlayer(to);
     }
 }

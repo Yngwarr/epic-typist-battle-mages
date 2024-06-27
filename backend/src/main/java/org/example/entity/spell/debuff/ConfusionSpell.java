@@ -4,6 +4,7 @@ import org.example.entity.Debuff;
 import org.example.entity.Player;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 public class ConfusionSpell implements DebuffSpell {
 
@@ -20,7 +21,7 @@ public class ConfusionSpell implements DebuffSpell {
     }
 
     @Override
-    public void processSpell(Player from, Player to) {
+    public void processSpell(List<Player> all, Player from, Player to) {
         debuffPlayer(to);
     }
 }
