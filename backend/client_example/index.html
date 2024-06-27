@@ -27,9 +27,9 @@
         <script src="js/moment.min.js"></script>
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 
-	<script>
+	    <script>
 
-                var userName = 'user' + Math.floor((Math.random()*1000)+1);
+        var userName = 'user' + Math.floor((Math.random()*1000)+1);
 
 		var socket =  io.connect('http://localhost:9092');
 
@@ -45,23 +45,23 @@
 			output('<span class="disconnect-msg">The client has disconnected!</span>');
 		});
 
-                function sendDisconnect() {
-                        socket.disconnect();
-                }
+        function sendDisconnect() {
+            socket.disconnect();
+        }
 
 		function sendMessage() {
-                        var message = $('#msg').val();
-                        $('#msg').val('');
+            var message = $('#msg').val();
+            $('#msg').val('');
 
-                        var jsonObject = {playerId: "hui-id",
-                                          command: "move",
-                    											direction: "up"};
-                        socket.emit('move', jsonObject);
+            var jsonObject = {playerId: "hui-id",
+                command: "move",
+            direction: "up"};
+            socket.emit('move', jsonObject);
 		}
 
 		function output(message) {
-                        var currentTime = "<span class='time'>" +  moment().format('HH:mm:ss.SSS') + "</span>";
-                        var element = $("<div>" + currentTime + " " + message + "</div>");
+            var currentTime = "<span class='time'>" +  moment().format('HH:mm:ss.SSS') + "</span>";
+            var element = $("<div>" + currentTime + " " + message + "</div>");
 			$('#console').prepend(element);
 		}
 
@@ -72,26 +72,26 @@
         });
 
 		function dealDamageStart() {
-                        var jsonObject = {spellCastId: "uuid",
-                    											playerFromId: "someone else",
-                                          spellName: "FIREBALL",
-                    											playerToId: "hui-id"};
-                        socket.emit('spellCastStart', jsonObject);
+            var jsonObject = {spellCastId: "uuid",
+                playerFromId: "someone else",
+                spellName: "FIREBALL",
+            playerToId: "hui-id"};
+            socket.emit('spellCastStart', jsonObject);
 		}
 
 		function dealDamageEnd() {
-                        var jsonObject = {spellCastId: "uuid",
-                    										  playerFromId: "someone else",
-                                          spellName: "FIREBALL",
-                    											playerToId: "hui-id"};
-                        socket.emit('spellCastEnd', jsonObject);
-                }
+            var jsonObject = {spellCastId: "uuid",
+                playerFromId: "someone else",
+                spellName: "FIREBALL",
+            playerToId: "hui-id"};
+            socket.emit('spellCastEnd', jsonObject);
+        }
 
 		function newPlayer() {
-                        var jsonObject = {name: "HUI"};
-                        socket.emit('newPlayer', jsonObject);
-                }
-	</script>
+            var jsonObject = {name: "HUI"};
+            socket.emit('newPlayer', jsonObject);
+        }
+	    </script>
 </head>
 
 <body>
