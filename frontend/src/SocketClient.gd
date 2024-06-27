@@ -54,11 +54,11 @@ func on_socket_event(event_name: String, payload: Variant, _name_space: Variant)
 func new_player(playerName: String) -> void:
 	client.socketio_send("newPlayer", { "name": playerName })
 
-func move() -> void:
+func move(direction: Vector2i) -> void:
 	client.socketio_send("move", {
-		"playerId": "hui-id",
+		"playerId": Global.self_id,
 		"command": "move",
-		"direction": "up"
+		"direction": Global.direction_name(direction)
 	})
 
 func enter_server() -> void:

@@ -23,7 +23,7 @@ func _input(event: InputEvent) -> void:
 	if vector == Vector2i.ZERO:
 		return
 
-	SocketClient.move()
+	SocketClient.move(vector)
 
 	var target_position: Vector2 = parent.request_move(self, vector)
 	if target_position:
