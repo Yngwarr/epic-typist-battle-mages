@@ -1,21 +1,23 @@
 package org.example.main;
 
-import com.corundumstudio.socketio.*;
+import com.corundumstudio.socketio.Configuration;
+import com.corundumstudio.socketio.SocketConfig;
+import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
 import lombok.extern.slf4j.Slf4j;
 import org.example.Game;
 import org.example.dto.CastSpellDto;
 import org.example.dto.MoveDto;
 import org.example.dto.PlayerDto;
-import org.example.entity.Direction;
 import org.example.entity.GameState;
-import org.example.entity.Player;
-import org.example.entity.spell.SpellFabric;
+import org.example.events.in_progress.MoveEvent;
+import org.example.events.in_progress.SpellCastEndEvent;
+import org.example.events.in_progress.SpellCastStartEvent;
+import org.example.events.preparation.NewPlayerEvent;
 
-import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class ChatLauncher {
@@ -34,89 +36,13 @@ public class ChatLauncher {
         GameState gameState = game.getState();
 
         server.addEventListener("newPlayer", PlayerDto.class,
-                (client, data, ackRequest) -> {
-                    if (data == null) {
-                        return;
-                    }
-                    var name = data.getName();
-                    log.info("New player with name {}", name);
-                    Player newPlayer = game.addPlayer(name, client.getSessionId());
-                    log.info("Added player {}", newPlayer);
-
-                    ackRequest.sendAckData(newPlayer);
-
-                    client.sendEvent("newPlayer", new AckCallback<>(String.class) {
-                        @Override
-                        public void onSuccess(String result) {
-                            System.out.println("ack from client: " + client.getSessionId() + " data: " + result);
-                        }
-                    }, newPlayer);
-
-                });
-
+                new NewPlayerEvent(game));
         server.addEventListener("move", MoveDto.class,
-                (client, data, ackRequest) -> {
-                    if (data != null) {
-                        var playerId = data.getPlayerId();
-                        log.info("receive move {} player {}", data.getDirection(), playerId);
-                        var maybePlayer = game.getPlayerById(playerId);
-                        if (maybePlayer != null && maybePlayer.isAlive()) {
-                            game.movePlayer(maybePlayer, Direction.valueOf(data.getDirection().toUpperCase()));
-                            log.info("moved player {}", playerId);
-                        } else {
-                            log.info("move: no such player {}", playerId);
-                        }
-                    }
-                });
-
+                new MoveEvent(game));
         server.addEventListener("spellCastStart", CastSpellDto.class,
-                (client, data, ackRequest) -> {
-                    if (data == null) {
-                        return;
-                    }
-                    var from = game.getPlayerById(data.playerFromId);
-                    if (from != null && !from.isAlive()) {
-                        logDeadCaster(data);
-                        return;
-                    }
-                    log.info("got spellCast start : {}", data);
-                    var to = data.playerToId;
-                    var maybePlayer = game.getPlayerById(to);
-                    if (maybePlayer != null) {
-                        game.spellsInProgress.add(data);
-                    } else {
-                        log.info("cast is not successful (playerToId is null). spell {}", data);
-                    }
-                });
-
+                new SpellCastStartEvent(game));
         server.addEventListener("spellCastEnd", CastSpellDto.class,
-                (client, data, ackRequest) -> {
-                    if (data == null) {
-                        log.info("cast end: no data");
-                        return;
-                    }
-                    var from = game.getPlayerById(data.playerFromId);
-                    if (from != null && !from.isAlive()) {
-                        logDeadCaster(data);
-                        return;
-                    }
-
-                    log.info("got spellCasted: {}", data);
-                    var spellname = data.spellName;
-                    var to = data.playerToId;
-                    var maybePlayer = game.getPlayerById(to);
-                    boolean ok = 1 == game.spellsInProgress.stream()
-                            .filter(s -> s.getSpellCastId().equals(data.getSpellCastId())).count();
-                    var spell = SpellFabric.getSpell(spellname);
-                    if (maybePlayer != null && spell != null && ok) {
-                        game.spellsInProgress.removeIf(s -> s.spellCastId.equals(data.getSpellCastId()));
-                        spell.processSpell(from, maybePlayer);
-                        log.info("deal damage to {}", maybePlayer);
-                    } else {
-                        log.info("cast is not successful, player {}, spell {}, spell found in spellsInProgress {}, spells in progress {}",
-                                maybePlayer, spell, ok, game.spellsInProgress);
-                    }
-                });
+                new SpellCastEndEvent(game));
 
         server.addDisconnectListener((SocketIOClient client) -> {
             log.warn("player {} disconnected", client.getSessionId());
@@ -159,10 +85,6 @@ public class ChatLauncher {
         config.setPort(PORT);
         log.info("Set localhost: {}", PORT);
         return new SocketIOServer(config);
-    }
-
-    private static void logDeadCaster(CastSpellDto data) {
-        log.info("cast is not successful (caster is dead). spell {}", data);
     }
 
 }

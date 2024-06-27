@@ -18,6 +18,7 @@ public class Game {
     public ArrayList<Player> players;
     public GameState gameState;
     public Set<CastSpellDto> spellsInProgress = new HashSet<>();
+    public Status state = Status.PREPARATION;
 
     public Game() {
         this.players = new ArrayList<>();
@@ -25,8 +26,12 @@ public class Game {
         this.gameState = new GameState(players, arena, this.spellsInProgress);
     }
 
-    public void addPlayer(Player player) {
-        this.players.add(player);
+    public void start() {
+        this.state = Status.IN_PROGRESS;
+    }
+
+    public void end() {
+        this.state = Status.OVER;
     }
 
     public GameState getState() {
@@ -80,19 +85,20 @@ public class Game {
                 .forEach(p -> p.minusHp(DEAD_ZONE_TICK_DAMAGE));
     }
 
-    public Coordinates randomCoordinatesOnCorner(int arenaSquareSize){
+    public Coordinates randomCoordinatesOnCorner(int arenaSquareSize) {
         return new Coordinates(MathUtils.randomInt(arenaSquareSize), MathUtils.randomInt(arenaSquareSize));
     }
-    public Coordinates randomCoordinatesOnCorner(){
+
+    public Coordinates randomCoordinatesOnCorner() {
         return randomCoordinatesOnCorner(DEFAULT_ARENA_SIZE);
     }
 
-    public Coordinates goodCoordinates(){
+    public Coordinates goodCoordinates() {
         Coordinates coords = this.randomCoordinatesOnCorner();
         if (this.players.stream().anyMatch(p -> (p.getX() == coords.getX()) && (p.getY() == coords.getY()))) {
             return goodCoordinates();
         }
-        else return coords;
+        return coords;
     }
 
     public Player addPlayer(String name, UUID sessionId) {
