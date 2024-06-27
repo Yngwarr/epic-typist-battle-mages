@@ -17,10 +17,9 @@ var players: Dictionary = {}
 func _ready() -> void:
 	pause_menu.modal_open.connect(pause_ctl.drop_next)
 	pause_menu.resume_pressed.connect(pause_ctl.unpause)
-
 	SocketClient.new_state.connect(update_state)
-	SocketClient.enter_server()
 
+# TODO do something with the disconnected players, check Lobby for reference
 func update_state(state: Variant) -> void:
 	for p: Dictionary in state["players"]:
 		var id: String = p["id"]

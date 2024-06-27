@@ -37,12 +37,12 @@ func on_socket_connect(_payload: Variant, _name_space: Variant, error: bool) -> 
 	else:
 		connected = true
 		print("Socket connected")
-		new_player("dragan")
+		new_player(Tools.generate_name())
 
 func on_socket_event(event_name: String, payload: Variant, _name_space: Variant) -> void:
 	match event_name:
 		"gameState":
-			# print("Received ", event_name, " ", payload)
+			# print(event_name, " ", payload)
 			new_state.emit(payload)
 		"newPlayer":
 			print("newPlayer ", payload)
@@ -50,6 +50,9 @@ func on_socket_event(event_name: String, payload: Variant, _name_space: Variant)
 
 	# respond hello world
 	# client.socketio_send("hello", "world")
+
+func enter_server() -> void:
+	socket_connect()
 
 func new_player(playerName: String) -> void:
 	client.socketio_send("newPlayer", { "name": playerName })
@@ -61,5 +64,5 @@ func move(direction: Vector2i) -> void:
 		"direction": Global.direction_name(direction)
 	})
 
-func enter_server() -> void:
-	socket_connect()
+func start_game() -> void:
+	client.socketio_send("startGame", {})

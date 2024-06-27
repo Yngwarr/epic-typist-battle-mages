@@ -6,6 +6,10 @@ enum CellType {
 	OBJECT,
 }
 
+const StatePreparation := "PREPARATION"
+const StateInProgress = "IN_PROGRESS"
+const StateGameOver = "OVER"
+
 var self_id: String
 
 func direction_name(direction: Vector2i) -> String:
