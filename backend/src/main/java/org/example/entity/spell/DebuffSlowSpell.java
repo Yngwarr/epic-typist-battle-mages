@@ -8,10 +8,10 @@ import java.time.ZonedDateTime;
 public class DebuffSlowSpell implements DebuffSpell {
     private Debuff debuff;
 
-    private int DURACTION_SECONDS = 20;
+    private final int DURATION_SECONDS = 20;
 
     public DebuffSlowSpell() {
-        this.debuff = new Debuff("DebuffSlow", ZonedDateTime.now().toString(), ZonedDateTime.now().plusSeconds(DURACTION_SECONDS).toString());
+        this.debuff = new Debuff("DEBUFF_SLOW", ZonedDateTime.now().toString(), ZonedDateTime.now().plusSeconds(DURATION_SECONDS).toString());
     }
 
     public void debuffPlayer(Player player) {

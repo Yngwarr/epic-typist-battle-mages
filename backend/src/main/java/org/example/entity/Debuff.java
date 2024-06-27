@@ -11,6 +11,11 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 public class Debuff {
     private String name;
+    // here timestamp is string because
+    // jackson cannot convert ZoneDateTime
+    // and we cannot use old java datetime classes
+    // in java 22
+    // and we cannot add jackson module into the socket-io library :)
     private String initTimestamp;
     private String endTimestamp;
 

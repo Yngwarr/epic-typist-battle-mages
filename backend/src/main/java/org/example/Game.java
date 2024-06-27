@@ -91,7 +91,7 @@ public class Game {
 
     public void deadZoneTick() {
         players.stream()
-                .filter(this::isInsideDeadZone)
+                .filter(p -> isInsideDeadZone(p) && p.isAlive())
                 .forEach(p -> p.minusHp(DEAD_ZONE_TICK_DAMAGE));
     }
 
