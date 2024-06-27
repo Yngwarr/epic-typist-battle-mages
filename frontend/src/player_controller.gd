@@ -23,11 +23,10 @@ func _input(event: InputEvent) -> void:
 	if vector == Vector2i.ZERO:
 		return
 
-	SocketClient.move(vector)
-
 	var target_position: Vector2 = parent.request_move(self, vector)
 	if target_position:
 		move_to(target_position)
+		SocketClient.move(vector)
 #
 #func _process(_delta: float) -> void:
 	#var input_direction := get_input_direction()
