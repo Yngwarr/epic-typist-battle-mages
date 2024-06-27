@@ -2,6 +2,8 @@ package org.example.entity.spell;
 
 import org.example.entity.Player;
 
+import java.util.List;
+
 public interface Spell {
-    void processSpell(Player from, Player to);
+    void processSpell(List<Player> all, Player from, Player to);
 }
