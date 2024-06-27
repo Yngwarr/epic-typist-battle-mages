@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://wucmmxvsco7k"]
+[gd_scene load_steps=4 format=3 uid="uid://wucmmxvsco7k"]
 
 [ext_resource type="Script" path="res://src/MovementArrow.gd" id="1_t71xr"]
 [ext_resource type="Texture2D" uid="uid://cia03ks2h8ei8" path="res://img/arrow.png" id="2_1a3ui"]
+[ext_resource type="PackedScene" uid="uid://bgdv2pjyq5p4d" path="res://scenes/SpellText.tscn" id="3_kjx0r"]
 
 [node name="MovementArrow" type="Node2D"]
 script = ExtResource("1_t71xr")
@@ -13,24 +14,19 @@ rotation = -1.5708
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_1a3ui")
 
-[node name="CharacterLabel" type="Label" parent="."]
+[node name="SpellText" parent="." instance=ExtResource("3_kjx0r")]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -19.0
-offset_top = -39.0
-offset_right = 18.0
-offset_bottom = 38.0
+offset_left = -5.5
+offset_top = -11.5
+offset_right = 5.5
+offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(19, 39)
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(2.83971e-06, 0.635643, 0.403149, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 56
-text = "A"
-horizontal_alignment = 1
-vertical_alignment = 1
+pivot_offset = Vector2(5.5, 11.5)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 46

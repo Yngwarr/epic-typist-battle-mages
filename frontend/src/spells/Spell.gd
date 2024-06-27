@@ -6,7 +6,9 @@ extends Node2D
 
 var description : SpellDescription
 
+@export var number : int
+
 #@onready var icon_sprite : Sprite2D = $Icon
 #
-#func _ready() -> void:
-	#icon_sprite.texture = icon
+func _ready() -> void:
+	$Sprite2D/Label.text = str(number)

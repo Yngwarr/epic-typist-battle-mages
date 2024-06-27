@@ -10,3 +10,11 @@ script = ExtResource("1_qos7d")
 texture = ExtResource("2_0arf6")
 
 [node name="Icon" type="Sprite2D" parent="Sprite2D"]
+
+[node name="Label" type="Label" parent="Sprite2D"]
+offset_left = -24.0
+offset_bottom = 23.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "0"
+horizontal_alignment = 1

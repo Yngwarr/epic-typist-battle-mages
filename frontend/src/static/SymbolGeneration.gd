@@ -28,7 +28,7 @@ static func generate_symbol(count: int) -> String:
 	label = label.to_lower()
 	available_characters.remove_at(symbol_index)
 	for i in count - 1:
-		label += String.chr(randi_range(65, 90))
+		label += String.chr(randi_range(65, 90)).to_lower()
 	return label
 
 static func free_symbol(char: String) -> void:

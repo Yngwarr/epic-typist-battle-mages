@@ -1,7 +1,7 @@
 extends Panel
 
 
-@onready var slow_debuff := $HBoxContainer/SlowDebuff
+@onready var slow_debuff := $HBoxContainer/Stickiness
 
 @onready var spells : Array[Spell] = [
 	slow_debuff

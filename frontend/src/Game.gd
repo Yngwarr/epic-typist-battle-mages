@@ -46,6 +46,8 @@ func update_state(state: Variant) -> void:
 		if id == Global.self_id:
 			self_player.position.x = local_pos.x
 			self_player.position.y = local_pos.y
+			hud.debuffs = p["debuffs"]
+			hud.update_state()
 			continue
 
 		if not players.has(id):

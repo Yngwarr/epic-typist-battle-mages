@@ -65,6 +65,30 @@ func move(vector: Vector2i) -> void:
 		#move_to(target_position)
 		SocketClient.move(vector)
 
+func register_char_up_arrow(char: String) -> bool:
+	return up_arrow.register_char(char)
+
+func register_char_down_arrow(char: String) -> bool:
+	return down_arrow.register_char(char)
+
+func register_char_left_arrow(char: String) -> bool:
+	return left_arrow.register_char(char)
+
+func register_char_right_arrow(char: String) -> bool:
+	return right_arrow.register_char(char)
+
+func clear_up_arrow_state() -> void:
+	up_arrow.clear_entered_text_state()
+
+func clear_down_arrow_state() -> void:
+	down_arrow.clear_entered_text_state()
+
+func clear_left_arrow_state() -> void:
+	left_arrow.clear_entered_text_state()
+
+func clear_right_arrow_state() -> void:
+	right_arrow.clear_entered_text_state()
+
 func move_to(target_position: Vector2) -> void:
 	#set_process(false)
 	#var move_direction := (target_position - position).normalized()

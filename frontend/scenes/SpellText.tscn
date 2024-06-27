@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgdv2pjyq5p4d"]
+
+[ext_resource type="Script" path="res://src/SpellText.gd" id="1_80tee"]
+
+[node name="SpellText" type="RichTextLabel"]
+theme_override_colors/default_color = Color(0.581033, 0.581033, 0.581033, 1)
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+script = ExtResource("1_80tee")
