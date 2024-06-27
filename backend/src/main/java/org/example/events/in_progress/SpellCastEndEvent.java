@@ -27,7 +27,7 @@ public class SpellCastEndEvent implements DataListener<CastSpellDto> {
             return;
         }
         var from = game.getPlayerById(data.playerFromId);
-        if (from != null && !from.isAlive()) {
+        if (from == null || !from.isAlive()) {
             logDeadCaster(data);
             return;
         }
@@ -36,6 +36,9 @@ public class SpellCastEndEvent implements DataListener<CastSpellDto> {
         var spellname = data.spellName;
         var to = data.playerToId;
         var maybePlayer = game.getPlayerById(to);
+        if (maybePlayer == null) {
+            maybePlayer = from;
+        }
         boolean ok = 1 == game.spellsInProgress.stream()
                 .filter(s -> s.getSpellCastId().equals(data.getSpellCastId())).count();
         var spell = SpellFabric.getSpell(spellname);

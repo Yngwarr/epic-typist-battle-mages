@@ -6,9 +6,9 @@ import org.example.entity.Player;
 import java.util.List;
 
 @ToString
-public class FireballSpell extends DamageSpell {
+public class MagicMissileSpell extends DamageSpell {
 
-    public int damage = 20;
+    public int damage = 5;
 
     @Override
     public void dealDamage(List<Player> all, Player from, Object[] args) {

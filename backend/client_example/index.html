@@ -37,11 +37,13 @@
 			output('<span class="connect-msg">Client has connected to the server!</span>');
 		});
 
-        let somePlayer = null;
+        let caster = null;
+        let victim = null;
 
         socket.on('gameState', function(data) {
           if (data["players"]) {
-            somePlayer = data["players"][0]
+            caster = data["players"][0]
+            victim = data["players"][1]
             output('<span class="username-msg">' + JSON.stringify(data) + '</span> ');
           } else{
             output('<span class="username-msg">' + JSON.stringify(data) + '</span> ');
@@ -58,7 +60,7 @@
 
 		function sendMessage() {
 
-            var jsonObject = {playerId: somePlayer["id"],
+            var jsonObject = {playerId: caster["id"],
                               direction: "up"};
 
             socket.emit('move', jsonObject);
@@ -77,19 +79,19 @@
         });
 
 
-		function magicMissleStart() {
+		function magicMissileStart() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "MAGIC_MISSILE",
-                              playerToId: somePlayer["id"]};
+                              playerToId: victim["id"]};
             socket.emit('spellCastStart', jsonObject);
 		}
 
 		function magicMissleEnd() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "MAGIC_MISSILE",
-                              playerToId: somePlayer["id"]};
+                              playerToId: victim["id"]};
             socket.emit('spellCastEnd', jsonObject);
         }
 
@@ -100,85 +102,85 @@
 
 		function fireballStart() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "FIREBALL",
-                              playerToId: somePlayer["id"]};
-            console.log("deal damage start", somePlayer["id"])
+                              playerToId: victim["id"]};
+            console.log("deal damage start", caster["id"])
             socket.emit('spellCastStart', jsonObject);
 		}
 
 		function fireballEnd() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "FIREBALL",
-                              playerToId: somePlayer["id"]};
-            console.log("deal damage end", somePlayer["id"])
+                              playerToId: victim["id"]};
+            console.log("deal damage end", caster["id"])
             socket.emit('spellCastEnd', jsonObject);
         }
 
 
 		function confusionStart() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "CONFUSION",
-                              playerToId: somePlayer["id"]};
+                              playerToId: victim["id"]};
             socket.emit('spellCastStart', jsonObject);
 		}
 
 		function confusionEnd() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "CONFUSION",
-                              playerToId: somePlayer["id"]};
+                              playerToId: victim["id"]};
             socket.emit('spellCastEnd', jsonObject);
         }
 
 		function stickinessStart() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "STICKINESS",
-                              playerToId: somePlayer["id"]};
+                              playerToId: victim["id"]};
             socket.emit('spellCastStart', jsonObject);
 		}
 
 		function stickinessEnd() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "STICKINESS",
-                              playerToId: somePlayer["id"]};
+                              playerToId: victim["id"]};
             socket.emit('spellCastEnd', jsonObject);
         }
 
 
 		function dyslexiaStart() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "DYSLEXIA",
-                              playerToId: somePlayer["id"]};
+                              playerToId: victim["id"]};
             socket.emit('spellCastStart', jsonObject);
 		}
 
 		function dyslexiaEnd() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "DYSLEXIA",
-                              playerToId: somePlayer["id"]};
+                              playerToId: victim["id"]};
             socket.emit('spellCastEnd', jsonObject);
         }
 
 		function concentrationStart() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "CONCENTRATION",
-                              playerToId: somePlayer["id"]};
+                              };
             socket.emit('spellCastStart', jsonObject);
 		}
 
 		function concentrationEnd() {
             var jsonObject = {spellCastId: "uuid",
-                              playerFromId: "someone else",
+                              playerFromId: caster["id"],
                               spellName: "CONCENTRATION",
-                              playerToId: somePlayer["id"]};
+                              playerToId: caster["id"]};
             socket.emit('spellCastEnd', jsonObject);
         }
 
@@ -209,7 +211,7 @@
            <!-- spells -->
 
            <h1>Magic missle</h1>
-           <button type="button" onClick="magicMissleStart()" class="btn">MagicMissle start</button>
+           <button type="button" onClick="magicMissileStart()" class="btn">MagicMissle start</button>
            <button type="button" onClick="magicMissleEnd()" class="btn">MagicMissle end</button>
 
            <h1>Stickiness</h1>

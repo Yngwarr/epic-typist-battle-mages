@@ -4,13 +4,13 @@ import org.example.entity.Buff;
 import org.example.entity.Player;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
-public class ConcentrationSpell implements BuffSpell{
+public class ConcentrationSpell extends BuffSpell {
 
-    private Buff buff;
+    private final Buff buff;
 
-    private final int DURATION_SECONDS = 20;
+    private static final int DURATION_SECONDS = 20;
+
     @Override
     public void buffPlayer(Player player) {
         player.getBuffs().add(buff);
@@ -18,10 +18,5 @@ public class ConcentrationSpell implements BuffSpell{
 
     public ConcentrationSpell() {
         this.buff = new Buff("CONCENTRATION", ZonedDateTime.now().toString(), ZonedDateTime.now().plusSeconds(DURATION_SECONDS).toString());
-    }
-
-    @Override
-    public void processSpell(List<Player> all, Player from, Player to) {
-        buffPlayer(to);
     }
 }

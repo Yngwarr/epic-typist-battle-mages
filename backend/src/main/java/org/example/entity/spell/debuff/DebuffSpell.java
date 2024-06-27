@@ -3,6 +3,14 @@ package org.example.entity.spell.debuff;
 import org.example.entity.Player;
 import org.example.entity.spell.Spell;
 
-public interface DebuffSpell extends Spell {
-    void debuffPlayer(Player player);
+import java.util.List;
+
+public abstract class DebuffSpell implements Spell {
+
+    @Override
+    public void processSpell(List<Player> all, Player from, Object... args) {
+        debuffPlayer(from);
+    }
+
+    abstract void debuffPlayer(Player player);
 }

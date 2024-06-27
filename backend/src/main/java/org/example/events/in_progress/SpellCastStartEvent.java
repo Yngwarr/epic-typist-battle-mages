@@ -30,13 +30,7 @@ public class SpellCastStartEvent implements DataListener<CastSpellDto> {
             return;
         }
         log.info("got spellCast start : {}", data);
-        var to = data.playerToId;
-        var maybePlayer = game.getPlayerById(to);
-        if (maybePlayer != null) {
-            game.spellsInProgress.add(data);
-        } else {
-            log.info("cast is not successful (playerToId is null). spell {}", data);
-        }
+        game.spellsInProgress.add(data);
     }
 
     private static void logDeadCaster(CastSpellDto data) {
