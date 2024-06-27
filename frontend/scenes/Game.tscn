@@ -507,7 +507,7 @@ position = Vector2(192, 192)
 [node name="ArenaBorder" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3hkvr")
 format = 2
-layer_0/modulate = Color(0.301961, 0.603922, 1, 0.501961)
+layer_0/modulate = Color(1, 0.3, 0.3, 0.501961)
 script = ExtResource("15_nanph")
 
 [connection signal="hide_player_arrows" from="HUD" to="." method="_on_hud_hide_player_arrows"]

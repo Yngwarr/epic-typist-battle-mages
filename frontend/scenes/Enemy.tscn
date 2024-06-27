@@ -8,7 +8,6 @@
 script = ExtResource("1_ooppb")
 
 [node name="Mage" parent="." instance=ExtResource("1_legd0")]
-modulate = Color(0.796003, 0.055691, 0.157802, 1)
 
 [node name="VisibleOnScreenNotifier" type="VisibleOnScreenNotifier2D" parent="."]
 
