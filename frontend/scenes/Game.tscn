@@ -499,3 +499,11 @@ script = ExtResource("12_7c53x")
 
 [node name="PlayerController" parent="Grid" instance=ExtResource("12_oite8")]
 position = Vector2(192, 192)
+
+[connection signal="hide_player_arrows" from="HUD" to="." method="_on_hud_hide_player_arrows"]
+[connection signal="move_player_down" from="HUD" to="." method="_on_hud_move_player_down"]
+[connection signal="move_player_left" from="HUD" to="." method="_on_hud_move_player_left"]
+[connection signal="move_player_right" from="HUD" to="." method="_on_hud_move_player_right"]
+[connection signal="move_player_up" from="HUD" to="." method="_on_hud_move_player_up"]
+[connection signal="set_players_arrows" from="HUD" to="." method="_on_hud_set_players_arrows"]
+[connection signal="show_player_arrows" from="HUD" to="." method="_on_hud_show_player_arrows"]

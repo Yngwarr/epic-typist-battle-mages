@@ -7,14 +7,28 @@
 script = ExtResource("1_t71xr")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(0, -2.14577e-06)
-scale = Vector2(0.171875, 0.421875)
+position = Vector2(9.53674e-07, -2.14577e-06)
+scale = Vector2(0.25, 0.421875)
 texture = ExtResource("1_cdsoq")
 
 [node name="CharacterLabel" type="Label" parent="."]
-offset_left = -6.0
-offset_top = -12.0
-offset_right = 6.0
-offset_bottom = 11.0
-theme_override_colors/font_color = Color(1, 0, 0, 1)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.0
+offset_top = -39.0
+offset_right = 18.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(19, 39)
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(2.83971e-06, 0.635643, 0.403149, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 56
 text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1

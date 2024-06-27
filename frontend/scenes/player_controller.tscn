@@ -15,17 +15,17 @@ position_smoothing_enabled = true
 
 [node name="Mage" parent="." instance=ExtResource("1_5yxcu")]
 
-[node name="MovementArrow" parent="." instance=ExtResource("3_k3yha")]
+[node name="UpArrow" parent="." instance=ExtResource("3_k3yha")]
 position = Vector2(-1, -100)
 
-[node name="MovementArrow2" parent="." instance=ExtResource("3_k3yha")]
+[node name="RightArrow" parent="." instance=ExtResource("3_k3yha")]
 position = Vector2(101, -1)
 direction = 1
 
-[node name="MovementArrow3" parent="." instance=ExtResource("3_k3yha")]
+[node name="LeftArrow" parent="." instance=ExtResource("3_k3yha")]
 position = Vector2(-108, -1)
 direction = 3
 
-[node name="MovementArrow4" parent="." instance=ExtResource("3_k3yha")]
+[node name="DownArrow" parent="." instance=ExtResource("3_k3yha")]
 position = Vector2(0, 106)
 direction = 2

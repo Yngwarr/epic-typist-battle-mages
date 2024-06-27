@@ -57,11 +57,3 @@ func register_character(char: String) -> void:
 func delete_character() -> void:
 	entered_text = entered_text.substr(0, max(entered_text.length() - 1, 0))
 	compare_words()
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.is_pressed():
-		if event.keycode == KEY_BACKSPACE:
-			delete_character()
-		else:
-			register_character(String.chr(event.unicode))
-	

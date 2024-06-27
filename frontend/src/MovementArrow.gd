@@ -13,6 +13,7 @@ enum ArrowDirection {
 
 func _ready() -> void:
 	rotation_degrees = direction * 90
+	character_label.rotation_degrees = direction * -90
 
 func set_character(char: String) -> void:
 	character_label.text = char
