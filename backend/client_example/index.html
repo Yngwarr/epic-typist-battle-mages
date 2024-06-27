@@ -76,6 +76,23 @@
             }
         });
 
+
+		function magicMissleStart() {
+            var jsonObject = {spellCastId: "uuid",
+                              playerFromId: "someone else",
+                              spellName: "MAGIC_MISSILE",
+                              playerToId: somePlayer["id"]};
+            socket.emit('spellCastStart', jsonObject);
+		}
+
+		function magicMissleEnd() {
+            var jsonObject = {spellCastId: "uuid",
+                              playerFromId: "someone else",
+                              spellName: "MAGIC_MISSILE",
+                              playerToId: somePlayer["id"]};
+            socket.emit('spellCastEnd', jsonObject);
+        }
+
 		function fireballStart() {
             var jsonObject = {spellCastId: "uuid",
                               playerFromId: "someone else",
@@ -144,6 +161,22 @@
             socket.emit('spellCastEnd', jsonObject);
         }
 
+		function concentrationStart() {
+            var jsonObject = {spellCastId: "uuid",
+                              playerFromId: "someone else",
+                              spellName: "CONCENTRATION",
+                              playerToId: somePlayer["id"]};
+            socket.emit('spellCastStart', jsonObject);
+		}
+
+		function concentrationEnd() {
+            var jsonObject = {spellCastId: "uuid",
+                              playerFromId: "someone else",
+                              spellName: "CONCENTRATION",
+                              playerToId: somePlayer["id"]};
+            socket.emit('spellCastEnd', jsonObject);
+        }
+
 		function newPlayer() {
             var jsonObject = {name: "HUI"};
             socket.emit('newPlayer', jsonObject);
@@ -189,6 +222,10 @@
            <h1>Dyslexia</h1>
            <button type="button" onClick="dyslexiaStart()" class="btn">Dyslexia start</button>
            <button type="button" onClick="dyslexiaEnd()" class="btn">Dyslexia end</button>
+
+           <h1>Concentration</h1>
+           <button type="button" onClick="concentrationStart()" class="btn">Dyslexia start</button>
+           <button type="button" onClick="concentrationEnd()" class="btn">Dyslexia end</button>
 
         </form>
 

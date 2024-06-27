@@ -39,7 +39,7 @@ public class SpellCastEndEvent implements DataListener<CastSpellDto> {
         boolean ok = 1 == game.spellsInProgress.stream()
                 .filter(s -> s.getSpellCastId().equals(data.getSpellCastId())).count();
         var spell = SpellFabric.getSpell(spellname);
-        if (maybePlayer != null && spell != null && ok) {
+        if (maybePlayer != null && ok) {
             game.spellsInProgress.removeIf(s -> s.spellCastId.equals(data.getSpellCastId()));
             spell.processSpell(from, maybePlayer);
             log.info("deal damage to {}", maybePlayer);
