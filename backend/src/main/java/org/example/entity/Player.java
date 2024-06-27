@@ -4,6 +4,8 @@ import lombok.*;
 
 import java.util.UUID;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -27,6 +29,7 @@ public class Player {
         this.y = coordinates.getY();
         this.lastSessionId = sessionId;
     }
+    private ArrayList<Debuff> debuffs = new ArrayList<>();
 
     public Player minusHp(int hp) {
         if (alive) {

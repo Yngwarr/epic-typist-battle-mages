@@ -11,8 +11,11 @@ import org.example.entity.GameState;
 import org.example.entity.Player;
 import org.example.entity.spell.SpellFabric;
 
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class ChatLauncher {
@@ -29,7 +32,6 @@ public class ChatLauncher {
 
         Game game = new Game();
         GameState gameState = game.getState();
-
 
         server.addEventListener("newPlayer", PlayerDto.class,
                 (client, data, ackRequest) -> {
@@ -66,6 +68,7 @@ public class ChatLauncher {
                         }
                     }
                 });
+
         server.addEventListener("spellCastStart", CastSpellDto.class,
                 (client, data, ackRequest) -> {
                     if (data == null) {
@@ -85,6 +88,7 @@ public class ChatLauncher {
                         log.info("cast is not successful (playerToId is null). spell {}", data);
                     }
                 });
+
         server.addEventListener("spellCastEnd", CastSpellDto.class,
                 (client, data, ackRequest) -> {
                     if (data == null) {
@@ -106,13 +110,14 @@ public class ChatLauncher {
                     var spell = SpellFabric.getSpell(spellname);
                     if (maybePlayer != null && spell != null && ok) {
                         game.spellsInProgress.removeIf(s -> s.spellCastId.equals(data.getSpellCastId()));
-                        spell.dealDamage(from, maybePlayer);
+                        spell.processSpell(from, maybePlayer);
                         log.info("deal damage to {}", maybePlayer);
                     } else {
                         log.info("cast is not successful, player {}, spell {}, spell found in spellsInProgress {}, spells in progress {}",
                                 maybePlayer, spell, ok, game.spellsInProgress);
                     }
                 });
+
         server.addDisconnectListener((SocketIOClient client) -> {
             log.warn("player {} disconnected", client.getSessionId());
             game.removePlayer(client.getSessionId());
@@ -132,6 +137,12 @@ public class ChatLauncher {
 
         executor.scheduleAtFixedRate(() -> {
             // every 50 ms send to all players event with new gamestate
+            // check every debuff: if it is done - remove it
+            for (var p : game.gameState.players) {
+                p.getDebuffs()
+                        .removeIf(d -> ZonedDateTime.now().isAfter(ZonedDateTime.parse(d.getEndTimestamp())));
+            }
+
             server.getBroadcastOperations().sendEvent("gameState", gameState);
         }, 0, SEND_STATE_PERIOD, TimeUnit.MILLISECONDS);
 

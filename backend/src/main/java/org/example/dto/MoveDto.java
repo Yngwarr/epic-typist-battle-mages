@@ -7,6 +7,5 @@ import lombok.ToString;
 @Getter
 public class MoveDto {
     String playerId;
-    String command;
     String direction;
 }

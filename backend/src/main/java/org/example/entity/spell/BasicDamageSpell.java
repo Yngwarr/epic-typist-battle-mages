@@ -12,4 +12,9 @@ public class BasicDamageSpell implements DamageSpell {
     public void dealDamage(Player from, Player to) {
         to.minusHp(damage);
     }
+
+    @Override
+    public void processSpell(Player from, Player to) {
+        dealDamage(from, to);
+    }
 }

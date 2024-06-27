@@ -13,7 +13,7 @@
 			padding:20px;
 		}
 		#console {
-			height: 400px;
+			height: 150px;
 			overflow: auto;
 		}
 		.username-msg {color:orange;}
@@ -92,6 +92,23 @@
             socket.emit('spellCastEnd', jsonObject);
         }
 
+
+		function slowDebuffStart() {
+            var jsonObject = {spellCastId: "uuid",
+                              playerFromId: "someone else",
+                              spellName: "DEBUFF_SLOW",
+                              playerToId: somePlayer["id"]};
+            socket.emit('spellCastStart', jsonObject);
+		}
+
+		function slowDebuffEnd() {
+            var jsonObject = {spellCastId: "uuid",
+                              playerFromId: "someone else",
+                              spellName: "DEBUFF_SLOW",
+                              playerToId: somePlayer["id"]};
+            socket.emit('spellCastEnd', jsonObject);
+        }
+
 		function newPlayer() {
             var jsonObject = {name: "HUI"};
             socket.emit('newPlayer', jsonObject);
@@ -111,8 +128,10 @@
         <form class="well form-inline" onsubmit="return false;">
            <input id="msg" class="input-xlarge" type="text" placeholder="Type something..."/>
            <button type="button" onClick="sendMessage()" class="btn" id="send">Send</button>
-           <button type="button" onClick="dealDamageStart()" class="btn" id="deal">deal damage start</button>
-           <button type="button" onClick="dealDamageEnd()" class="btn" id="deal-end">deal damage end</button>
+           <button type="button" onClick="dealDamageStart()" class="btn" id="deal">FIREBALL damage cast start</button>
+           <button type="button" onClick="dealDamageEnd()" class="btn" id="deal-end">FIREBALL damage cast end</button>
+           <button type="button" onClick="slowDebuffStart()" class="btn" id="slow">SLOW debuff cast start</button>
+           <button type="button" onClick="slowDebuffEnd()" class="btn" id="slow">SLOW debuff cast end</button>
            <button type="button" onClick="newPlayer()" class="btn" id="new-player">new player</button>
            <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
         </form>
