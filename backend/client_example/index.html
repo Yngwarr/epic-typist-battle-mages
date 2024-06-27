@@ -37,8 +37,11 @@
 			output('<span class="connect-msg">Client has connected to the server!</span>');
 		});
 
-		socket.on('gameState', function(data) {
-			output('<span class="username-msg">' + JSON.stringify(data) + ':</span> ');
+        let somePlayer = null;
+
+        socket.on('gameState', function(data) {
+            somePlayer = data["players"][0]
+            output('<span class="username-msg">' + JSON.stringify(data) + ':</span> ');
 		});
 
 		socket.on('disconnect', function() {
@@ -75,7 +78,8 @@
             var jsonObject = {spellCastId: "uuid",
                               playerFromId: "someone else",
                               spellName: "FIREBALL",
-                              playerToId: "hui-id"};
+                              playerToId: somePlayer["id"]};
+            console.log("deal damage start", somePlayer["id"])
             socket.emit('spellCastStart', jsonObject);
 		}
 
@@ -83,7 +87,8 @@
             var jsonObject = {spellCastId: "uuid",
                               playerFromId: "someone else",
                               spellName: "FIREBALL",
-                              playerToId: "hui-id"};
+                              playerToId: somePlayer["id"]};
+            console.log("deal damage end", somePlayer["id"])
             socket.emit('spellCastEnd', jsonObject);
         }
 
