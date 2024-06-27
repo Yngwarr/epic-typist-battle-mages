@@ -1,6 +1,7 @@
 extends Node
 
 signal new_state(state: Variant)
+signal got_id(id: String)
 
 const backendURL: String = "http://localhost:9092/socket.io"
 
@@ -50,6 +51,7 @@ func on_socket_event(event_name: String, payload: Variant, _name_space: Variant)
 		"newPlayer":
 			print("newPlayer ", payload)
 			Global.self_id = payload["id"]
+			got_id.emit(Global.self_id)
 
 	# respond hello world
 	# client.socketio_send("hello", "world")
@@ -69,7 +71,7 @@ func move(direction: Vector2i) -> void:
 
 
  #var jsonObject = {spellCastId: "uuid",
-	#playerFromId: "someone else",                            
+	#playerFromId: "someone else",
 	#  spellName: "DEBUFF_SLOW",
 					#playerToId: somePlayer["id"]};
 

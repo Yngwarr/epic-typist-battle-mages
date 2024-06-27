@@ -24,6 +24,7 @@ func _ready() -> void:
 	pause_menu.resume_pressed.connect(pause_ctl.unpause)
 	hud.generate_movement_labels()
 	SocketClient.new_state.connect(update_state)
+	SocketClient.got_id.connect(on_got_id)
 	SocketClient.enter_server()
 
 # TODO do something with the disconnected players, check Lobby for reference
@@ -65,6 +66,9 @@ func update_state(state: Variant) -> void:
 
 	var arena: Dictionary = state["arena"]
 	arena_border.resize(Vector2i(arena["centerX"], arena["centerY"]), arena["lifeRadius"], arena["originalSize"])
+
+func on_got_id(new_id: String) -> void:
+	pass
 
 func _on_visible_player_screen_enter(enemy: Enemy) -> void:
 	hud.add_visible_enemy(enemy)

@@ -4,7 +4,7 @@ extends Pawn
 var lost := false
 var grid_size: float
 
-
+@onready var mage: Mage = $Mage
 @onready var up_arrow := $UpArrow
 @onready var down_arrow := $DownArrow
 @onready var left_arrow := $LeftArrow
@@ -35,6 +35,8 @@ var grid_size: float
 		##move_to(target_position)
 		#SocketClient.move(vector)
 
+func _ready() -> void:
+	mage.set_skin(Global.self_id)
 
 func update_look_direction(direction: Vector2) -> void:
 	$Pivot/Sprite2D.rotation = direction.angle()
