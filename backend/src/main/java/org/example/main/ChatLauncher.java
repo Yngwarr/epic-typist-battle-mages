@@ -137,6 +137,9 @@ public class ChatLauncher {
                     m.put("players", game.deathTimes);
                     m.put("status", GameStatus.OVER);
                     m.put("winner", w);
+
+                    game.setStatus(GameStatus.PREPARATION);
+                    game.getGameState().setStatus(GameStatus.PREPARATION);
                     dataToSend = m;
                 }
             }
