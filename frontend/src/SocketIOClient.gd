@@ -152,7 +152,12 @@ func _socketio_parse_packet(payload: String) -> void:
 			var eventData: Variant = data[1] if len(data) > 1 else null
 			on_event.emit(eventName, eventData, name_space)
 
-func _socketio_send_packet(type: SocketIOPacketType, name_space: String, data: Variant=null, binaryData: Array[PackedByteArray]=[], ack_id: Variant=null) -> void:
+func _socketio_send_packet(type: SocketIOPacketType, \
+	name_space: String, \
+	data: Variant=null, \
+	binaryData: Array[PackedByteArray]=[], \
+	ack_id: Variant=null) -> void:
+
 	var payload := "%d" % type
 	if binaryData.size() > 0:
 		payload += "%d-" % binaryData.size()
@@ -178,7 +183,10 @@ func socketio_disconnect(name_space: String="/") -> void:
 	on_disconnect.emit(name_space)
 
 # send event to socket.io server by namespace
-func socketio_send(event_name: String, payload: Variant=null, name_space: String="/") -> void:
+func socketio_send(event_name: String, \
+	payload: Variant=null, \
+	name_space: String="/") -> void:
+	print("Sending ", event_name, " ", payload)
 	if payload == null:
 		_socketio_send_packet(SocketIOPacketType.EVENT, name_space, [event_name])
 	else:

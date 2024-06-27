@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://csahdmph2aji4"]
+[gd_scene load_steps=20 format=3 uid="uid://csahdmph2aji4"]
 
 [ext_resource type="Script" path="res://src/Game.gd" id="1_wmfvw"]
 [ext_resource type="PackedScene" uid="uid://dameelfdwsxx4" path="res://scenes/HUD.tscn" id="2_mne7o"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" path="res://src/UI/ChangeSceneButton.gd" id="6_2c0ui"]
 [ext_resource type="Script" path="res://src/Pause.gd" id="8_cpxey"]
 [ext_resource type="Texture2D" uid="uid://bmetb0g61y3bv" path="res://icon.svg" id="8_lyls7"]
-[ext_resource type="Script" path="res://src/SocketClient.gd" id="9_vqlxt"]
 [ext_resource type="Texture2D" uid="uid://b5oi5ophboyyf" path="res://img/atlas.png" id="11_b5rqa"]
 [ext_resource type="Script" path="res://src/Grid.gd" id="12_7c53x"]
 [ext_resource type="PackedScene" uid="uid://72ydxqw8s068" path="res://scenes/player_controller.tscn" id="12_oite8"]
@@ -337,10 +336,14 @@ sources/4 = SubResource("TileSetAtlasSource_a613r")
 [sub_resource type="TileSet" id="TileSet_3hkvr"]
 tile_size = Vector2i(128, 128)
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("pause_ctl", "pause_menu")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("pause_ctl", "pause_menu", "self_player", "player_container")]
+position = Vector2(0, 1)
 script = ExtResource("1_wmfvw")
 pause_ctl = NodePath("Pause")
 pause_menu = NodePath("PauseMenu")
+self_player = NodePath("Grid/PlayerController")
+enemy_scene = ExtResource("15_mqsxh")
+player_container = NodePath("Grid")
 
 [node name="HUD" parent="." instance=ExtResource("2_mne7o")]
 
@@ -480,9 +483,6 @@ process_mode = 3
 script = ExtResource("8_cpxey")
 pause_screen = NodePath("../PauseMenu")
 
-[node name="SocketClient" type="Node" parent="."]
-script = ExtResource("9_vqlxt")
-
 [node name="Ground" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_t21ec")
 format = 2
@@ -499,6 +499,3 @@ script = ExtResource("12_7c53x")
 
 [node name="PlayerController" parent="Grid" instance=ExtResource("12_oite8")]
 position = Vector2(192, 192)
-
-[node name="Enemy" parent="Grid" instance=ExtResource("15_mqsxh")]
-position = Vector2(960, 192)

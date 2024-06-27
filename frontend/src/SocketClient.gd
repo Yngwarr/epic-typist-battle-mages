@@ -1,12 +1,13 @@
-class_name SocketClient extends Node
+extends Node
+
+signal new_state(state: Variant)
+
+const backendURL: String = "http://localhost:9092/socket.io"
 
 var client: SocketIOClient
-var backendURL: String
+var connected := false
 
-func _ready() -> void:
-	# prepare URL
-	backendURL = "http://localhost:9092/socket.io"
-
+func socket_connect() -> void:
 	# initialize client
 	client = SocketIOClient.new(backendURL)
 
@@ -23,8 +24,8 @@ func _ready() -> void:
 	add_child(client)
 
 func _exit_tree() -> void:
-	# optional: disconnect from socketio server
-	client.socketio_disconnect()
+	if connected:
+		client.socketio_disconnect()
 
 func on_socket_ready(_sid: String) -> void:
 	# connect to socketio server when engine.io connection is ready
@@ -34,9 +35,31 @@ func on_socket_connect(_payload: Variant, _name_space: Variant, error: bool) -> 
 	if error:
 		push_error("Failed to connect to backend!")
 	else:
+		connected = true
 		print("Socket connected")
+		new_player("dragan")
 
 func on_socket_event(event_name: String, payload: Variant, _name_space: Variant) -> void:
-	print("Received ", event_name, " ", payload)
+	match event_name:
+		"gameState":
+			# print("Received ", event_name, " ", payload)
+			new_state.emit(payload)
+		"newPlayer":
+			print("newPlayer ", payload)
+			Global.self_id = payload["id"]
+
 	# respond hello world
 	# client.socketio_send("hello", "world")
+
+func new_player(playerName: String) -> void:
+	client.socketio_send("newPlayer", { "name": playerName })
+
+func move() -> void:
+	client.socketio_send("move", {
+		"playerId": "hui-id",
+		"command": "move",
+		"direction": "up"
+	})
+
+func enter_server() -> void:
+	socket_connect()

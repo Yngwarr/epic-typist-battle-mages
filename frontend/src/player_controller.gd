@@ -1,3 +1,4 @@
+class_name PlayerController
 extends Pawn
 
 var lost := false
@@ -18,10 +19,12 @@ func _input(event: InputEvent) -> void:
 		vector.x += 1
 	if event.is_action_released("ui_left"):
 		vector.x -= 1
-	
+
 	if vector == Vector2i.ZERO:
 		return
-	
+
+	SocketClient.move()
+
 	var target_position: Vector2 = parent.request_move(self, vector)
 	if target_position:
 		move_to(target_position)
