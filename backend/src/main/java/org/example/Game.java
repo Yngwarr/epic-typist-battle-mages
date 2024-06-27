@@ -25,7 +25,7 @@ public class Game {
     public GameState gameState;
     public Set<CastSpellDto> spellsInProgress = new HashSet<>();
     public GameStatus status = GameStatus.PREPARATION;
-    public SortedMap<String, Instant> deathTimes = new TreeMap<>();
+    public SortedMap<String, String> deathTimes = new TreeMap<>();
 
     public Game() {
         this.players = new ArrayList<>();
@@ -111,13 +111,22 @@ public class Game {
         return coords;
     }
 
+    public void updateDeathTimes(Player p) {
+        deathTimes.put(p.getName(), Instant.now().toString());
+    }
+
     public Player addPlayer(String name, UUID sessionId) {
         var p = new Player(name, goodCoordinates(), sessionId);
+        p.subscribeToDeath(this::updateDeathTimes);
         players.add(p);
         return p;
     }
 
     public void removePlayer(UUID sessionId) {
         players.removeIf(p -> p.getLastSessionId().equals(sessionId));
+    }
+
+    public long countPlayersAlive() {
+        return players.stream().filter(Player::isAlive).count();
     }
 }

@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @Getter
 @Setter
@@ -21,6 +22,12 @@ public class Player {
     private boolean alive = true;
     private UUID lastSessionId;
 
+    private ArrayList<Consumer<Player>> onDeathListeners = new ArrayList<>();
+
+    public void subscribeToDeath(Consumer<Player> onDeathListener) {
+        this.onDeathListeners.add(onDeathListener);
+    }
+
     public Player(String name,
                   Coordinates coordinates,
                   UUID sessionId
@@ -33,11 +40,16 @@ public class Player {
     }
     private ArrayList<Debuff> debuffs = new ArrayList<>();
 
+    private void die() {
+        this.alive = false;
+        this.onDeathListeners.forEach(listener -> listener.accept(this));
+    }
+
     public Player minusHp(int hp) {
         if (alive) {
             this.hp -= hp;
             if (this.hp <= 0) {
-                this.alive = false;
+                die();
             }
         }
         return this;

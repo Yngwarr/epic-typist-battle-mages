@@ -36,7 +36,6 @@ public class ChatLauncher {
         final SocketIOServer server = createServer();
 
         Game game = new Game();
-        GameState gameState = game.getGameState();
 
         server.addEventListener("newPlayer", PlayerDto.class,
                 new NewPlayerEvent(game));
@@ -83,12 +82,20 @@ public class ChatLauncher {
 
             }
 
-            // every 50 ms send to all players event with new gamestate
-            // check every debuff: if it is done - remove it
+            if (game.status.equals(GameStatus.IN_PROGRESS) &&
+                    game.countPlayersAlive() <= 1) {
+                game.status = GameStatus.OVER;
+                log.info("GAME OVER");
+                log.info(game.deathTimes.toString());
+            }
 
+            Object dataToSend = null;
+            switch (game.status) {
+                case PREPARATION, IN_PROGRESS -> dataToSend = game.gameState;
+                case OVER -> dataToSend = game.deathTimes;
+            }
 
-
-            server.getBroadcastOperations().sendEvent("gameState", gameState);
+            server.getBroadcastOperations().sendEvent("gameState", dataToSend);
         }, 0, SEND_STATE_PERIOD, TimeUnit.MILLISECONDS);
 
         log.info("SERVER START");
