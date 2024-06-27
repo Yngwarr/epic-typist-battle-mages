@@ -1,17 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://cbplqxkaqi83r"]
+[gd_scene load_steps=8 format=3 uid="uid://cbplqxkaqi83r"]
 
 [ext_resource type="Script" path="res://src/UI/MainMenu.gd" id="1_62wd7"]
 [ext_resource type="Script" path="res://src/UI/ChangeSceneButton.gd" id="2_5fb6k"]
 [ext_resource type="PackedScene" uid="uid://dp02anwflcyv8" path="res://scenes/OptionsWindow.tscn" id="2_eahdg"]
+[ext_resource type="PackedScene" uid="uid://ki0p0pkcowun" path="res://scenes/Background.tscn" id="2_qjlpf"]
 [ext_resource type="Script" path="res://src/UI/ShowPopupButton.gd" id="3_pto1d"]
 [ext_resource type="Script" path="res://src/UI/QuitButton.gd" id="4_kgmp6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8bkd4"]
 font_size = 52
+font_color = Color(0.156863, 0.156863, 0.376471, 1)
+outline_size = 8
 
 [node name="MainMenu" type="Node2D" node_paths=PackedStringArray("first_to_focus")]
 script = ExtResource("1_62wd7")
 first_to_focus = NodePath("Menu/Container/MenuMargin/Menu/Start")
+
+[node name="Background" parent="." instance=ExtResource("2_qjlpf")]
 
 [node name="Menu" type="CanvasLayer" parent="."]
 

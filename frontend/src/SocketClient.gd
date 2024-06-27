@@ -85,3 +85,7 @@ func cast_end_spell(spell_name: String, target_id: String) -> void:
 
 func start_game() -> void:
 	client.socketio_send("startGame", {})
+
+func close_connection() -> void:
+	if Global.self_id:
+		client.socketio_send("close", {"id": Global.self_id})

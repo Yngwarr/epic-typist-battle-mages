@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dameelfdwsxx4"]
+[gd_scene load_steps=8 format=3 uid="uid://dameelfdwsxx4"]
 
 [ext_resource type="Script" path="res://src/SpellListPanel.gd" id="1_pie6y"]
 [ext_resource type="Script" path="res://src/HUD.gd" id="1_wgdhm"]
@@ -54,19 +54,23 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 
 [node name="Healthbar" type="TextureProgressBar" parent="."]
-anchors_preset = 2
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 16.0
+offset_left = -99.0
 offset_top = -88.0
-offset_right = 214.0
+offset_right = 99.0
 offset_bottom = -72.0
+grow_horizontal = 2
 grow_vertical = 0
 value = 100.0
 rounded = true
 nine_patch_stretch = true
 texture_under = ExtResource("5_ddbk6")
 texture_progress = ExtResource("6_lp81b")
+tint_progress = Color(0.746585, 2.00946e-06, 8.66354e-07, 1)
 
 [connection signal="_on_spell_casted" from="CastingPanel" to="." method="_on_casting_panel__on_spell_casted"]
 [connection signal="_on_spell_casted" from="CastingPanel/MarginContainer/SpellText" to="." method="_on_spell_text__on_spell_casted"]
