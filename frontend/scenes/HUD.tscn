@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dameelfdwsxx4"]
+[gd_scene load_steps=12 format=3 uid="uid://dameelfdwsxx4"]
 
 [ext_resource type="Script" path="res://src/SpellListPanel.gd" id="1_pie6y"]
 [ext_resource type="Script" path="res://src/HUD.gd" id="1_wgdhm"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://bgdv2pjyq5p4d" path="res://scenes/SpellText.tscn" id="5_b4x0t"]
 [ext_resource type="Texture2D" uid="uid://0scyrsbyc63l" path="res://img/bar/shadow_mid.png" id="5_ddbk6"]
 [ext_resource type="Texture2D" uid="uid://bru4j10rkbbj2" path="res://img/bar/mid.png" id="6_lp81b"]
+[ext_resource type="PackedScene" uid="uid://dc3kdl051pppo" path="res://scenes/spells/Fireball.tscn" id="6_s2d3t"]
+[ext_resource type="PackedScene" uid="uid://pyshr3s08van" path="res://scenes/spells/Explosion.tscn" id="11_wdcpt"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_wgdhm")
@@ -42,6 +44,14 @@ number = 2
 [node name="Confusion" parent="SpellListPanel/HBoxContainer" instance=ExtResource("5_0lkeu")]
 position = Vector2(160, 32)
 number = 3
+
+[node name="Fireball" parent="SpellListPanel/HBoxContainer" instance=ExtResource("6_s2d3t")]
+position = Vector2(224, 32)
+number = 4
+
+[node name="Explosion" parent="SpellListPanel/HBoxContainer" instance=ExtResource("11_wdcpt")]
+position = Vector2(288, 32)
+number = 5
 
 [node name="CastingPanel" type="PanelContainer" parent="."]
 anchors_preset = 5
