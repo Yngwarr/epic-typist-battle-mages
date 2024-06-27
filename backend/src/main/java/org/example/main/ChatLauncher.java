@@ -90,7 +90,7 @@ public class ChatLauncher {
                             .removeIf(d -> {
                                 if (d.getEndTimestamp() != null) {
                                     try {
-                                        return ZonedDateTime.now().isAfter(ZonedDateTime.parse(d.getEndTimestamp()));
+                                        return ZonedDateTime.now().isAfter(d.getEndTimestamp());
                                     } catch (Exception e) {
                                         return false;
                                     }

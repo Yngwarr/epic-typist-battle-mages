@@ -12,7 +12,7 @@ public class StickinessSpell extends DebuffSpell {
     private static final int DURATION_SECONDS = 20;
 
     public StickinessSpell() {
-        this.debuff = new Debuff("STICKINESS", ZonedDateTime.now().toString(), ZonedDateTime.now().plusSeconds(DURATION_SECONDS).toString());
+        this.debuff = new Debuff("STICKINESS", ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(DURATION_SECONDS));
     }
 
     @Override

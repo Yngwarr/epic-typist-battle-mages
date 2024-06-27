@@ -11,7 +11,7 @@ public class DyslexiaSpell extends DebuffSpell {
     private static final int DURATION_SECONDS = 20;
 
     public DyslexiaSpell() {
-        this.debuff = new Debuff("DYSLEXIA", ZonedDateTime.now().toString(), ZonedDateTime.now().plusSeconds(DURATION_SECONDS).toString());
+        this.debuff = new Debuff("DYSLEXIA", ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(DURATION_SECONDS));
     }
 
     @Override

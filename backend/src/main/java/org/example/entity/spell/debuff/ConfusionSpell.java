@@ -12,7 +12,7 @@ public class ConfusionSpell extends DebuffSpell {
     private static final int DURATION_SECONDS = 20;
 
     public ConfusionSpell() {
-        this.debuff = new Debuff("CONFUSION", ZonedDateTime.now().toString(), ZonedDateTime.now().plusSeconds(DURATION_SECONDS).toString());
+        this.debuff = new Debuff("CONFUSION", ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(DURATION_SECONDS));
     }
 
     @Override

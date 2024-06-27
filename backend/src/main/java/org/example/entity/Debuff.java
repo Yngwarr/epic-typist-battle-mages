@@ -1,9 +1,12 @@
 package org.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.time.ZonedDateTime;
 
 @Getter
@@ -11,12 +14,16 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 public class Debuff {
     private String name;
-    // here timestamp is string because
-    // jackson cannot convert ZoneDateTime
-    // and we cannot use old java datetime classes
-    // in java 22
-    // and we cannot add jackson module into the socket-io library :)
-    private String initTimestamp;
-    private String endTimestamp;
 
+    @JsonIgnore
+    private ZonedDateTime initTimestamp;
+
+    @JsonIgnore
+    private ZonedDateTime endTimestamp;
+
+    @JsonProperty("timeLeft")
+    public long timeLeft() {
+        ZonedDateTime now = ZonedDateTime.now();
+        return Duration.between(now, endTimestamp).getSeconds();
+    }
 }
