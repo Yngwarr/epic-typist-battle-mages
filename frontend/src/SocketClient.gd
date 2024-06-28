@@ -4,7 +4,7 @@ signal new_state(state: Variant)
 signal got_id(id: String)
 
 const backendURL: String = "http://localhost:9092/socket.io"
-
+#const backendURL: String = "https://192.168.74.170:9092/socket.io"
 var client: SocketIOClient
 var connected := false
 
@@ -33,11 +33,13 @@ func socket_disconnect() -> void:
 
 func on_socket_ready(_sid: String) -> void:
 	# connect to socketio server when engine.io connection is ready
+	print("on socket ready")
 	client.socketio_connect()
 
 func on_socket_connect(_payload: Variant, _name_space: Variant, error: bool) -> void:
 	if error:
 		push_error("Failed to connect to backend!")
+		print("failed to connect socket")
 	else:
 		connected = true
 		print("Socket connected")

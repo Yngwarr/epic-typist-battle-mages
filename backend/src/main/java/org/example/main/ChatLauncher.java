@@ -17,6 +17,9 @@ import org.example.events.in_progress.SpellCastStartEvent;
 import org.example.events.preparation.NewPlayerEvent;
 import org.example.events.preparation.StartGameEvent;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -166,9 +169,20 @@ public class ChatLauncher {
         Configuration config = new Configuration();
         SocketConfig socketConfig = config.getSocketConfig();
         socketConfig.setReuseAddress(true);
+/*
+        config.setKeyStorePassword("test1234");
+        try {
+            InputStream stream = new FileInputStream("/home/svt/dev/epic-typist-battle-mages/backend/keystore.jks");
+            config.setKeyStore(stream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        config.setHostname("192.168.74.170");
+
+ */
         config.setHostname("localhost");
         config.setPort(PORT);
-        log.info("Set localhost: {}", PORT);
+        log.info("Set port: {}", PORT);
         return new SocketIOServer(config);
     }
 
