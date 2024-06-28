@@ -32,8 +32,8 @@ public class ChatLauncher {
     public static final int PORT = 9092;
 
     public static final int SEND_STATE_PERIOD = 50;
-    public static final int LIVE_ZONE_SHRINK_PERIOD = 15_000;
-    private static final int DEAD_ZONE_TICK_PERIOD = 1000;
+    public static final int LIVE_ZONE_SHRINK_PERIOD = 30_000;
+    private static final int DEAD_ZONE_TICK_PERIOD = 1500;
 
     public static void main(String[] args) {
 
