@@ -42,6 +42,7 @@ func update_state(state: Variant) -> void:
 		var x: int = p["x"]
 		var y: int = p["y"]
 		var hp: int = p["hp"]
+		var alive: bool = p["alive"]
 		var local_pos := player_container.map_to_local(Vector2i(x, y))
 
 		if id == Global.self_id:
@@ -51,6 +52,8 @@ func update_state(state: Variant) -> void:
 			hud.buffs = p["buffs"]
 			hud.update_state()
 			hud.set_hp(hp)
+			if !alive:
+				self_player.die()
 			continue
 
 		if not players.has(id):
@@ -68,6 +71,8 @@ func update_state(state: Variant) -> void:
 		var player: Enemy = players[id]
 		player.position.x = local_pos.x
 		player.position.y = local_pos.y
+		if !alive:
+			player.die()
 
 	var arena: Dictionary = state["arena"]
 	arena_border.resize(Vector2i(arena["centerX"], arena["centerY"]), arena["lifeRadius"], arena["originalSize"])

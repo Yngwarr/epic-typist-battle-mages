@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://ba7xf5cul8gto"]
+[gd_scene load_steps=20 format=3 uid="uid://ba7xf5cul8gto"]
 
 [ext_resource type="Script" path="res://src/Mage.gd" id="1_e7281"]
 [ext_resource type="Texture2D" uid="uid://dwr1dtna5i5uc" path="res://img/wizards/3.png" id="2_gisqx"]
@@ -11,6 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://c5elfvx28ee3h" path="res://img/wizards/8.png" id="9_y0ded"]
 [ext_resource type="Texture2D" uid="uid://bnmeh4wyjx3r5" path="res://img/wizards/9.png" id="10_k5axu"]
 [ext_resource type="Texture2D" uid="uid://widpmcnkop7" path="res://img/wizards/10.png" id="11_clfmt"]
+[ext_resource type="AudioStream" uid="uid://blkdaokf0o3ge" path="res://sfx/move.wav" id="12_15hxv"]
+[ext_resource type="AudioStream" uid="uid://bna8wlvm40ev6" path="res://sfx/get_damage.wav" id="13_t6e26"]
+[ext_resource type="AudioStream" uid="uid://b08qk7aiwoasg" path="res://sfx/enemy_death.wav" id="14_f3e7s"]
 
 [sub_resource type="Animation" id="Animation_wt04d"]
 length = 0.001
@@ -48,8 +51,39 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.578541, 0.0680492, 0, 1)]
+"values": [Color(1, 1, 1, 1)]
 }
+
+[sub_resource type="Animation" id="Animation_j8pvk"]
+resource_name = "die"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("View:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [13, 14, 15, 16, 17]
+}
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SoundPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("14_f3e7s")
+}],
+"times": PackedFloat32Array(0.3)
+}
+tracks/1/use_blend = true
 
 [sub_resource type="Animation" id="Animation_0feeh"]
 resource_name = "idle"
@@ -119,20 +153,37 @@ tracks/2/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(0.578541, 0.0680492, 0, 1), Color(1, 1, 1, 1)]
 }
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SoundPlayer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("13_t6e26")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/3/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_itwer"]
 _data = {
 "RESET": SubResource("Animation_wt04d"),
+"die": SubResource("Animation_j8pvk"),
 "idle": SubResource("Animation_0feeh"),
 "taking_damage": SubResource("Animation_7m2ro")
 }
 
-[node name="Mage" type="Node2D"]
+[node name="Mage" type="Node2D" node_paths=PackedStringArray("sound_player")]
 script = ExtResource("1_e7281")
 skins = Array[Texture2D]([ExtResource("2_jvoho"), ExtResource("3_8nywq"), ExtResource("2_gisqx"), ExtResource("5_wot1c"), ExtResource("6_nkfwl"), ExtResource("7_hel1t"), ExtResource("8_k4py0"), ExtResource("9_y0ded"), ExtResource("10_k5axu"), ExtResource("11_clfmt")])
+sound_player = NodePath("SoundPlayer")
+move_sfx = ExtResource("12_15hxv")
 
 [node name="View" type="Sprite2D" parent="."]
-modulate = Color(0.578541, 0.0680492, 0, 1)
 scale = Vector2(4, 4)
 texture = ExtResource("2_gisqx")
 offset = Vector2(2, 0)
@@ -143,3 +194,7 @@ vframes = 7
 libraries = {
 "": SubResource("AnimationLibrary_itwer")
 }
+
+[node name="SoundPlayer" type="AudioStreamPlayer2D" parent="."]
+volume_db = 6.0
+bus = &"SFX"

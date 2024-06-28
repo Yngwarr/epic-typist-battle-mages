@@ -3,15 +3,15 @@ extends Node
 signal new_state(state: Variant)
 signal got_id(id: String)
 
-const backendURL: String = "http://localhost:9092/socket.io"
-#const backendURL: String = "https://192.168.74.170:9092/socket.io"
+# const backendURL: String = "http://localhost:9092/socket.io"
+const backendURL: String = "http://192.168.1.111:9092/socket.io"
 var client: SocketIOClient
 var connected := false
 
 func socket_connect() -> void:
 	# initialize client
 	client = SocketIOClient.new(backendURL)
-	
+
 
 	# this signal is emitted when the socket is ready to connect
 	client.on_engine_connected.connect(on_socket_ready)
@@ -49,7 +49,7 @@ func on_socket_connect(_payload: Variant, _name_space: Variant, error: bool) -> 
 func on_socket_event(event_name: String, payload: Variant, _name_space: Variant) -> void:
 	match event_name:
 		"gameState":
-			# print(event_name, " ", payload)
+			print(event_name, " ", payload)
 			new_state.emit(payload)
 		"newPlayer":
 			print("newPlayer ", payload)

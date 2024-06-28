@@ -33,3 +33,8 @@ func _on_visible_on_screen_notifier_screen_entered() -> void:
 
 func _on_visible_on_screen_notifier_screen_exited() -> void:
 	on_screen_exited.emit(self)
+
+func die() -> void:
+	if alive:
+		alive = false
+		mage.die()

@@ -66,6 +66,7 @@ func move(vector: Vector2i) -> void:
 	if target_position:
 		#move_to(target_position)
 		SocketClient.move(vector)
+		mage.step()
 
 func register_char_up_arrow(char: String) -> bool:
 	return up_arrow.register_char(char)
@@ -118,3 +119,8 @@ func move_to(target_position: Vector2) -> void:
 	#await $AnimationTree.animation_finished
 	#animation_playback.start("idle")
 	#set_process(true)
+
+func die() -> void:
+	if alive == true:
+		alive = false
+		mage.die()

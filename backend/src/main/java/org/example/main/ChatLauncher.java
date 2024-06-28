@@ -180,7 +180,7 @@ public class ChatLauncher {
         config.setHostname("192.168.74.170");
 
  */
-        config.setHostname("localhost");
+        config.setHostname("0.0.0.0");
         config.setPort(PORT);
         log.info("Set port: {}", PORT);
         return new SocketIOServer(config);
