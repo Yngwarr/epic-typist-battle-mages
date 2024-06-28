@@ -12,3 +12,9 @@ func _ready() -> void:
 func set_skin(id: String) -> void:
 	var skin_code := hash(id) % len(skins)
 	view.texture = skins[skin_code]
+
+func play_taken_damage_animation() -> void:
+	anim.play(&"taking_damage")
+	anim.queue(&"idle")
+	
+

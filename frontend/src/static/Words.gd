@@ -7,6 +7,16 @@ static func get_words(count: int) -> Array[String]:
 		list.append(words[randi_range(0, words_size)])
 	return list
 
+static func get_words_with_random_symbols(count: int) -> Array[String]:
+	var list : Array[String] = []
+	var words_size := words.size()
+	for i in count:
+		var word := ""
+		for j in randi_range(4, 6):
+			word += String.chr(randi_range(65, 90)).to_lower()
+		list.append(word)
+	return list
+
 
 static var words : Array[String] = [
 	"abbey",

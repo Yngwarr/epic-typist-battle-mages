@@ -91,6 +91,9 @@ func clear_left_arrow_state() -> void:
 func clear_right_arrow_state() -> void:
 	right_arrow.clear_entered_text_state()
 
+func play_taken_damage_animation() -> void:
+	mage.play_taken_damage_animation()
+
 func move_to(target_position: Vector2) -> void:
 	#set_process(false)
 	#var move_direction := (target_position - position).normalized()

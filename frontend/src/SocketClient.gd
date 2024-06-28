@@ -11,6 +11,7 @@ var connected := false
 func socket_connect() -> void:
 	# initialize client
 	client = SocketIOClient.new(backendURL)
+	
 
 	# this signal is emitted when the socket is ready to connect
 	client.on_engine_connected.connect(on_socket_ready)
@@ -82,6 +83,18 @@ func cast_end_spell(spell_name: String, target_id: String) -> void:
 	client.socketio_send("spellCastEnd", {
 		"playerFromId": Global.self_id,
 		"playerToId": target_id,
+		"spellName": spell_name
+	})
+
+func cast_start_spell_on_self(spell_name: String) -> void:
+	client.socketio_send("spellCastStart", {
+		"playerFromId": Global.self_id,
+		"spellName": spell_name
+	})
+
+func cast_end_spell_on_self(spell_name: String) -> void:
+	client.socketio_send("spellCastEnd", {
+		"playerFromId": Global.self_id,
 		"spellName": spell_name
 	})
 

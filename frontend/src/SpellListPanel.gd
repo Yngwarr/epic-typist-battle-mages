@@ -6,13 +6,17 @@ extends Panel
 @onready var confusion := $HBoxContainer/Confusion
 @onready var fireball := $HBoxContainer/Fireball
 @onready var explosion := $HBoxContainer/Explosion
+@onready var dyslexia := $HBoxContainer/Dyslexia
+@onready var concentration := $HBoxContainer/Concentration
 
 @onready var spells : Array[Spell] = [
 	magic_missile,
 	slow_debuff,
 	confusion,
 	fireball,
-	explosion
+	explosion,
+	dyslexia,
+	concentration
 ]
 
 func get_spell(index: int) -> Spell:

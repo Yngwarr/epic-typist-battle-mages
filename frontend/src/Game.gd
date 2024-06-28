@@ -48,6 +48,7 @@ func update_state(state: Variant) -> void:
 			self_player.position.x = local_pos.x
 			self_player.position.y = local_pos.y
 			hud.debuffs = p["debuffs"]
+			hud.buffs = p["buffs"]
 			hud.update_state()
 			hud.set_hp(hp)
 			continue

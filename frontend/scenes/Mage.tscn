@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ba7xf5cul8gto"]
+[gd_scene load_steps=16 format=3 uid="uid://ba7xf5cul8gto"]
 
 [ext_resource type="Script" path="res://src/Mage.gd" id="1_e7281"]
 [ext_resource type="Texture2D" uid="uid://dwr1dtna5i5uc" path="res://img/wizards/3.png" id="2_gisqx"]
@@ -26,6 +26,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("View:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("View:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.578541, 0.0680492, 0, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_0feeh"]
 resource_name = "idle"
@@ -43,11 +67,64 @@ tracks/0/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("View:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7m2ro"]
+resource_name = "taking_damage"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("View:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 0, 1, 2, 3, 4, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("View:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(2, 0), Vector2(0, 0), Vector2(-2, 0), Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("View:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.578541, 0.0680492, 0, 1), Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_itwer"]
 _data = {
 "RESET": SubResource("Animation_wt04d"),
-"idle": SubResource("Animation_0feeh")
+"idle": SubResource("Animation_0feeh"),
+"taking_damage": SubResource("Animation_7m2ro")
 }
 
 [node name="Mage" type="Node2D"]
@@ -55,8 +132,10 @@ script = ExtResource("1_e7281")
 skins = Array[Texture2D]([ExtResource("2_jvoho"), ExtResource("3_8nywq"), ExtResource("2_gisqx"), ExtResource("5_wot1c"), ExtResource("6_nkfwl"), ExtResource("7_hel1t"), ExtResource("8_k4py0"), ExtResource("9_y0ded"), ExtResource("10_k5axu"), ExtResource("11_clfmt")])
 
 [node name="View" type="Sprite2D" parent="."]
+modulate = Color(0.578541, 0.0680492, 0, 1)
 scale = Vector2(4, 4)
 texture = ExtResource("2_gisqx")
+offset = Vector2(2, 0)
 hframes = 6
 vframes = 7
 

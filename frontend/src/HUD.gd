@@ -38,6 +38,7 @@ var left_key : String
 var right_key : String
 
 var debuffs := []
+var buffs := []
 
 var entered_movement_text : String = ""
 
@@ -49,15 +50,36 @@ func _ready() -> void:
 	casting_panel.hide()
 	player_controller = get_parent().self_player
 
+func generate_word() -> Array[String]:
+	if check_debuff("DYSLEXIA"):
+		return Words.get_words_with_random_symbols(1)
+	else:
+		return Words.get_words(1)
+
+func generate_words(count: int) -> Array[String]:
+	if check_debuff("CONFUSION"):
+		count += 1
+	if check_buff("CONCENTRATION"):
+		count -= 1
+	if check_debuff("DYSLEXIA"):
+		return Words.get_words_with_random_symbols(count)
+	else:
+		return Words.get_words(count)
+
 func apply_debuff(name: String) -> void:
-	applied_debuffs[name] = true
 	match name:
 		"STICKINESS":
 			generate_movement_labels()
 		"CONFUSION":
 			if state == State.Casting:
-				var word := Words.get_words(1)
+				var word := generate_word()
 				spell_text.append_spell_text(word[0])
+		"DYSLEXIA":
+			if state == State.Casting:
+				var spell_word_count := spell_difficulty_word_count(chosen_spell.difficulty)
+				var words := generate_words(spell_word_count)
+				var text : String = words.slice(1).reduce(join, words[0])
+				spell_text.set_spell_text(text)
 
 func clear_debuff(name: String) -> void:
 	applied_debuffs.erase(name)
@@ -67,20 +89,31 @@ func clear_debuff(name: String) -> void:
 
 func update_state() -> void:
 	var applied_debuffs_names := applied_debuffs.keys()
+	var debuffs_to_apply : Array[String] = []
 	for debuff : Dictionary in debuffs:
 		var debuff_name : String = debuff["name"]
 		if !applied_debuffs.has(debuff_name):
-			apply_debuff(debuff_name)
+			debuffs_to_apply.append(debuff_name)
 		else:
 			var index := applied_debuffs_names.find(debuff_name)
 			if index >= 0:
 				applied_debuffs_names.remove_at(index)
+	for debuff_name : String in debuffs_to_apply:
+		applied_debuffs[debuff_name] = true
+	for debuff_name : String in debuffs_to_apply:
+		apply_debuff(debuff_name)
 	for debuff_name : String in applied_debuffs_names:
 		clear_debuff(debuff_name)
 
 func check_debuff(name: String) -> bool:
 	for d : Dictionary in debuffs:
 		if d["name"] == name:
+			return true
+	return false
+	
+func check_buff(name: String) -> bool:
+	for b: Dictionary in buffs:
+		if b["name"] == name:
 			return true
 	return false
 
@@ -112,8 +145,6 @@ func remove_visible_enemy(player: Enemy) -> void:
 	#nearest_enemy.set_target(true)
 	#targeted_enemy = nearest_enemy
 
-
-
 func label_visible_enemies() -> void:
 	for enemy_key : String in visible_enemies:
 		var enemy : Enemy  = visible_enemies[enemy_key]
@@ -127,12 +158,24 @@ func label_enemy(enemy: Enemy, label: String) -> void:
 func enter_targeting_state(spell: Spell) -> void:
 	if spell == null:
 		return
-	state = State.Targeting
-	chosen_spell = spell.description
-	hide_player_arrows.emit()
-	SymbolGeneration.available_characters = range(65, 90)
-	labeled_enemies.clear()
-	label_visible_enemies()
+	if spell.description.require_target:
+		state = State.Targeting
+		chosen_spell = spell.description
+		hide_player_arrows.emit()
+		SymbolGeneration.clear()
+		labeled_enemies.clear()
+		label_visible_enemies()
+	else:
+		state = State.Casting
+		chosen_spell = spell.description
+		hide_player_arrows.emit()
+		SymbolGeneration.clear()
+		labeled_enemies.clear()
+		SocketClient.cast_start_spell_on_self(chosen_spell.spell_id)
+		var spell_word_count := spell_difficulty_word_count(chosen_spell.difficulty)
+		var words := generate_words(spell_word_count)
+		var text : String = words.slice(1).reduce(join, words[0])
+		enter_casting_state(text)
 
 func spell_difficulty_word_count(difficulty: String) -> int:
 	match difficulty:
@@ -154,9 +197,7 @@ func pick_enemy(str: String) -> void:
 		labeled_enemies.clear()
 		SocketClient.cast_start_spell(chosen_spell.spell_id, target_enemy.id)
 		var spell_word_count := spell_difficulty_word_count(chosen_spell.difficulty)
-		if check_debuff("CONFUSION"):
-			spell_word_count += 1 
-		var words := Words.get_words(spell_word_count)
+		var words := generate_words(spell_word_count)
 		var text : String = words.slice(1).reduce(join, words[0])
 		enter_casting_state(text)
 
@@ -273,6 +314,8 @@ func _input(event: InputEvent) -> void:
 				pick_enemy(String.chr(event.unicode).to_lower())
 
 func set_hp(value: int) -> void:
+	if healthbar.value > value:
+		player_controller.play_taken_damage_animation()
 	healthbar.value = value
 
 func _on_spell_text__on_spell_casted() -> void:
@@ -280,6 +323,9 @@ func _on_spell_text__on_spell_casted() -> void:
 		casting_panel.hide()
 		state = State.Normal
 		show_player_arrows.emit()
-		SocketClient.cast_end_spell(chosen_spell.spell_id, target_enemy.id)
+		if chosen_spell.require_target:
+			SocketClient.cast_end_spell(chosen_spell.spell_id, target_enemy.id)
+		else:
+			SocketClient.cast_end_spell_on_self(chosen_spell.spell_id)
 		target_enemy = null
 		# TODO: Send end cast
