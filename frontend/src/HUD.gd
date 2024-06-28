@@ -161,12 +161,13 @@ func enter_targeting_state(spell: Spell) -> void:
 	if spell == null:
 		return
 	if spell.description.require_target:
-		state = State.Targeting
-		chosen_spell = spell.description
-		hide_player_arrows.emit()
-		SymbolGeneration.clear()
-		labeled_enemies.clear()
-		label_visible_enemies()
+		if !visible_enemies.is_empty():
+			state = State.Targeting
+			chosen_spell = spell.description
+			hide_player_arrows.emit()
+			SymbolGeneration.clear()
+			labeled_enemies.clear()
+			label_visible_enemies()
 	else:
 		state = State.Casting
 		chosen_spell = spell.description
@@ -174,6 +175,7 @@ func enter_targeting_state(spell: Spell) -> void:
 		SymbolGeneration.clear()
 		labeled_enemies.clear()
 		SocketClient.cast_start_spell_on_self(chosen_spell.spell_id)
+		player_controller.play_cast_animation()
 		var spell_word_count := spell_difficulty_word_count(chosen_spell.difficulty)
 		var words := generate_words(spell_word_count)
 		var text : String = words.slice(1).reduce(join, words[0])
