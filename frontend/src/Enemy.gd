@@ -4,15 +4,18 @@ extends Pawn
 @onready var target : Sprite2D = $Target
 @onready var target_label : Label = $TargetLabel
 @onready var mage : Mage = $Mage
+@onready var name_label : Label = $Name
 
 var id : String
 var alive := true
+var player_name : String
 
 signal on_screen_enter(enemy: Enemy)
 signal on_screen_exited(enemy: Enemy)
 
 func _ready() -> void:
 	mage.set_skin(id)
+	name_label.text = player_name
 
 func set_target(value: bool) -> void:
 	target.visible = value

@@ -11,6 +11,7 @@ const StateInProgress = "IN_PROGRESS"
 const StateGameOver = "OVER"
 
 var self_id: String
+var self_name: String
 
 func direction_name(direction: Vector2i) -> String:
 	match direction:

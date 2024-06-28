@@ -3,8 +3,8 @@ extends Node
 signal new_state(state: Variant)
 signal got_id(id: String)
 
-# const backendURL: String = "http://localhost:9092/socket.io"
-const backendURL: String = "http://192.168.1.111:9092/socket.io"
+const backendURL: String = "http://localhost:9092/socket.io"
+# const backendURL: String = "http://192.168.1.111:9092/socket.io"
 var client: SocketIOClient
 var connected := false
 
@@ -54,6 +54,7 @@ func on_socket_event(event_name: String, payload: Variant, _name_space: Variant)
 		"newPlayer":
 			print("newPlayer ", payload)
 			Global.self_id = payload["id"]
+			Global.self_name = payload["name"]
 			got_id.emit(Global.self_id)
 
 	# respond hello world

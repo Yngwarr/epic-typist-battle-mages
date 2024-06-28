@@ -83,6 +83,17 @@ theme_override_constants/margin_bottom = 20
 [node name="SpellText" parent="CastingPanel/MarginContainer" instance=ExtResource("5_b4x0t")]
 layout_mode = 2
 
+[node name="PlayerName" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -95.0
+offset_right = 52.0
+offset_bottom = -72.0
+grow_vertical = 0
+text = "User Name    "
+
 [node name="Healthbar" type="TextureProgressBar" parent="."]
 anchors_preset = 7
 anchor_left = 0.5

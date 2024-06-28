@@ -58,9 +58,11 @@ func update_state(state: Variant) -> void:
 
 		if not players.has(id):
 			var new_player: Enemy = enemy_scene.instantiate()
+			var player_name: String = p["name"]
 			new_player.id = id
 			new_player.position.x = local_pos.x
 			new_player.position.y = local_pos.y
+			new_player.player_name = player_name
 
 			players[id] = new_player
 			player_container.add_child(new_player)

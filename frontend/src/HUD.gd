@@ -15,6 +15,7 @@ signal hide_player_arrows()
 @onready var casting_panel := $CastingPanel
 @onready var spell_text := $CastingPanel/MarginContainer/SpellText
 @onready var healthbar := $Healthbar
+@onready var name_label := $PlayerName
 
 var visible_enemies := {}
 
@@ -49,6 +50,7 @@ var player_controller : PlayerController
 func _ready() -> void:
 	casting_panel.hide()
 	player_controller = get_parent().self_player
+	name_label.text = Global.self_name
 
 func generate_word() -> Array[String]:
 	if check_debuff("DYSLEXIA"):
@@ -110,7 +112,7 @@ func check_debuff(name: String) -> bool:
 		if d["name"] == name:
 			return true
 	return false
-	
+
 func check_buff(name: String) -> bool:
 	for b: Dictionary in buffs:
 		if b["name"] == name:
@@ -179,7 +181,7 @@ func enter_targeting_state(spell: Spell) -> void:
 
 func spell_difficulty_word_count(difficulty: String) -> int:
 	match difficulty:
-		"LOW": 
+		"LOW":
 			return 3
 		"MIDDLE":
 			return 4
