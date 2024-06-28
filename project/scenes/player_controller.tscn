@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://72ydxqw8s068"]
+
+[ext_resource type="PackedScene" uid="uid://ba7xf5cul8gto" path="res://scenes/Mage.tscn" id="1_5yxcu"]
+[ext_resource type="Script" path="res://src/player_controller.gd" id="1_ih8qt"]
+[ext_resource type="PackedScene" uid="uid://wucmmxvsco7k" path="res://scenes/MovementArrow.tscn" id="3_k3yha"]
+
+[node name="PlayerController" type="Node2D"]
+script = ExtResource("1_ih8qt")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+limit_left = 0
+limit_top = 0
+limit_right = 3903
+limit_bottom = 4031
+position_smoothing_enabled = true
+
+[node name="Mage" parent="." instance=ExtResource("1_5yxcu")]
+
+[node name="UpArrow" parent="." instance=ExtResource("3_k3yha")]
+position = Vector2(-1, -100)
+
+[node name="RightArrow" parent="." instance=ExtResource("3_k3yha")]
+position = Vector2(101, -1)
+direction = 1
+
+[node name="LeftArrow" parent="." instance=ExtResource("3_k3yha")]
+position = Vector2(-108, -1)
+direction = 3
+
+[node name="DownArrow" parent="." instance=ExtResource("3_k3yha")]
+position = Vector2(0, 106)
+direction = 2

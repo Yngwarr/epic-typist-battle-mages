@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://dc3kdl051pppo"]
+
+[ext_resource type="PackedScene" uid="uid://cjtnisfmv3rlt" path="res://scenes/spells/Spell.tscn" id="1_kxl52"]
+[ext_resource type="Script" path="res://src/spells/Fireball.gd" id="2_b30ep"]
+[ext_resource type="Texture2D" uid="uid://cqc0a42npnrm3" path="res://img/spells/fireball.png" id="3_grmg7"]
+
+[node name="Fireball" instance=ExtResource("1_kxl52")]
+script = ExtResource("2_b30ep")
+
+[node name="Icon" parent="." index="1"]
+texture = ExtResource("3_grmg7")

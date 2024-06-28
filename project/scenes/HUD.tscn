@@ -1,0 +1,106 @@
+[gd_scene load_steps=14 format=3 uid="uid://dameelfdwsxx4"]
+
+[ext_resource type="Script" path="res://src/SpellListPanel.gd" id="1_pie6y"]
+[ext_resource type="Script" path="res://src/HUD.gd" id="1_wgdhm"]
+[ext_resource type="Script" path="res://src/SpellPanel.gd" id="2_4jnvy"]
+[ext_resource type="PackedScene" uid="uid://bqx1fxmk5xqqk" path="res://scenes/spells/Stickiness.tscn" id="2_twp7k"]
+[ext_resource type="PackedScene" uid="uid://bndd6tyfnub7g" path="res://scenes/spells/MagicMissile.tscn" id="3_ya5lh"]
+[ext_resource type="PackedScene" uid="uid://c4rwuclman72m" path="res://scenes/spells/Confusion.tscn" id="5_0lkeu"]
+[ext_resource type="PackedScene" uid="uid://bgdv2pjyq5p4d" path="res://scenes/SpellText.tscn" id="5_b4x0t"]
+[ext_resource type="Texture2D" uid="uid://0scyrsbyc63l" path="res://img/bar/shadow_mid.png" id="5_ddbk6"]
+[ext_resource type="Texture2D" uid="uid://bru4j10rkbbj2" path="res://img/bar/mid.png" id="6_lp81b"]
+[ext_resource type="PackedScene" uid="uid://dc3kdl051pppo" path="res://scenes/spells/Fireball.tscn" id="6_s2d3t"]
+[ext_resource type="PackedScene" uid="uid://cawvxqpej0x54" path="res://scenes/spells/Dyslexia.tscn" id="8_xxgmh"]
+[ext_resource type="PackedScene" uid="uid://c5tmfmg4gsa22" path="res://scenes/spells/Concentration.tscn" id="9_mgrxv"]
+[ext_resource type="PackedScene" uid="uid://pyshr3s08van" path="res://scenes/spells/Explosion.tscn" id="11_wdcpt"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_wgdhm")
+
+[node name="SpellListPanel" type="Panel" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_pie6y")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SpellListPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MagicMissile" parent="SpellListPanel/HBoxContainer" instance=ExtResource("3_ya5lh")]
+position = Vector2(32, 32)
+number = 1
+
+[node name="Stickiness" parent="SpellListPanel/HBoxContainer" instance=ExtResource("2_twp7k")]
+position = Vector2(96, 32)
+number = 2
+
+[node name="Confusion" parent="SpellListPanel/HBoxContainer" instance=ExtResource("5_0lkeu")]
+position = Vector2(160, 32)
+number = 3
+
+[node name="Fireball" parent="SpellListPanel/HBoxContainer" instance=ExtResource("6_s2d3t")]
+position = Vector2(224, 32)
+number = 4
+
+[node name="Explosion" parent="SpellListPanel/HBoxContainer" instance=ExtResource("11_wdcpt")]
+position = Vector2(288, 32)
+number = 5
+
+[node name="Dyslexia" parent="SpellListPanel/HBoxContainer" instance=ExtResource("8_xxgmh")]
+position = Vector2(352, 32)
+number = 6
+
+[node name="Concentration" parent="SpellListPanel/HBoxContainer" instance=ExtResource("9_mgrxv")]
+position = Vector2(416, 32)
+number = 7
+
+[node name="CastingPanel" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -345.5
+offset_right = 345.5
+offset_bottom = 43.0
+grow_horizontal = 2
+script = ExtResource("2_4jnvy")
+
+[node name="MarginContainer" type="MarginContainer" parent="CastingPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="SpellText" parent="CastingPanel/MarginContainer" instance=ExtResource("5_b4x0t")]
+layout_mode = 2
+
+[node name="Healthbar" type="TextureProgressBar" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -99.0
+offset_top = -88.0
+offset_right = 99.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 0
+value = 100.0
+rounded = true
+nine_patch_stretch = true
+texture_under = ExtResource("5_ddbk6")
+texture_progress = ExtResource("6_lp81b")
+tint_progress = Color(0.746585, 2.00946e-06, 8.66354e-07, 1)
+
+[connection signal="_on_spell_casted" from="CastingPanel" to="." method="_on_casting_panel__on_spell_casted"]
+[connection signal="_on_spell_casted" from="CastingPanel/MarginContainer/SpellText" to="." method="_on_spell_text__on_spell_casted"]

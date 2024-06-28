@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbkw27vgexep4"]
+
+[ext_resource type="Script" path="res://src/Lobby.gd" id="1_xhogi"]
+[ext_resource type="Script" path="res://src/StartGameButton.gd" id="2_3jcmt"]
+[ext_resource type="PackedScene" uid="uid://ki0p0pkcowun" path="res://scenes/Background.tscn" id="2_xpn4e"]
+
+[node name="Lobby" type="Node2D" node_paths=PackedStringArray("label_container", "player_count", "status_label")]
+script = ExtResource("1_xhogi")
+label_container = NodePath("CanvasLayer/MarginContainer/VBoxContainer/Panel/ScrollContainer/NamesContainer")
+player_count = NodePath("CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer/PlayerCount")
+next_scene_name = "res://scenes/Game.tscn"
+status_label = NodePath("CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer/StatusLabel")
+
+[node name="Background" parent="." instance=ExtResource("2_xpn4e")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayerCount" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "players are here."
+
+[node name="StatusLabel" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Please, wait for the game to end."
+
+[node name="Panel" type="Panel" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="NamesContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StartGame" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start game"
+script = ExtResource("2_3jcmt")
+next_scene_name = "res://scenes/Game.tscn"
