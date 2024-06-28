@@ -5,12 +5,17 @@ extends Node2D
 @export var player_count: Label
 @export_file("*.tscn") var next_scene_name: String
 @export var status_label: Label
+@export var start_button: Button
 
 var labels: Dictionary = {}
 
 func _ready() -> void:
 	SocketClient.new_state.connect(update_list)
 	SocketClient.enter_server()
+
+	if OS.has_feature("standalone"):
+		start_button.visible = false
+
 
 func update_list(state: Variant) -> void:
 	var current_ids := labels.keys()

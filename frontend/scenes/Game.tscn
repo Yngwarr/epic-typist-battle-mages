@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://csahdmph2aji4"]
+[gd_scene load_steps=25 format=3 uid="uid://csahdmph2aji4"]
 
 [ext_resource type="Script" path="res://src/Game.gd" id="1_wmfvw"]
 [ext_resource type="PackedScene" uid="uid://dameelfdwsxx4" path="res://scenes/HUD.tscn" id="2_mne7o"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://src/UI/ChangeSceneButton.gd" id="6_2c0ui"]
 [ext_resource type="Script" path="res://src/Pause.gd" id="8_cpxey"]
 [ext_resource type="Texture2D" uid="uid://bmetb0g61y3bv" path="res://icon.svg" id="8_lyls7"]
+[ext_resource type="Script" path="res://src/GameOverScreen.gd" id="10_q8eef"]
 [ext_resource type="Texture2D" uid="uid://b5oi5ophboyyf" path="res://img/atlas.png" id="11_b5rqa"]
 [ext_resource type="Script" path="res://src/Grid.gd" id="12_7c53x"]
 [ext_resource type="Texture2D" uid="uid://pfnf8lne1b8d" path="res://img/pixel.png" id="12_mlofk"]
@@ -432,8 +433,11 @@ dialog_text = "Do you want to quit to main menu?"
 dialog_autowrap = true
 cancel_button_text = "No"
 
-[node name="GameOverScreen" type="CanvasLayer" parent="."]
+[node name="GameOverScreen" type="CanvasLayer" parent="." node_paths=PackedStringArray("title", "flavor")]
 visible = false
+script = ExtResource("10_q8eef")
+title = NodePath("Container/TitleMargin/Title")
+flavor = NodePath("Container/FlavorText")
 
 [node name="BackgroundBlur" type="TextureRect" parent="GameOverScreen"]
 material = SubResource("ShaderMaterial_v63bu")

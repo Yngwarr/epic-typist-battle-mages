@@ -9,7 +9,7 @@ extends Node2D
 
 @export var pause_ctl: Pause
 @export var pause_menu: PauseMenu
-@export var game_over_screen: CanvasLayer
+@export var game_over_screen: GameOverScreen
 
 @export var self_player: PlayerController
 @export var enemy_scene: PackedScene
@@ -34,7 +34,7 @@ func update_state(state: Variant) -> void:
 	# assert(game_status == Global.StatePreparation, "game can't go from InProgress straight to Preparation")
 
 	if game_status == Global.StateGameOver:
-		game_over()
+		game_over_screen.appear(state["winner"])
 		return
 
 	for p: Dictionary in state["players"]:
@@ -108,6 +108,3 @@ func _on_hud_hide_player_arrows() -> void:
 
 func _on_hud_show_player_arrows() -> void:
 	self_player.show_arrows()
-
-func game_over() -> void:
-	game_over_screen.visible = true
