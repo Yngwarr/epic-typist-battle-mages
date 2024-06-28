@@ -8,8 +8,14 @@ extends Node2D
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var view: Sprite2D = $View
 
+@onready var magic_essence : Sprite2D = $MagicEssence
+
 func _ready() -> void:
+	play_idle_animation()
+
+func play_idle_animation() -> void:
 	anim.play(&"idle")
+	#magic_essence.hide()
 
 func set_skin(id: String) -> void:
 	var skin_code := hash(id) % len(skins)
@@ -17,7 +23,15 @@ func set_skin(id: String) -> void:
 
 func play_taken_damage_animation() -> void:
 	anim.play(&"taking_damage")
-	anim.queue(&"idle")
+	#magic_essence.hide()
+
+func play_cast_end_animation() -> void:
+	anim.play(&"cast_end")
+	#magic_essence.show()
+
+func play_cast_animation() -> void:
+	anim.play(&"cast")
+	#magic_essence.show()
 
 func step() -> void:
 	sound_player.stream = move_sfx

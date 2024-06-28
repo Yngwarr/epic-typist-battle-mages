@@ -19,6 +19,8 @@ extends Node2D
 
 var players: Dictionary = {}
 
+var casting_players := []
+
 func _ready() -> void:
 	pause_menu.modal_open.connect(pause_ctl.drop_next)
 	pause_menu.resume_pressed.connect(pause_ctl.unpause)
@@ -63,7 +65,8 @@ func update_state(state: Variant) -> void:
 			new_player.position.x = local_pos.x
 			new_player.position.y = local_pos.y
 			new_player.player_name = player_name
-
+			new_player.set_hp(hp)
+			
 			players[id] = new_player
 			player_container.add_child(new_player)
 			new_player.on_screen_enter.connect(_on_visible_player_screen_enter)
@@ -73,9 +76,29 @@ func update_state(state: Variant) -> void:
 		var player: Enemy = players[id]
 		player.position.x = local_pos.x
 		player.position.y = local_pos.y
+		player.set_hp(hp)
 		if !alive:
 			player.die()
 
+	var currently_casting_players : Array = state["spellsInProgress"]
+	var players_to_cast_end_animation := casting_players
+	var new_casting_players := []
+	for p : Dictionary in currently_casting_players:
+		var player_id : String = p["playerFromId"]
+		if player_id != Global.self_id and players.has(player_id):
+			var player : Enemy = players[player_id]
+			player.play_cast_animation()
+			var index := players_to_cast_end_animation.find(player_id)
+			if index != -1:
+				players_to_cast_end_animation.remove_at(index)
+			new_casting_players.append(player_id)
+	
+	for id : String in players_to_cast_end_animation:
+		var player : Enemy = players[id]
+		player.play_cast_end_animation()
+		
+	casting_players = new_casting_players
+	
 	var arena: Dictionary = state["arena"]
 	arena_border.resize(Vector2i(arena["centerX"], arena["centerY"]), arena["lifeRadius"], arena["originalSize"])
 

@@ -95,6 +95,15 @@ func clear_right_arrow_state() -> void:
 func play_taken_damage_animation() -> void:
 	mage.play_taken_damage_animation()
 
+func play_cast_animation() -> void:
+	mage.play_cast_animation()
+
+func play_idle_animation() -> void:
+	mage.play_idle_animation()
+
+func play_cast_end_animation() -> void:
+	mage.play_cast_end_animation()
+
 func move_to(target_position: Vector2) -> void:
 	#set_process(false)
 	#var move_direction := (target_position - position).normalized()

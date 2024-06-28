@@ -9,6 +9,7 @@ extends Pawn
 var id : String
 var alive := true
 var player_name : String
+var hp : int = 100
 
 signal on_screen_enter(enemy: Enemy)
 signal on_screen_exited(enemy: Enemy)
@@ -16,6 +17,18 @@ signal on_screen_exited(enemy: Enemy)
 func _ready() -> void:
 	mage.set_skin(id)
 	name_label.text = player_name
+
+func set_hp(value: int) -> void:
+	if hp > value:
+		if mage != null:
+			mage.play_taken_damage_animation()
+	hp = value
+
+func play_cast_animation() -> void:
+	mage.play_cast_animation()
+
+func play_cast_end_animation() -> void:
+	mage.play_cast_end_animation()
 
 func set_target(value: bool) -> void:
 	target.visible = value

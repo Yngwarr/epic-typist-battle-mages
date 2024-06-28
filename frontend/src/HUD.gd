@@ -198,6 +198,7 @@ func pick_enemy(str: String) -> void:
 		target_enemy = labeled_enemies[str]
 		labeled_enemies.clear()
 		SocketClient.cast_start_spell(chosen_spell.spell_id, target_enemy.id)
+		player_controller.play_cast_animation()
 		var spell_word_count := spell_difficulty_word_count(chosen_spell.difficulty)
 		var words := generate_words(spell_word_count)
 		var text : String = words.slice(1).reduce(join, words[0])
@@ -309,6 +310,7 @@ func _input(event: InputEvent) -> void:
 				elif event.keycode == KEY_ESCAPE:
 					casting_panel.hide()
 					state = State.Normal
+					player_controller.play_idle_animation()
 					get_viewport().set_input_as_handled()
 				else:
 					spell_text.register_character(String.chr(event.unicode))
@@ -329,5 +331,6 @@ func _on_spell_text__on_spell_casted() -> void:
 			SocketClient.cast_end_spell(chosen_spell.spell_id, target_enemy.id)
 		else:
 			SocketClient.cast_end_spell_on_self(chosen_spell.spell_id)
+		player_controller.play_cast_end_animation()
 		target_enemy = null
 		# TODO: Send end cast
